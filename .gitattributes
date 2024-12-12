@@ -1,0 +1,5 @@
+Great[[:space:]]Lakes[[:space:]]Shapefiles/Reference[[:space:]]Shapefiles/Full[[:space:]]Vector[[:space:]]Map,[[:space:]]Great[[:space:]]Lakes[[:space:]]Waterbodies/great_lakes_us_ca.dbf filter=lfs diff=lfs merge=lfs -text
+Great[[:space:]]Lakes[[:space:]]Shapefiles/Reference[[:space:]]Shapefiles/Full[[:space:]]Vector[[:space:]]Map,[[:space:]]Great[[:space:]]Lakes[[:space:]]Waterbodies/great_lakes_us_ca.prj filter=lfs diff=lfs merge=lfs -text
+Great[[:space:]]Lakes[[:space:]]Shapefiles/Reference[[:space:]]Shapefiles/Full[[:space:]]Vector[[:space:]]Map,[[:space:]]Great[[:space:]]Lakes[[:space:]]Waterbodies/great_lakes_us_ca.shp filter=lfs diff=lfs merge=lfs -text
+Great[[:space:]]Lakes[[:space:]]Shapefiles/Reference[[:space:]]Shapefiles/Full[[:space:]]Vector[[:space:]]Map,[[:space:]]Great[[:space:]]Lakes[[:space:]]Waterbodies/great_lakes_us_ca.shx filter=lfs diff=lfs merge=lfs -text
+Great[[:space:]]Lakes[[:space:]]Shapefiles/Reference[[:space:]]Shapefiles/Full[[:space:]]Vector[[:space:]]Map,[[:space:]]Great[[:space:]]Lakes[[:space:]]Waterbodies/great_lakes_us_ca.cpg filter=lfs diff=lfs merge=lfs -text
