@@ -1,0 +1,25 @@
+﻿Author (Citation),Sample ID,Waterbody,Region,Location,Latitude,Longitude,Class,Species,N,n,Tissue,Sampling Year,FBSA,PFOS,PFOSA
+#10 Chu et al (2016),LT NCLH 1,Lake Huron,North Channel Lake Huron,North Channel,45.91666667,-83.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,1.97,57.69,1.28
+#10 Chu et al (2016),LT NCLH 2,Lake Huron,North Channel Lake Huron,North Channel,45.91666667,-83.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,3.09,55.36,2.72
+#10 Chu et al (2016),LT NCLH 3,Lake Huron,North Channel Lake Huron,North Channel,45.91666667,-83.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,1.81,79.28,0.47
+#10 Chu et al (2016),LT OSCR 1,Lake Huron,Georgian Bay,Owen Sound-Cape Rich,44.7,-80.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,4,54.47,0.26
+#10 Chu et al (2016),LT OSCR 2,Lake Huron,Georgian Bay,Owen Sound-Cape Rich,44.7,-80.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,8.73,14.75,0.3
+#10 Chu et al (2016),LT OSCR 3,Lake Huron,Georgian Bay,Owen Sound-Cape Rich,44.7,-80.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,3.32,56.39,0.07
+#10 Chu et al (2016),LT PHC 1,Lake Ontario,Central Basin Lake Ontario,Port Hope-Cobourg,43.91667,-78.16667,Pisces,Lake trout,1,1,Whole fish homogenate,2009,3.53,52.71,0.73
+#10 Chu et al (2016),LT PHC 2,Lake Ontario,Central Basin Lake Ontario,Port Hope-Cobourg,43.91667,-78.16667,Pisces,Lake trout,1,1,Whole fish homogenate,2009,3.41,45.78,0.92
+#10 Chu et al (2016),LT PHC 3,Lake Ontario,Central Basin Lake Ontario,Port Hope-Cobourg,43.91667,-78.16667,Pisces,Lake trout,1,1,Whole fish homogenate,2009,4.4,53.55,0.57
+#10 Chu et al (2016),LT PC 1,Lake Ontario,Western Basin Lake Ontario,Port Credit,43.5,-79.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2009,2.64,54.21,0.37
+#10 Chu et al (2016),LT PC 2,Lake Ontario,Western Basin Lake Ontario,Port Credit,43.5,-79.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2009,4.04,38.5,0.15
+#10 Chu et al (2016),LT PC 3,Lake Ontario,Western Basin Lake Ontario,Port Credit,43.5,-79.58333,Pisces,Lake trout,1,1,Whole fish homogenate,2009,1.99,67.85,0.44
+#10 Chu et al (2016),LT NOTL 1,Lake Ontario,Niagara Basin,Niagara on the Lake,43.3333,-79.08333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,2.59,57.29,0.61
+#10 Chu et al (2016),LT NOTL 2,Lake Ontario,Niagara Basin,Niagara on the Lake,43.3333,-79.08333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,3.57,47.94,0.46
+#10 Chu et al (2016),LT NOTL 3,Lake Ontario,Niagara Basin,Niagara on the Lake,43.3333,-79.08333,Pisces,Lake trout,1,1,Whole fish homogenate,2010,2.03,65.53,0.64
+#10 Chu et al (2016),LT EB 1,Lake Ontario,Eastern Basin Lake Ontario,Eastern Basin,43.5,-76.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,3.58,76.17,0.44
+#10 Chu et al (2016),LT EB 2,Lake Ontario,Eastern Basin Lake Ontario,Eastern Basin,43.5,-76.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,3.75,75.29,0.4
+#10 Chu et al (2016),LT EB 3,Lake Ontario,Eastern Basin Lake Ontario,Eastern Basin,43.5,-76.5,Pisces,Lake trout,1,1,Whole fish homogenate,2010,2.03,80.11,0.57
+#10 Chu et al (2016),LT D 1,Lake Erie,Eastern Basin Lake Erie,Dunkirk,42.54222,-79.38167,Pisces,Lake trout,1,1,Whole fish homogenate,2009,2.34,105.97,0.39
+#10 Chu et al (2016),LT D 2,Lake Erie,Eastern Basin Lake Erie,Dunkirk,42.54222,-79.38167,Pisces,Lake trout,1,1,Whole fish homogenate,2009,2.37,89.45,0.29
+#10 Chu et al (2016),LT D 3,Lake Erie,Eastern Basin Lake Erie,Dunkirk,42.54222,-79.38167,Pisces,Lake trout,1,1,Whole fish homogenate,2009,1.47,139.5,0.4
+#10 Chu et al (2016),TP WB 1,Lake Erie,Western Basin Lake Erie,Western Basin,41.8916667,-82.66666667,Pisces,Trout-perch,1,1,Whole fish homogenate,2010,0.38,12.04,0.79
+#10 Chu et al (2016),TP WB 2,Lake Erie,Western Basin Lake Erie,Western Basin,41.8916667,-82.66666667,Pisces,Trout-perch,1,1,Whole fish homogenate,2010,0.47,9.19,0.65
+#10 Chu et al (2016),TP WB 3,Lake Erie,Western Basin Lake Erie,Western Basin,41.8916667,-82.66666667,Pisces,Trout-perch,1,1,Whole fish homogenate,2010,0.29,9.43,1.05

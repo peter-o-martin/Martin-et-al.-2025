@@ -1,0 +1,6 @@
+﻿Author (Citation),Sample ID,Total Length (cm),Total Weight (g),Age (Years),Waterbody,Location,Latitude,Longitude,Class,Species,Tissue,N,n,Collection Date,Sampling Year,PFOA,PFNA,PFDA,PFUnA,PFDoA,PFTrDA,PFTeDA,PFHxS,PFOS,PFDS,PFEtCHxS
+#26 De Silva et al (2011),LT LS,50,1123,5.3,Lake Superior,Superior,48.7563889,-86.97583333,Pisces,Lake trout,Composite whole fish homogenate,7,7,7/1/06,2006,<0.42,0.7,0.39,1.1,0.38,0.97,0.21,<0.10,2.3,<0.10,<0.10
+#26 De Silva et al (2011),LT LH,56,1768,5.9,Lake Huron,Huron,43.8908333,-82.05555556,Pisces,Lake trout,Composite whole fish homogenate,7,7,7/1/06,2006,<0.42,1.4,1.3,1.8,0.74,2.1,0.38,0.1,17,<0.10,0.1
+#26 De Silva et al (2011),LT LE-E,66,3801,4.9,Lake Erie,Erie (eastern),42.5002778,-79.88666667,Pisces,Lake trout,Composite whole fish homogenate,7,7,6/1/06,2006,<0.42,2.6,6.1,5.7,2,4.6,0.8,1.4,96,2.4,1.1
+#26 De Silva et al (2011),LT LE-W,48,1278,3.9,Lake Erie,Erie (western),41.8916667,-82.66666667,Pisces,Walleye,Composite whole fish homogenate,9,9,11/1/08,2008,0.5,1.2,3.6,3.1,1.1,1.7,0.44,<0.10,54,1.1,2.5
+#26 De Silva et al (2011),LT LO,66,3628,6.6,Lake Ontario,Ontario,43.3,-79.12111111,Pisces,Lake trout,Composite whole fish homogenate,10,10,9/1/08,2008,0.88,0.9,1.4,2.1,0.32,0.64,0.37,0.7,52,0.64,2.5

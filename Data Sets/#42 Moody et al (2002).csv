@@ -1,0 +1,9 @@
+﻿Author (Citation),Sample ID,Total Weight (g),Waterbody,Location,Latitude,Longitude,Class,Species,Tissue,N,n,Collection Date,Sampling Year,PFBS,PFHxS,PFOS ,PFPeA,PFHxA,PFHpA,PFOA,PFDA,PFUnA,PFTeDA
+#42 Moody et al (2002),airport 1,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,<3.8,11,72900,4.6,20,16,11,48,29,9.9
+#42 Moody et al (2002),airport 2,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,<3.8,<2.3,2000,<2.4,<2.2,4.6,6,32,13,14
+#42 Moody et al (2002),airport 3,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,<3.8,<2.3,32400,4.7,10,10,8.6,45,36,12
+#42 Moody et al (2002),airport 4,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,<3.8,11,9850,<2.4,3.3,8.2,11,67,57,8.8
+#42 Moody et al (2002),airport 5,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,9,62,30000,13,40,48,40,130,93,29
+#42 Moody et al (2002),airport 6,5.5,Lake Ontario,"Etobicoke Creek, Airport",43.67819521,-79.64537039,Pisces,Common shiner,Liver,1,1,6/29/00,2000,7.7,28,12000,9.1,27,38,36,140,83,34
+#42 Moody et al (2002),upstream 1,5.5,Lake Ontario,"Etobicoke Creek, Upstream",43.69084091,-79.6760964,Pisces,Common shiner,Liver,1,1,1/5/01,2001,<3.8,46,9190,<2.4,<2.2,100,88,190,180,250
+#42 Moody et al (2002),downstream 1,5.5,Lake Ontario,"Etobicoke Creek, Downstream",43.64454173,-79.60221858,Pisces,Common shiner,Composite liver,1,2,1/5/01,2001,<3.8,290,39900,<2.4,<2.2,110,91,390,240,190

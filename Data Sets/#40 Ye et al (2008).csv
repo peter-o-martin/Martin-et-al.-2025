@@ -1,0 +1,4 @@
+Author (Citation),Sample ID,Waterbody,Location,Latitude,Longitude,Class,Species,Tissue,N,n,Collection Date,Sampling Year,PFOS,PFHxS,PFBS,PFDoA,PFUnA,PFDA,PFNA,PFOA,PFHpA,PFHxA
+#40 Ye et al (2008),#41YE CC1,Lake Superior,"Upstream of St. Cloud (reference site, river kilometer 1509)",45.87145361,-94.35478751,Pisces,Common carp,Composite fillet,9,9,7/31/06,2006,9.9,<0.2,<0.2,<0.2,0.2,0.2,<0.2,<0.2,1.3,<1.0
+#40 Ye et al (2008),#41YE CC2,Lake Superior,Pig's Eye Lake (river kilometer 1341),44.9197657,-93.05109779,Pisces,Common carp,Composite fillet,10,10,7/31/06,2006,28,<0.2,<0.2,0.6,0.5,0.7,<0.2,<0.2,<1.0,<1.0
+#40 Ye et al (2008),#41YE CC3,Lake Superior,Spring Lake (river kilometer 1314),44.78279146,-92.90247191,Pisces,Common carp,Composite fillet,11,11,7/31/06,2006,47,<0.2,<0.2,0.9,0.8,1.3,<0.2,<0.2,1.5,<1.0

@@ -1,0 +1,53 @@
+﻿Author (Citation),Sample ID,Total Weight (g),Sex Ratio,Maturity,Age (Years),Waterbody,Location,Latitude,Longitude,Class,Species,Tissue,N,n,Collection Date,Sampling Year,PFOS
+#65 Kannan et al (2001),#65KANNAN 01,NA,NA,NA,NA,Lake Huron,"Gull Is., Geo Bay",44.71108923,-80.03786359,Aves,Double-crested cormorant,Whole blood,1,1,7/18/91,1991,78
+#65 Kannan et al (2001),#65KANNAN 02,NA,NA,NA,NA,Lake Superior,"Hyrn Island, Lake Superior",48.00968112,-88.77082462,Aves,Double-crested cormorant,Whole blood,1,1,7/29/91,1991,36
+#65 Kannan et al (2001),#65KANNAN 03,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Double-crested cormorant,Whole blood,1,1,7/25/91,1991,164
+#65 Kannan et al (2001),#65KANNAN 04,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Double-crested cormorant,Whole blood,1,1,7/25/91,1991,188
+#65 Kannan et al (2001),#65KANNAN 05,NA,NA,NA,NA,Lake Superior,"Otter Island, Lake Superior",46.99561104,-90.69378044,Aves,Double-crested cormorant,Whole blood,1,1,7/29/91,1991,34
+#65 Kannan et al (2001),#65KANNAN 06,NA,NA,NA,NA,Lake Huron,"Scarecrow Island, Thunder Bay",44.9118061,-83.32873354,Aves,Double-crested cormorant,Whole blood,1,1,7/4/91,1991,132
+#65 Kannan et al (2001),#65KANNAN 07,NA,NA,NA,NA,Lake Huron; Lake Michigan,St. Martin Island,45.96158031,-84.57195332,Aves,Double-crested cormorant,Whole blood,1,1,7/13/91,1991,124
+#65 Kannan et al (2001),#65KANNAN 08,NA,NA,NA,NA,Lake Huron; Lake Michigan,St. Martin Island,45.96158031,-84.57195332,Aves,Double-crested cormorant,Whole blood,1,1,7/13/91,1991,243
+#65 Kannan et al (2001),#65KANNAN 09,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Herring gull,Whole blood,1,1,7/29/91,1991,57
+#65 Kannan et al (2001),#65KANNAN 10,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Herring gull,Whole blood,1,1,7/29/91,1991,68
+#65 Kannan et al (2001),#65KANNAN 11,NA,NA,NA,NA,Lake Superior,"Huron Is., Lake Superior",46.95327909,-87.97343683,Aves,Double-crested cormorant,Plasma,1,1,7/29/91,1991,63
+#65 Kannan et al (2001),#65KANNAN 12,NA,NA,NA,NA,Lake Superior,"Huron Is., Lake Superior",46.95327909,-87.97343683,Aves,Double-crested cormorant,Plasma,1,1,7/29/91,1991,95
+#65 Kannan et al (2001),#65KANNAN 13,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Double-crested cormorant,Plasma,1,1,7/25/91,1991,209
+#65 Kannan et al (2001),#65KANNAN 14,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Double-crested cormorant,Plasma,1,1,7/25/91,1991,372
+#65 Kannan et al (2001),#65KANNAN 15,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Herring gull,Plasma,1,1,7/29/91,1991,239
+#65 Kannan et al (2001),#65KANNAN 16,NA,NA,NA,NA,Lake Huron,"Little Charity Is., Lake Huron",44.00261281,-83.46687658,Aves,Herring gull,Plasma,1,1,7/29/91,1991,391
+#65 Kannan et al (2001),#65KANNAN 17,NA,NA,NA,NA,Lake Huron,"Sulphur Is., Thunder Bay, Lake Huron",44.98914476,-83.41689722,Aves,Ring-billed gull,Egg yolk,1,1,6/9/95,1995,30
+#65 Kannan et al (2001),#65KANNAN 18,NA,NA,NA,NA,Lake Huron,"Sulphur Is., Thunder Bay, Lake Huron",44.98914476,-83.41689722,Aves,Ring-billed gull,Egg yolk,1,1,6/9/95,1995,126
+#65 Kannan et al (2001),#65KANNAN 19,NA,NA,NA,NA,Lake Huron,"Sulphur Is., Thunder Bay, Lake Huron",44.98914476,-83.41689722,Aves,Ring-billed gull,Egg yolk,1,1,6/9/95,1995,45
+#65 Kannan et al (2001),#65KANNAN 20,NA,1,Nestling,0.15890411,Lake Huron,"Devil's Lake, Alpena, MI",44.98729975,-83.49714015,Aves,Bald eagle,Plasma,1,1,6/8/93,1993,388
+#65 Kannan et al (2001),#65KANNAN 21,NA,0,Nestling,0.115068493,Lake Michigan; Lake Huron,"Roach Point, Chippewa, MI",46.17994648,-84.17552585,Aves,Bald eagle,Plasma,1,1,6/8/93,1993,273
+#65 Kannan et al (2001),#65KANNAN 22,NA,0,Nestling,0.115068493,Lake Michigan,"Sucker Creek, Mackinac, MI",46.08866959,-85.30292847,Aves,Bald eagle,Plasma,1,1,6/15/93,1993,160
+#65 Kannan et al (2001),#65KANNAN 23,NA,0,Nestling,NA,Lake Superior,"Rabbit Bay, Houghton County, MI",47.06367133,-88.35655789,Aves,Bald eagle,Plasma,1,1,6/7/92,1992,144
+#65 Kannan et al (2001),#65KANNAN 24,4700,0,Nestling,0.142465753,Lake Michigan,"Caulkins Creek, Otsego, MI",42.42288861,-85.7283088,Aves,Bald eagle,Plasma,1,1,6/4/90,1990,35
+#65 Kannan et al (2001),#65KANNAN 25,3400,0,Nestling,0.120547945,Lake Michigan,"Harding Creek, Montgomery County, MI",45.44856669,-87.67316355,Aves,Bald eagle,Plasma,1,1,6/6/90,1990,13
+#65 Kannan et al (2001),#65KANNAN 26,3200,1,Nestling,0.115068493,Lake Superior; Lake Michigan,"Boney Falls, Marquette, MI",45.98834071,-87.2704516,Aves,Bald eagle,Plasma,1,1,6/5/91,1991,105
+#65 Kannan et al (2001),#65KANNAN 27,3700,0,Nestling,0.123287671,Lake Superior; Lake Michigan,"Seney National Wildlife Refuge, Schoolcraft County, MI",46.2160653,-85.97291247,Aves,Bald eagle,Plasma,1,1,6/18/91,1991,75
+#65 Kannan et al (2001),#65KANNAN 28,4300,0,Nestling,0.136986301,Lake Michigan,"Pine River, WI",44.15173631,-89.07165366,Aves,Bald eagle,Plasma,1,1,6/13/91,1991,2220
+#65 Kannan et al (2001),#65KANNAN 29,3400,0,Nestling,0.131506849,Lake Michigan,"Menard Is., WI",43.54201363,-89.56109089,Aves,Bald eagle,Plasma,1,1,6/13/91,1991,2030
+#65 Kannan et al (2001),#65KANNAN 30,4300,1,Nestling,0.126027397,Lake Superior,"Pine Is., Voyager's National Park, MN",48.44844526,-92.93064432,Aves,Bald eagle,Plasma,1,1,6/19/92,1992,29
+#65 Kannan et al (2001),#65KANNAN 31,3400,0,Nestling,0.131506849,Lake Michigan; Lake Huron,"Lake George, Clare County, MI",43.96070939,-84.94409357,Aves,Bald eagle,Plasma,1,1,5/31/93,1993,79
+#65 Kannan et al (2001),#65KANNAN 32,NA,0,Nestling,0.106849315,Lake Huron,"Swan Lake, Presque Isle County, Great Lakes, MI",45.39877324,-83.73867384,Aves,Bald eagle,Plasma,1,1,6/7/93,1993,188
+#65 Kannan et al (2001),#65KANNAN 33,NA,1,Nestling,0.18630137,Lake Michigan; Lake Huron,"Mio Pond, Oscoda County, MI",44.6614639,-84.15850383,Aves,Bald eagle,Plasma,1,1,5/29/93,1993,145
+#65 Kannan et al (2001),#65KANNAN 34,NA,0,Nestling,NA,Lake Superior,"Marquette, MI, Lake Superior",46.5942856,-87.47297773,Aves,Bald eagle,Plasma,1,1,6/21/92,1992,141
+#65 Kannan et al (2001),#65KANNAN 35,3500,0,Nestling,0.134246575,Lake Superior; Lake Michigan,"Gene's Pond, Dickinson County, MI",46.07050772,-87.86072025,Aves,Bald eagle,Plasma,1,1,6/5/91,1991,71
+#65 Kannan et al (2001),#65KANNAN 36,3200,0,Nestling,0.101369863,Lake Superior,"Dog Lake/Lake St. Kathryn, Iron County, MI",46.38562384,-88.72837618,Aves,Bald eagle,Plasma,1,1,6/9/91,1991,21
+#65 Kannan et al (2001),#65KANNAN 37,NA,1,Nestling,0.15890411,Lake Michigan; Lake Huron,"N. Branch Au Sable River, Ostego County, MI",44.94398236,-84.63122715,Aves,Bald eagle,Plasma,1,1,6/1/93,1993,49
+#65 Kannan et al (2001),#65KANNAN 38,NA,0,Nestling,0.109589041,Lake Michigan; Lake Huron,"Woods Lake/Twin Lake, Roscommon County, MI",44.23932864,-84.48087605,Aves,Bald eagle,Plasma,1,1,5/22/93,1993,<1
+#65 Kannan et al (2001),#65KANNAN 39,NA,0,Nestling,0.109589041,Lake Erie,"Pt. Movillee, Monroe County, MI",42.01771109,-83.22036187,Aves,Bald eagle,Plasma,1,1,5/14/93,1993,247
+#65 Kannan et al (2001),#65KANNAN 40,NA,NA,Nestling,NA,Lake Michigan; Lake Huron; Lake Erie,MSU veterinary clinic (deformed),42.72277909,-84.47078835,Aves,Bald eagle,Plasma,1,1,9/7/93,1993,243
+#65 Kannan et al (2001),#65KANNAN 41,NA,NA,Nestling,NA,Lake Michigan; Lake Huron; Lake Erie,MSU veterinary clinic (deformed),42.72277909,-84.47078835,Aves,Bald eagle,Plasma,1,1,10/11/93,1993,561
+#65 Kannan et al (2001),#65KANNAN 42,NA,NA,Nestling,NA,Lake Michigan; Lake Huron; Lake Erie,MSU veterinary clinic (deformed),42.72277909,-84.47078835,Aves,Bald eagle,Plasma,1,1,9/7/93,1993,289
+#65 Kannan et al (2001),#65KANNAN 43,3600,1,Nestling,0.123287671,Lake Superior,"W. Sandpoint Is., Voyager's National Park, MN",48.63622874,-93.12642588,Aves,Bald eagle,Plasma,1,1,6/20/92,1992,62
+#65 Kannan et al (2001),#65KANNAN 44,NA,0,Nestling,0.112328767,Lake Michigan; Lake Huron,"Wakeley Lake, Crawford County, MI",44.63705423,-84.51430978,Aves,Bald eagle,Plasma,1,1,5/31/93,1993,33
+#65 Kannan et al (2001),#65KANNAN 45,NA,1,Nestling,0.147945205,Lake Huron,"Bamfield Pond, Alcona County, MI",44.57425458,-83.81761471,Aves,Bald eagle,Plasma,1,1,5/29/93,1993,102
+#65 Kannan et al (2001),#65KANNAN 46,4700,1,Nestling,0.104109589,Lake Superior,"Grand Pt., Voyager's National Park, MN",48.47111401,-92.84583871,Aves,Bald eagle,Plasma,1,1,6/23/92,1992,432
+#65 Kannan et al (2001),#65KANNAN 47,4800,1,Nestling,NA,Lake Michigan,"Wellston, Manistee County, MI",44.21846132,-85.96404495,Aves,Bald eagle,Plasma,1,1,6/5/92,1992,1250
+#65 Kannan et al (2001),#65KANNAN 48,4700,1,Nestling,0.147945205,Lake Superior,"Devil's Is., Lake Superior, WI",47.0724552,-90.72612226,Aves,Bald eagle,Plasma,1,1,6/24/92,1992,200
+#65 Kannan et al (2001),#65KANNAN 49,NA,0,Nestling,0.183561644,Lake Erie,"Mud Creek, Ottawa, OH",41.47251193,-83.09905057,Aves,Bald eagle,Plasma,1,1,6/22/92,1992,320
+#65 Kannan et al (2001),#65KANNAN 50,NA,1,Nestling,0.180821918,Lake Erie,"White's Landing, OH",41.42855988,-82.90253868,Aves,Bald eagle,Plasma,1,1,6/4/92,1992,328
+#65 Kannan et al (2001),#65KANNAN 51,NA,NA,Adult (Sexually Mature),NA,Lake Michigan,"Savannah, Jo Daviess County, IL",42.10986847,-90.15105745,Aves,Bald eagle,Liver,1,1,2/17/96,1996,467
+#65 Kannan et al (2001),#65KANNAN 52,NA,NA,NA,NA,Lake Erie,"Delaware County, OH",40.28765897,-82.96108876,Aves,Osprey,Liver,1,1,9/28/96,1996,42

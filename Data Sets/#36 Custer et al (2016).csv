@@ -1,0 +1,70 @@
+﻿Author (Citation),Sample ID,Maturity,Age (Years),Waterbody,Region,Location,Latitude,Longitude,Class,Species,Tissue,N,n,Collection Date,Sampling Year,PFOS
+#36 Custer et al (2016),#36CUSTER TS 1,Nestling,0.0328767,Lake Erie,"BlackRiver, OH",BlackRiver,41.466839,-83.172725,Aves,Tree swallow,Composite plasma,3,3,6/15/12,2012,33
+#36 Custer et al (2016),#36CUSTER TS 2,Nestling,0.0328767,Lake Erie,"BuffaloRiver, NY",KatherineStreet,42.856919,-78.858172,Aves,Tree swallow,Composite plasma,6,6,6/15/12,2012,24.7
+#36 Custer et al (2016),#36CUSTER TS 3,Nestling,0.0328767,Lake Erie,"BuffaloRiver, NY",PieFactory,42.8611,-78.835622,Aves,Tree swallow,Composite plasma,6,6,6/15/12,2012,19.5
+#36 Custer et al (2016),#36CUSTER TS 4,Nestling,0.0328767,Lake Huron; Lake Erie,"ClintonRiver, MI",ClintonRiver,42.591683,-82.800164,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,181
+#36 Custer et al (2016),#36CUSTER TS 5,Nestling,0.0328767,Lake Erie,"CuyahogaRiver, OH",CuyahogaRiver,41.489472,-81.702892,Aves,Tree swallow,Composite plasma,3,3,6/15/12,2012,44.5
+#36 Custer et al (2016),#36CUSTER TS 6,Nestling,0.0328767,Lake Superior,"DeerLake, MI",DeerLake,46.533003,-87.695333,Aves,Tree swallow,Plasma,1,1,6/15/12,2012,24.8
+#36 Custer et al (2016),#36CUSTER TS 7,Nestling,0.0328767,Lake Huron; Lake Erie,"DetroitRiver, MI",ConnorCreek,42.354906,-82.955303,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,307.9
+#36 Custer et al (2016),#36CUSTER TS 8,Nestling,0.0328767,Lake Erie,"DetroitRiver, MI",L.ErieMetroPark,42.05575,-83.188714,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,200.7
+#36 Custer et al (2016),#36CUSTER TS 9,Nestling,0.0328767,Lake Huron; Lake Erie,"DetroitRiver, MI",DTEPowerPlant,42.271469,-83.111203,Aves,Tree swallow,Composite plasma,2,2,6/15/12,2012,129.3
+#36 Custer et al (2016),#36CUSTER TS 10,Nestling,0.0328767,Lake Huron; Lake Erie,"DetroitRiver, MI",TrentonChannel,42.125369,-83.178014,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,159.9
+#36 Custer et al (2016),#36CUSTER TS 11,Nestling,0.0328767,Lake Huron; Lake Erie,"DetroitRiver, MI",Wyandotte,42.189433,-83.151983,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,152.2
+#36 Custer et al (2016),#36CUSTER TS 12,Nestling,0.0328767,Lake Michigan,"GrandCalumetRiver, IN",BurnsDitch,41.620475,-87.176678,Aves,Tree swallow,Composite plasma,8,8,6/15/12,2012,15.8
+#36 Custer et al (2016),#36CUSTER TS 13,Nestling,0.0328767,Lake Michigan,"GrandCalumetRiver, IN",RoxanaMarsh,41.616175,-87.483717,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,43.9
+#36 Custer et al (2016),#36CUSTER TS 14,Nestling,0.0328767,Lake Michigan,"KalamazooRiver, MI",Kalamazoo,42.643939,-86.189283,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,124.2
+#36 Custer et al (2016),#36CUSTER TS 15,Nestling,0.0328767,Lake Michigan,"LowerGreenBayAndFoxRiver, WI",AshwaubomayPark,44.466397,-88.057628,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,47.3
+#36 Custer et al (2016),#36CUSTER TS 16,Nestling,0.0328767,Lake Michigan,"LowerGreenBayAndFoxRiver, WI",BayBeach,44.533036,-87.981289,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,58.4
+#36 Custer et al (2016),#36CUSTER TS 17,Nestling,0.0328767,Lake Michigan,"ManistiqueRiver, MI",ManistiqueBeach,45.948944,-86.250417,Aves,Tree swallow,Composite plasma,2,2,6/15/12,2012,102.2
+#36 Custer et al (2016),#36CUSTER TS 18,Nestling,0.0328767,Lake Michigan,"ManistiqueRiver, MI",ManistiqueBoat,45.951483,-86.2498,Aves,Tree swallow,Composite plasma,4,4,6/15/12,2012,71.1
+#36 Custer et al (2016),#36CUSTER TS 19,Nestling,0.0328767,Lake Michigan,"ManistiqueRiver, MI",ManistiqueNorth,45.9535,-86.252644,Aves,Tree swallow,Composite plasma,4,4,6/15/12,2012,67.5
+#36 Custer et al (2016),#36CUSTER TS 20,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",DuraLandfill,41.697142,-83.530447,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,227.6
+#36 Custer et al (2016),#36CUSTER TS 21,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",HoffmanLandfill,41.706044,-83.508,Aves,Tree swallow,Composite plasma,12,12,6/15/12,2012,235.2
+#36 Custer et al (2016),#36CUSTER TS 22,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",MaumeeRiver,41.654039,-83.520283,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,80.7
+#36 Custer et al (2016),#36CUSTER TS 23,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",OttawaNWRnorth,41.623389,-83.208975,Aves,Tree swallow,Composite plasma,8,8,6/15/12,2012,146.1
+#36 Custer et al (2016),#36CUSTER TS 24,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",OttawaNWRsouth,41.61875,-83.210522,Aves,Tree swallow,Composite plasma,9,9,6/15/12,2012,148.3
+#36 Custer et al (2016),#36CUSTER TS 25,Nestling,0.0328767,Lake Erie,"MaumeeRiver, OH",TylerLandfill,41.691514,-83.537353,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,186.2
+#36 Custer et al (2016),#36CUSTER TS 26,Nestling,0.0328767,Lake Michigan,"MenomineeRiver, MI/WI",MenomineeRiver,45.100961,-87.614142,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,36.9
+#36 Custer et al (2016),#36CUSTER TS 27,Nestling,0.0328767,Lake Michigan,"MilwaukeeEstuary, WI",CedarCreek,43.289281,-87.974933,Aves,Tree swallow,Composite plasma,3,3,6/15/12,2012,58.5
+#36 Custer et al (2016),#36CUSTER TS 28,Nestling,0.0328767,Lake Michigan,"MilwaukeeEstuary, WI",KinnickinnicRiver,43.001778,-87.912603,Aves,Tree swallow,Composite plasma,3,3,6/15/12,2012,35.8
+#36 Custer et al (2016),#36CUSTER TS 29,Nestling,0.0328767,Lake Michigan,"MilwaukeeEstuary, WI",LakeshorePark,43.030283,-87.894592,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,29.2
+#36 Custer et al (2016),#36CUSTER TS 30,Nestling,0.0328767,Lake Michigan,"MilwaukeeEstuary, WI",LincolnPark,43.108839,-87.929053,Aves,Tree swallow,Composite plasma,34,34,6/15/12,2012,73
+#36 Custer et al (2016),#36CUSTER TS 31,Nestling,0.0328767,Lake Michigan,"MilwaukeeEstuary, WI",ThreeBridges,43.025117,-87.958189,Aves,Tree swallow,Composite plasma,5,5,6/15/12,2012,90.8
+#36 Custer et al (2016),#36CUSTER TS 32,Nestling,0.0328767,Lake Michigan,"MuskegonLake, MI",HartshornMarina,43.231186,-86.269464,Aves,Tree swallow,Composite plasma,11,11,6/15/12,2012,29.6
+#36 Custer et al (2016),#36CUSTER TS 33,Nestling,0.0328767,Lake Michigan,"MuskegonLake, MI",Ryerson,43.242025,-86.247603,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,165.2
+#36 Custer et al (2016),#36CUSTER TS 34,Nestling,0.0328767,Lake Erie; Lake Ontario,"NiagaraRiver, NY",GratwickPark,43.049661,-78.893806,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,145.8
+#36 Custer et al (2016),#36CUSTER TS 35,Nestling,0.0328767,Lake Erie; Lake Ontario,"NiagaraRiver, NY",NiagaraRiver,43.073881,-79.000456,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,158.2
+#36 Custer et al (2016),#36CUSTER TS 36,Nestling,0.0328767,Lake Erie,"PresqueIsleBay, PA",PresqueIsleStPark,42.121442,-80.148453,Aves,Tree swallow,Composite plasma,6,6,6/15/12,2012,29.2
+#36 Custer et al (2016),#36CUSTER TS 37,Nestling,0.0328767,Lake Erie,"PresqueIsleBay, PA",PresqueIsleWaterworks,42.133339,-80.096133,Aves,Tree swallow,Plasma,1,1,6/15/12,2012,46.3
+#36 Custer et al (2016),#36CUSTER TS 38,Nestling,0.0328767,Lake Erie,"RiverRaisin, MI",RiverRaisinPlant,41.901586,-83.366339,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,299.6
+#36 Custer et al (2016),#36CUSTER TS 39,Nestling,0.0328767,Lake Erie,"RiverRaisin, MI",RiverRaisinPort,41.898292,-83.362003,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,330.1
+#36 Custer et al (2016),#36CUSTER TS 40,Nestling,0.0328767,Lake Ontario,"RochesterEmbayment, NY",RochesterEmbayment,43.246144,-77.61315,Aves,Tree swallow,Composite plasma,2,2,6/15/12,2012,76.8
+#36 Custer et al (2016),#36CUSTER TS 41,Nestling,0.0328767,Lake Ontario,"RochesterEmbayment, NY",TurningPointPark,43.228119,-77.616617,Aves,Tree swallow,Composite plasma,2,2,6/15/12,2012,158.9
+#36 Custer et al (2016),#36CUSTER TS 42,Nestling,0.0328767,Lake Huron; Lake Erie,"RougeRiver, MI",RougeRiverBoathouse,42.281661,-83.128556,Aves,Tree swallow,Composite plasma,8,8,6/15/12,2012,194.9
+#36 Custer et al (2016),#36CUSTER TS 43,Nestling,0.0328767,Lake Huron; Lake Erie,"RougeRiver, MI",RougeRiverPlant,42.290178,-83.119036,Aves,Tree swallow,Composite plasma,6,6,6/15/12,2012,161.4
+#36 Custer et al (2016),#36CUSTER TS 44,Nestling,0.0328767,Lake Huron; Lake Erie,"RougeRiver, MI",ZugIsland,42.290008,-83.111819,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,207.4
+#36 Custer et al (2016),#36CUSTER TS 45,Nestling,0.0328767,Lake Huron,"SaginawRiverAndBay, MI",BayCity,43.611978,-83.8706,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,79.5
+#36 Custer et al (2016),#36CUSTER TS 46,Nestling,0.0328767,Lake Michigan,"SheboyganRiver, WI",BlackwolfRun,43.728169,-87.765225,Aves,Tree swallow,Composite plasma,4,4,6/15/12,2012,50.2
+#36 Custer et al (2016),#36CUSTER TS 47,Nestling,0.0328767,Lake Michigan,"SheboyganRiver, WI",KohlerLandfill,43.737364,-87.7608,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,64.1
+#36 Custer et al (2016),#36CUSTER TS 48,Nestling,0.0328767,Lake Michigan,"SheboyganRiver, WI",RochesterPark,43.725222,-87.806464,Aves,Tree swallow,Composite plasma,2,2,6/15/12,2012,18.3
+#36 Custer et al (2016),#36CUSTER TS 49,Nestling,0.0328767,Lake Michigan,"SheboyganRiver, WI",WorkersPark,43.750819,-87.716247,Aves,Tree swallow,Composite plasma,11,11,6/15/12,2012,27.1
+#36 Custer et al (2016),#36CUSTER TS 50,Nestling,0.0328767,Lake Huron; Lake Erie,"StClairRiver, MI",AlgonacStatePark,42.648314,-82.513961,Aves,Tree swallow,Composite plasma,5,5,6/15/12,2012,104.9
+#36 Custer et al (2016),#36CUSTER TS 51,Nestling,0.0328767,Lake Huron,"StClairRiver, MI",Marysville,42.899189,-82.471694,Aves,Tree swallow,Composite plasma,11,11,6/15/12,2012,84.6
+#36 Custer et al (2016),#36CUSTER TS 52,Nestling,0.0328767,Lake Superior,"StLouisRiverAndBay, MN/WI",CoffeeGroundFlats,46.7334,-92.158133,Aves,Tree swallow,Composite plasma,3,3,6/15/12,2012,114.2
+#36 Custer et al (2016),#36CUSTER TS 53,Nestling,0.0328767,Lake Superior,"StLouisRiverAndBay, MN/WI",HogIsland,46.704464,-92.041625,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,118.4
+#36 Custer et al (2016),#36CUSTER TS 54,Nestling,0.0328767,Lake Superior,"StLouisRiverAndBay, MN/WI",MillerCreek,46.763756,-92.118603,Aves,Tree swallow,Composite plasma,9,9,6/15/12,2012,38.4
+#36 Custer et al (2016),#36CUSTER TS 55,Nestling,0.0328767,Lake Superior,"StLouisRiverAndBay, MN/WI",StrykerBay,46.721933,-92.172061,Aves,Tree swallow,Composite plasma,6,6,6/15/12,2012,12.2
+#36 Custer et al (2016),#36CUSTER TS 56,Nestling,0.0328767,Lake Superior; Lake Huron,"StMarysRiver, MI",AshmunBay,46.496436,-84.372361,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,23
+#36 Custer et al (2016),#36CUSTER TS 57,Nestling,0.0328767,Lake Superior,"StMarysRiver, MI",BackBay,46.423186,-84.601183,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,16
+#36 Custer et al (2016),#36CUSTER TS 58,Nestling,0.0328767,Lake Superior,"TorchLake, MI",TorchLake,47.161819,-88.427317,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,17.9
+#36 Custer et al (2016),#36CUSTER TS 59,Nestling,0.0328767,Lake Michigan,"WaukeganHarbor, IL",Waukegan,42.364475,-87.824628,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,23.4
+#36 Custer et al (2016),#36CUSTER TS 60,Nestling,0.0328767,Lake Michigan,"WhiteLake, MI",WhiteLake,43.386383,-86.3573,Aves,Tree swallow,Composite plasma,9,9,6/15/12,2012,17.3
+#36 Custer et al (2016),#36CUSTER TS 61,Nestling,0.0328767,Lake Ontario,"Non-AOC: CapeVincent, NY  ",CapeVincent,44.12335,-76.340792,Aves,Tree swallow,Composite plasma,5,5,6/15/12,2012,59.1
+#36 Custer et al (2016),#36CUSTER TS 62,Nestling,0.0328767,Lake Ontario,"Non-AOC: ChaumontRiver, NY   ",ChaumontRiver,44.095525,-76.115569,Aves,Tree swallow,Composite plasma,5,5,6/15/12,2012,32.5
+#36 Custer et al (2016),#36CUSTER TS 63,Nestling,0.0328767,Lake Superior,"Non-AOC: GreenMnt, MN ",GreenMnt                                 ,45.162683,-93.789961,Aves,Tree swallow,Composite plasma,20,20,6/15/12,2012,20.6
+#36 Custer et al (2016),#36CUSTER TS 64,Nestling,0.0328767,Lake Michigan,"Non-AOC: IndianRidge, IL  ",IndianRidge,41.674456,-87.561558,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,176.4
+#36 Custer et al (2016),#36CUSTER TS 65,Nestling,0.0328767,Lake Michigan,"Non-AOC: LittleTailPoint, WI ",LittleTailPoint,44.668531,-87.998836,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,88.3
+#36 Custer et al (2016),#36CUSTER TS 66,Nestling,0.0328767,Lake Huron,"Non-AOC: Midland, MI   ",Midland,43.607236,-84.283356,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,126.1
+#36 Custer et al (2016),#36CUSTER TS 67,Nestling,0.0328767,Lake Huron,"Non-AOC: Oscoda, MI   ",Oscoda,44.44425,-83.393431,Aves,Tree swallow,Composite plasma,10,10,6/15/12,2012,1323.7
+#36 Custer et al (2016),#36CUSTER TS 68,Nestling,0.0328767,Lake Superior,"Non-AOC: StarLake, WI  ",StarLake ,46.023558,-89.470411,Aves,Tree swallow,Composite plasma,5,5,6/15/12,2012,20
+#36 Custer et al (2016),#36CUSTER TS 69,Nestling,0.0328767,Lake Superior,"Non-AOC: WildRiceLake, MN ",WildRiceLake,46.912053,-92.175739,Aves,Tree swallow,Composite plasma,12,12,6/15/12,2012,493.4
