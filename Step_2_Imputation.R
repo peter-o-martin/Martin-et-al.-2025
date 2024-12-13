@@ -357,6 +357,17 @@ rbind(final_data[Data.pattern.ID==94,c(24:33)],
 
 
 ###### Save data frame and delete excess variables ############################
+# Create final data frame for analysis, using lrDA() derived values and save
+# this data frame for all downstream analysis
+final_imputed_data<-cbind(final_data[,1:23],final_data_lrDA)
+
+setdiff(final_imputed_data$PFOS,final_data$PFOS) # Check that the imputed data was properly assigned to the final_imputed_data variable
+rownames(final_imputed_data)<-NULL
+
+write.table(final_imputed_data,file = "Step_2_final_imputed_data.csv",sep = ",",row.names = FALSE)
+write.table(final_data_lrDA,file = "Step_2_lrDA_imputed_values.csv",sep = ",",row.names = FALSE)
+
+
 # Remove data frames produced by imputation methods that we are not going to use
 rm(data_multRepl,
    data_multLN,
@@ -377,16 +388,6 @@ rm(i,j,
    Data.pattern.ID,
    labeled_data,
    non_PFOS_analytes)
-
-# Create final data frame for analysis, using lrDA() derived values and save
-# this data frame for all downstream analysis
-final_imputed_data<-cbind(final_data[,1:23],final_data_lrDA)
-
-setdiff(final_imputed_data$PFOS,final_data$PFOS) # Check that the imputed data was properly assigned to the final_imputed_data variable
-rownames(final_imputed_data)<-NULL
-
-write.table(final_imputed_data,file = "Step_2_final_imputed_data.csv",sep = ",",row.names = FALSE)
-write.table(final_data_lrDA,file = "Step_2_lrDA_imputed_values.csv",sep = ",",row.names = FALSE)
 
 
 

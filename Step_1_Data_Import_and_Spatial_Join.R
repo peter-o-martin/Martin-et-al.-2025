@@ -32,7 +32,8 @@ source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 # List of file names used in concatenation
 filenames <- list.files(path="~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets", pattern="*csv") 
 
-original_data<-collect.frames(file_names = filenames) # Compiles all data
+original_data<-collect.frames(file_names = filenames,path = "~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets/") # Compiles all data
+
 original_data<-subset(original_data,!is.na(Latitude)) # Removes any NA rows
 
 ###### Spatial Join ###########################################################
