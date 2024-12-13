@@ -32,7 +32,7 @@ labeled_data<-read.csv("Step_1_labeled_data.csv",header = TRUE)
 ###############################################################################
 #################### All biota (no separation of Classes) #####################
 ###############################################################################
-###### Selection of PFAS Compounds that will be imputed and modeled ##########
+###### Selection of PFAS Compounds that will be imputed and modeled ###########
 # Create a data frame (X) that will hold values for each contaminant. Namely, (a) the number of <LOD, ND, NQ samples, (b) the total number of samples, (c) the detection frequency, the ratio of (a):(b), expressed as a percentage, and (d) the number of waterbodies represented in these samples
 X<-matrix(data=0,nrow = 4,ncol = ncol(labeled_data)-23)
 rownames(X)<-c("# of Unquantified Samples","# of Samples","% Quantified","# of Waterbodies")
@@ -78,7 +78,7 @@ X
 # Subset of labeled_data with only analytes that meet the threshold
 final_data<-labeled_data[,c(colnames(labeled_data[,1:23]),names(choice_X))]
 
-###### Pre-Imputation Formatting ##############################
+###### Pre-Imputation Formatting ##############################################
 # Prep data frame (dl_analyte) that will be used to hold 
 # detection/quantification limits during imputation
 dl_analyte<-final_data
@@ -161,7 +161,7 @@ Data.pattern.ID<-zPatterns(final_data[,c(24:ncol(final_data))],label=0,
                            cell.labels=c("Nondetected","Observed"),
                            cex.axis=0.8)
 
-###### Imputation Code ###################################
+###### Imputation Code ########################################################
 # Set all values labeled as "NA" in the data frame final_data to the
 # corresponding geometric mean of that column
 for (i in 1:nrow(final_data)){
@@ -283,7 +283,7 @@ final_data_lrDA<-lrDA(final_data_lrDA[,1:ncol(final_data_lrDA)],
 
 colnames(final_data_lrDA)<-names(data_multRepl)
 
-###### Post-Imputation Formatting #############################
+###### Post-Imputation Formatting #############################################
 # Replace geometric mean entries in each data frame with NA (restoring to
 # pre-imputation form)
 for (i in 1:nrow(final_data)){
