@@ -27,7 +27,7 @@ library(rnaturalearth)
 ## Functions
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 
-############### Formatting and checking for errors ############################
+###### Loading in the data frames #############################################
 # Compile all .csv files into one data frame
 # List of file names used in concatenation
 filenames <- list.files(path="~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets", pattern="*csv") 
@@ -35,7 +35,7 @@ filenames <- list.files(path="~/Desktop/Publications/Leyerle Martin et al., 2025
 original_data<-collect.frames(file_names = filenames) # Compiles all data
 original_data<-subset(original_data,!is.na(Latitude)) # Removes any NA rows
 
-###### Spatial Join
+###### Spatial Join ###########################################################
 # Perform a spatial join, using a custom shapefile of the entirety of the Great Lakes watersheds to make "Waterbody" designations for each point in the data frame
 Great_Lakes_watershed <- st_read(
   "~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes/GL_Watershed_shapefile.shp")
@@ -49,7 +49,7 @@ CRS<-st_crs(Great_Lakes_watershed) # Save the coordinate reference system (CRS) 
 waterbody_data <- st_as_sf(original_data, coords=c("Longitude","Latitude"), crs=CRS, remove=FALSE)
 setdiff(waterbody_data$Longitude,original_data$Longitude) # Check that exact coordinate values were not lost in converting the original data frame to a sf object
 
-###### Full Data Frame Visualization
+###### Full Data Frame Visualization ##########################################
 # Create background for the visualization of the watershed boundaries and where data points fall within/outside these boundaries
 North_America <- ne_states(country=c("canada","united states of america"),
                              returnclass = "sf")
@@ -63,7 +63,7 @@ ggplot() +
   theme_classic() +
   guides(fill = guide_legend(title = "Watershed"))
 
-###### Spatial Join (continued ...) and Data Wrangling 
+###### Spatial Join (continued ...) and Data Wrangling ########################
 sf_use_s2(TRUE) # Turns on the s2 package to construct spherical geometries from the polygons
 
 # Perform the spatial join
@@ -113,7 +113,7 @@ mapview(labeled_data, xcol = "Longitude", ycol = "Latitude", zcol = "Waterbody",
         crs = 4326, grid = FALSE)
 
 
-# Save data frame and delete excess variables
+###### Save data frame and delete excess variables ############################
 write.table(labeled_data,file = "Step_1_labeled_data.csv",sep = ",",row.names = FALSE)
 
 
