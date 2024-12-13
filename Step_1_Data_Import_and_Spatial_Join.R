@@ -105,13 +105,16 @@ for (j in 8:9){
 labeled_data[,7:8]<-lapply(labeled_data[,7:8],as.numeric)
 
 
-labeled_data<-labeled_data[,c(1:102)] # Remove spatial join column from data frame
+labeled_data<-labeled_data[,1:(ncol(labeled_data)-1)] # Remove spatial join column from data frame
 str(labeled_data)
 
 # Visualize the final labeled data frame that is ready for imputation, using the functionality of the mapview and leafsync packages
 mapview(labeled_data, xcol = "Longitude", ycol = "Latitude", zcol = "Waterbody",
         crs = 4326, grid = FALSE)
 
+
+# Save data frame and delete excess variables
+write.table(labeled_data,file = "Step_1_labeled_data.csv",sep = ",",row.names = FALSE)
 
 
 
