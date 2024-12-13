@@ -3,32 +3,14 @@
 
 # Written by Peter Martin
 # Created December 13, 2024
-# Finalized 
+# Finalized December 13, 2024
 
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
-# # Packages for linear and mixed model regression code
-# library(broom)
-# library(fitdistrplus)
-# library(emmeans)
-# library(DescTools)
-# library(ggpp) # recognizes formulations like geom = "table"
-# library(ggResidpanel)
-# library(lmtest)
-# library(devtools)
-# library(DHARMa)
-# library(Matrix)
-# library(TMB)
-# library(glmmTMB)
-# library(Hmisc) # capitalize function
-
 ## Packages
 # Data formatting and combining
 library(stringr)
-# library(plyr)
-# library(dplyr)
-# library(tidyverse)
 
 # Imputation
 library(MASS)
@@ -37,16 +19,9 @@ library(NADA)
 library(truncnorm)
 library(zCompositions)
 
-# 
-# # Assigning watershed designations from the GL watershed shapefile
-# library(sf)
-# library(s2)
-# 
 # Visualizing data using maps
 library(mapview)
 library(leafsync)
-# library(ggplot2)
-# library(rnaturalearth)
 
 ## Functions
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
