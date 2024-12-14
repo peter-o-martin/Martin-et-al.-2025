@@ -12,11 +12,12 @@ setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 # Data formatting and combining
 library(stringr)
 library(Hmisc) # capitalize function
+library(tidyverse)
 
 # Assigning watershed designations from the GL watershed shapefile
 library(sf)
 library(s2)
-# # 
+
 # Visualizing data using maps
 library(mapview)
 library(leafsync)
