@@ -36,7 +36,7 @@ validation_supp <- read.csv("Step_4_validation_supp.csv",header = TRUE)
 
 # Load the imputation results (07/12/24) whose values were used to construct the models reported in Leyerle Martin et al., 2025
 # Done this way since lrDA() will produce slightly different imputed estimates each time the segment of code (i.e., the Step_2 R script) is run
-modeling_concentration_values <- read.csv("full_imputed_df.csv")
+modeling_concentration_values <- read.csv("concentration_values_models.csv")
 modeling_concentration_values <- modeling_concentration_values[,32:41]
 
 final_imputed_data[,32:41] <- modeling_concentration_values
