@@ -3,12 +3,15 @@
 
 # Written by Peter Martin
 # Created December 13, 2024
-# Finalized December 13, 2024
+# Finalized December 16, 2024
 
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
 ## Packages
+# Loading the correct version
+library(remotes)
+
 # Data formatting and combining
 library(stringr)
 
@@ -268,20 +271,7 @@ data_lrDA<-lrDA(adv_impute_PFOS[,24:ncol(adv_impute_PFOS)],
                 z.warning = 0.9,
                 z.delete=FALSE)
 
-final_data_lrDA<-cbind(final_data$PFOS,subset(data_lrDA,select = -PFOS))
-PFOS_dl_analyte<-dl_analyte
-PFOS_dl_analyte[,non_PFOS_analytes]<-0
-
-final_data_lrDA<-lrDA(final_data_lrDA[,1:ncol(final_data_lrDA)],
-                      label=0,
-                      dl=PFOS_dl_analyte[,24:ncol(PFOS_dl_analyte)],
-                      ini.cov="lrEM",
-                      m=5,
-                      closure = 10^9,
-                      z.warning = 0.9,
-                      z.delete=FALSE)
-
-colnames(final_data_lrDA)<-names(data_multRepl)
+colnames(data_lrDA)<-names(data_multRepl)
 
 ###### Post-Imputation Formatting #############################################
 # Replace geometric mean entries in each data frame with NA (restoring to
@@ -335,13 +325,7 @@ for (i in 1:nrow(final_data_lrEM)){
     }
   }
 }
-for (i in 1:nrow(final_data_lrDA)){
-  for (j in 1:ncol(final_data_lrDA)){
-    if (identical(final_data_lrDA[i,j],geo_mean[j])){
-      final_data_lrDA[i,j]<-NA
-    }
-  }
-}
+
 
 # Paste results together from each imputation method for one of the patterns of censored values (zPatterns output contained in the Data.pattern.ID variable)
 # Allows for comparisons of different imputation methods
@@ -352,20 +336,19 @@ rbind(final_data[Data.pattern.ID==94,c(24:33)],
       data_multLNrob[Data.pattern.ID==94,],
       data_multLNrand[Data.pattern.ID==94,],
       final_data_lrEM[Data.pattern.ID==94,],
-      data_lrDA[Data.pattern.ID==94,],
-      final_data_lrDA[Data.pattern.ID==94,])
+      data_lrDA[Data.pattern.ID==94,])
 
 
 ###### Save data frame and delete excess variables ############################
 # Create final data frame for analysis, using lrDA() derived values and save
 # this data frame for all downstream analysis
-final_imputed_data<-cbind(final_data[,1:23],final_data_lrDA)
+final_imputed_data<-cbind(final_data[,1:23],data_lrDA)
 
 setdiff(final_imputed_data$PFOS,final_data$PFOS) # Check that the imputed data was properly assigned to the final_imputed_data variable
 rownames(final_imputed_data)<-NULL
 
 write.table(final_imputed_data,file = "Step_2_final_imputed_data.csv",sep = ",",row.names = FALSE)
-write.table(final_data_lrDA,file = "Step_2_lrDA_imputed_values.csv",sep = ",",row.names = FALSE)
+write.table(data_lrDA,file = "Step_2_lrDA_imputed_values.csv",sep = ",",row.names = FALSE)
 
 
 # Remove data frames produced by imputation methods that we are not going to use
@@ -376,7 +359,6 @@ rm(data_multRepl,
    adv_impute_PFOS,
    data_lrEM,
    final_data_lrEM,
-   data_lrDA,
    PFOS_dl_analyte,
    geo_mean,
    dl_analyte,

@@ -117,5 +117,6 @@ mapview(labeled_data, xcol = "Longitude", ycol = "Latitude", zcol = "Waterbody",
 ###### Save data frame and delete excess variables ############################
 write.table(labeled_data,file = "Step_1_labeled_data.csv",sep = ",",row.names = FALSE)
 
-
+rm(CRS, Great_Lakes_watershed,North_America,original_data,waterbody_data,
+   filenames,j)
 
