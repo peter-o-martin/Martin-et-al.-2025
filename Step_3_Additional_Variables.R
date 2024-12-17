@@ -525,7 +525,7 @@ final_imputed_data<-
 final_imputed_data[,9:10]<-lapply(final_imputed_data[,9:10],as.numeric)
 
 
-write.table(final_imputed_data,file = "Step_3_full_imputed_df.csv",sep = ",",
+write.table(final_imputed_data,file = "Step_3_final_imputed_data.csv",sep = ",",
             row.names = FALSE)
 
 rm(water_level,i,j)

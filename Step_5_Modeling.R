@@ -31,7 +31,7 @@ library(dotwhisker)
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 
 ## Loading in data frame created from Step 1
-final_imputed_data <- read.csv("Step_3_full_imputed_df.csv",header = TRUE)
+final_imputed_data <- read.csv("Step_3_final_imputed_data.csv",header = TRUE)
 validation_supp <- read.csv("Step_4_validation_supp.csv",header = TRUE)
 
 # Load the imputation results (07/12/24) whose values were used to construct the models reported in Leyerle Martin et al., 2025
@@ -363,7 +363,7 @@ ggplot(data=PFNA_results, aes(x=(fit), y=log(PFNA,base = 10),color=Waterbody)) +
   theme_bw()
 
 
-###### Full PFDA Model ######################################
+###### Full PFDA Model ########################################################
 PFDA<-final_imputed_data[is.na(final_imputed_data$PFDA)==FALSE,]
 car::qqPlot(log(PFDA$PFDA,base = 10))
 
@@ -485,7 +485,7 @@ ggplot(data=PFDA_results, aes(x=(fit), y=log(PFDA,base = 10),color=Trophic_Level
   theme_bw()
 
 
-###### Full PFUnA Model ######################################
+###### Full PFUnA Model #######################################################
 PFUnA<-final_imputed_data[is.na(final_imputed_data$PFUnA)==FALSE,]
 car::qqPlot(log(PFUnA$PFUnA,base = 10))
 
@@ -606,7 +606,7 @@ ggplot(data=PFUnA_results, aes(x=(fit), y=log(PFUnA,base = 10),color=Waterbody))
   theme_bw()
 
 
-###### Full PFDoA Model #####################################
+###### Full PFDoA Model #######################################################
 PFDoA<-final_imputed_data[is.na(final_imputed_data$PFDoA)==FALSE,]
 car::qqPlot(log(PFDoA$PFDoA,base = 10))
 
@@ -728,7 +728,7 @@ ggplot(data=PFDoA_results, aes(x=(fit), y=log(PFDoA,base = 10),color=Waterbody))
   geom_abline(slope=1, intercept=0)
 
 
-###### Full PFTrDA Model ######################################
+###### Full PFTrDA Model ######################################################
 PFTrDA<-final_imputed_data[is.na(final_imputed_data$PFTrDA)==FALSE,]
 car::qqPlot(log(PFTrDA$PFTrDA,base = 10))
 
@@ -852,7 +852,7 @@ ggplot(data=PFTrDA_results, aes(x=(fit), y=log(PFTrDA,base = 10),color=Waterbody
   geom_abline(slope=1, intercept=0) +
   theme_bw()
 
-###### Save the model for future work ##########################
+###### Save the model and data frame for result/figure generation #############
 save(full_PFOS_gam,file = "full_PFOS_gam.Rdata")
 save(full_PFNA_gam,file = "full_PFNA_gam.Rdata")
 save(full_PFDA_gam,file = "full_PFDA_gam.Rdata")
@@ -860,7 +860,8 @@ save(full_PFUnA_gam,file = "full_PFUnA_gam.Rdata")
 save(full_PFDoA_gam,file = "full_PFDoA_gam.Rdata")
 save(full_PFTrDA_gam,file = "full_PFTrDA_gam.Rdata")
 
-
+write.table(final_imputed_data,file = "Step_5_final_imputed_data.csv",sep = ",",
+            row.names = FALSE)
 
 
 
