@@ -71,22 +71,6 @@ Table_2_me <- emmeans(full_PFOS_gam,
            type = "response",tran = "log10",adjust="tukey")
 Table_2_me
 
-Table_2_emmeans <- as_tibble(Table_2_me$emmeans)
-Table_2_emmeans <- Table_2_emmeans[,c(1:2,5:6)]
-Table_2_emmeans[,2:4] <- round(Table_2_emmeans[,2:4],digits = 3)
-Table_2_emmeans$response <- paste0(Table_2_emmeans$response," [",
-                                   Table_2_emmeans$lower.CL,", ",
-                                   Table_2_emmeans$upper.CL,"]")
-Table_2_emmeans <- Table_2_emmeans[c(1:2,4:6),1:2]
-names(Table_2_emmeans) <- c("rownames",)
-
-
-
-
-Table_2_contrasts <- as_tibble(Table_2_me$contrasts)
-
-
-
 
 Table_2_percent <- matrix(nrow = 4, ncol = 6,
                   dimnames = list(
