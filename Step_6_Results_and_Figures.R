@@ -61,11 +61,34 @@ display.brewer.pal(n=8,"RdYlBu")
 
 Great_Lakes_region <- ne_states(country=c("canada","united states of america"),
                                 returnclass = "sf")
-Great_Lakes_watershed <- read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
+Great_Lakes_watershed <-
+  read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
                                  "GL_Watershed_shapefile")
 
 ######## Table 2 ##############################################################
-Table_2a <- matrix(nrow = 4, ncol = 6,
+Table_2_me <- emmeans(full_PFOS_gam, 
+           specs = pairwise ~ Revised_Tissue,
+           type = "response",tran = "log10",adjust="tukey")
+Table_2_me
+
+Table_2_emmeans <- as_tibble(Table_2_me$emmeans)
+Table_2_emmeans <- Table_2_emmeans[,c(1:2,5:6)]
+Table_2_emmeans[,2:4] <- round(Table_2_emmeans[,2:4],digits = 3)
+Table_2_emmeans$response <- paste0(Table_2_emmeans$response," [",
+                                   Table_2_emmeans$lower.CL,", ",
+                                   Table_2_emmeans$upper.CL,"]")
+Table_2_emmeans <- Table_2_emmeans[c(1:2,4:6),1:2]
+names(Table_2_emmeans) <- c("rownames",)
+
+
+
+
+Table_2_contrasts <- as_tibble(Table_2_me$contrasts)
+
+
+
+
+Table_2_percent <- matrix(nrow = 4, ncol = 6,
                   dimnames = list(
                     c("Eggs","Blood","Liver","Combined Tissue and Blood"),
                     c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
@@ -81,15 +104,15 @@ for(i in 1:length(model_list)){
   tissue_estimates <- tissue_estimates %>% select(Revised_Tissue,response) %>% 
     mutate(t_abundance = 100*round(response/sum(response),digits=5))
   
-  Table_2a[1:3,i] <- tissue_estimates$t_abundance[6:4]
-  Table_2a[4,i] <- sum(tissue_estimates$t_abundance[1:5])
+  Table_2_percent[1:3,i] <- tissue_estimates$t_abundance[6:4]
+  Table_2_percent[4,i] <- sum(tissue_estimates$t_abundance[1:5])
 }
 
-Table_2a_final <- Table_2a |> as_tibble()
-Table_2a_final$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
-Table_2a_final$group <- "Percent Composition"
+Table_2_percent <- as_tibble(Table_2_percent)
+Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
+Table_2_percent$group <- "Percent Composition"
 
-Table_2_final<-gt((Table_2a_final),
+Table_2_final<-gt(rbind(Table_2_emmeans,Table_2_contrasts,Table_2_percent),
    rowname_col = "rowname",
    groupname_col = "group",
    row_group_as_column = F) |> 
