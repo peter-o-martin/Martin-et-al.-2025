@@ -13,19 +13,12 @@ setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 library(tidyverse)
 library(gt)
 library(webshot2)
-library(scales)
-# library(lattice)
 library(caret)
-# 
-# # Modeling
-# library(nlme)
+ 
+# Modeling
 library(mgcv)
-# library(DHARMa)
-# 
-# # Visualizing model output and calculating results
-# library(gratia)
-# library(carData)
-# library(car)
+
+# Visualizing model output and calculating results
 library(emmeans)
 library(ggrepel)
 library(ggpubr)
@@ -36,8 +29,6 @@ library(ggspatial)
 library(RColorBrewer)
 library(ggpattern)
 library(patchwork)
-# library(ggplot2)
-# library(dotwhisker)
 
 ## Functions
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
@@ -80,8 +71,6 @@ Table_2a <- matrix(nrow = 4, ncol = 6,
                     c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
                      "PFDoA (C12)","PFTrDA (C13)")
                     ))
-Table_2b <- Table_2a
-Table_2b_PFOS <- Table_2a
 
 ##### Table 2a
 for(i in 1:length(model_list)){
@@ -98,86 +87,12 @@ for(i in 1:length(model_list)){
 
 Table_2a_final <- Table_2a |> as_tibble()
 Table_2a_final$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
-Table_2a_final$group <- "(A) Inter-Tissue PFAS Abundance (%)"
+Table_2a_final$group <- "Percent Composition"
 
-##### Table 2b
-composition_estimates <- vector("list",5)
-for(i in 2:length(model_list)){
-  composition_estimates[[i-1]] <- emmeans(model_list[[i]],
-                              specs = ~ Revised_Tissue,
-                              type='response',tran = "log10") |>
-    as_tibble()
-}
-composition_sums <- rowSums(data.frame(sapply(composition_estimates, `[[`, 2)))
-composition_sums[length(composition_sums) + 1] <- 
-  sum(composition_sums[1:5])
-
-composition_estimates <- data.frame(
-  sapply(composition_estimates, `[[`, 2)) 
-
-composition_estimates[nrow(composition_estimates) + 1,] <- 
-  colSums(composition_estimates[1:5,])
-composition_estimates <- 
-  round(composition_estimates / composition_sums, digits = 5) * 100
-
-for(i in 2:length(model_list)){
-  Table_2b[1:3,i] <- composition_estimates[6:4,i-1]
-  Table_2b[4,i] <- sum(composition_estimates[7,i-1])
-}
-
-# Table 2b (PFOS included)
-PFOS_composition_estimates <- vector("list",6)
-for(i in 1:length(model_list)){
-  PFOS_composition_estimates[[i]] <- emmeans(model_list[[i]],
-                                        specs = ~ Revised_Tissue,
-                                        type='response',tran = "log10") |>
-    as_tibble()
-}
-PFOS_composition_sums <- rowSums(
-  data.frame(sapply(PFOS_composition_estimates, `[[`, 2)))
-PFOS_composition_sums[length(PFOS_composition_sums) + 1] <- 
-  sum(PFOS_composition_sums[1:6])
-
-PFOS_composition_estimates <- data.frame(
-  sapply(PFOS_composition_estimates, `[[`, 2)) 
-
-PFOS_composition_estimates[nrow(PFOS_composition_estimates) + 1,] <- 
-  colSums(PFOS_composition_estimates[1:6,])
-PFOS_composition_estimates <- 
-  round(PFOS_composition_estimates / PFOS_composition_sums, digits = 5) * 100
-
-for(i in 1:length(model_list)){
-  Table_2b_PFOS[1:3,i] <- PFOS_composition_estimates[6:4,i]
-  Table_2b_PFOS[4,i] <- sum(PFOS_composition_estimates[7,i])
-}
-
-Table_2b_final <- Table_2b
-Table_2b_final[]<-paste0(Table_2b_final," ", "<br>","(",Table_2b_PFOS,")")
-Table_2b_final <- Table_2b_final |> as_tibble()
-Table_2b_final$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
-Table_2b_final$group <- "(B) Intra-Tissue PFAS Composition (%)"
-
-##### Table 2c
-Table_2c <- round(rbind(Table_2b[2,] / Table_2b[1,],
-                  Table_2b[3,] / Table_2b[1,],
-                  Table_2b[4,] / Table_2b[1,]),digits = 3)
-
-Table_2c <- matrix(Table_2c,nrow = 3, ncol = 6,
-                   dimnames = list(
-                     c("Blood:Eggs","Liver:Eggs","Combined Tissue:Eggs"),
-                     c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
-                       "PFDoA (C12)","PFTrDA (C13)")
-                   ))
-
-Table_2c_final <- Table_2c |> as_tibble()
-Table_2c_final$rowname <- c("Blood:Eggs","Liver:Eggs","Combined Tissue:Eggs")
-Table_2c_final$group <- "(C) Egg-Standardized Intra-Tissue PFAS Composition"
-
-Table_2_final<-gt(rbind(Table_2a_final,Table_2b_final,Table_2c_final),
+Table_2_final<-gt((Table_2a_final),
    rowname_col = "rowname",
    groupname_col = "group",
    row_group_as_column = F) |> 
-  tab_source_note(source_note = md("Values are derived from tissue-specific estimated marginal means, which were calculated over the reference grid of all possible factor combinations using the **emmeans::emmeans()** function (Lenth, 2024)")) |>
   tab_stubhead(label = "Tissue Type") |>
   cols_align(
     align = "center",
