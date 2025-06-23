@@ -13,6 +13,7 @@ setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 library(tidyverse)
 library(gt)
 library(webshot2)
+library(scales)
 # library(lattice)
 library(caret)
 # 
@@ -30,8 +31,11 @@ library(ggrepel)
 library(ggpubr)
 library(rnaturalearth)
 library(sf)
+library(terra)
 library(ggspatial)
 library(RColorBrewer)
+library(ggpattern)
+library(patchwork)
 # library(ggplot2)
 # library(dotwhisker)
 
@@ -58,8 +62,16 @@ load("full_PFTrDA_gam.Rdata")
 
 model_list <- list(full_PFOS_gam,full_PFNA_gam,full_PFDA_gam,full_PFUnA_gam,
                    full_PFDoA_gam,full_PFTrDA_gam)
+
 WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
                   "Lake Erie","Lake Ontario")
+# color palette used
+display.brewer.pal(n=8,"RdYlBu")
+
+Great_Lakes_region <- ne_states(country=c("canada","united states of america"),
+                                returnclass = "sf")
+Great_Lakes_watershed <- read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
+                                 "GL_Watershed_shapefile")
 
 ######## Table 2 ##############################################################
 Table_2a <- matrix(nrow = 4, ncol = 6,
@@ -183,7 +195,7 @@ Table_2_final<-gt(rbind(Table_2a_final,Table_2b_final,Table_2c_final),
     style = cell_text(weight = "bold"),
     locations = cells_row_groups()
   ) %>%
-  fmt_markdown(columns = TRUE)
+  fmt_markdown(columns = everything())
 
 Table_2_final
 gtsave(Table_2_final,"Tables and Figures/Table_2.rtf")
@@ -192,45 +204,46 @@ gtsave(Table_2_final,"Tables and Figures/Table_2.rtf")
 
 ######## Figures ##############################################################
 ######## Conceptual Figure ####################################################
-Great_Lakes_shp <- ne_states(country=c("canada","united states of america"),
-                             returnclass = "sf")
+max_lat <- max(final_imputed_data$Latitude)
+min_lat <- min(final_imputed_data$Latitude)
+max_lon <- max(final_imputed_data$Longitude)-5
+min_lon <- min(final_imputed_data$Longitude)
+# Store boundaries in a single extent object
+geographic_extent <- ext(x = c(min_lon, max_lon, min_lat, max_lat))
 
-Great_Lakes_watershed <- read_sf("~/Desktop/Rfiles/PFAS Review Paper/Full Watershed Shape",
-                                 "Full_Watershed_PFAS_Paper")
+cropped_Great_Lakes_watershed <- st_crop(
+  st_union(Great_Lakes_watershed,by_feature=F),
+  geographic_extent)
 
-Great_Lakes_watershed$merge[Great_Lakes_watershed$layer==
-                              "Gulf of Saint Lawrence"]<-"lk_ont"
-Great_Lakes_watershed$merge[Great_Lakes_watershed$layer==
-                              "Saint Lawrence Watershed Full"]<-"lk_ont"
+intersection_Great_Lakes_watershed <- st_union(st_crop(
+  st_intersection(Great_Lakes_region, 
+                  st_union(Great_Lakes_watershed,by_feature=F)),
+  geographic_extent*2),by_feature=F)
 
-Great_Lakes_watershed$merge[Great_Lakes_watershed$merge==
-                              "lk_ont"]<-"Lake Ontario"
-Great_Lakes_watershed$merge[Great_Lakes_watershed$merge==
-                              "lk_erie"]<-"Lake Erie"
-Great_Lakes_watershed$merge[Great_Lakes_watershed$merge==
-                              "lk_mich"]<-"Lake Michigan"
-Great_Lakes_watershed$merge[Great_Lakes_watershed$merge==
-                              "lk_huron"]<-"Lake Huron"
-Great_Lakes_watershed$merge[Great_Lakes_watershed$merge==
-                              "lk_sup"]<-"Lake Superior"
+PFOS$Trophic_Level <- factor(PFOS$Trophic_Level,
+                             levels = c("Primary Producer","Primary Consumer",
+                                        "Secondary Consumer","Tertiary Consumer",
+                                        "Quaternary Consumer",
+                                        "Piscivorous/Insectivorous Bird",
+                                        "Apex Predator")) 
+levels(PFOS$Trophic_Level)
+levels(PFOS$Trophic_Level) <- 0:6
 
-PFOS$predict<-predict.gam(full_PFOS_gam,newdata=PFOS)
-WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
-                  "Lake Erie","Lake Ontario")
-# color palette used
-display.brewer.pal(n=8,"RdYlBu")
-
-
-ggplot() +
-  geom_sf(data=Great_Lakes_shp,color="grey") +
-  geom_point(data=PFOS, aes(x=Longitude,y=Latitude,
-                            fill = factor(Waterbody,levels = WB_level_order)),
-             shape=21,size=0.75)+
-  geom_sf(data=Great_Lakes_watershed,
-          aes(fill=factor(merge,levels = WB_level_order)),color=NA,alpha=0.70) +
-  scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
-                               "#D73027")) +
-  coord_sf(xlim = c(-93.0,-74.5),ylim = c(40.5,51)) +
+Conceptual_Figure <- ggplot() +
+  geom_sf_pattern(data=cropped_Great_Lakes_watershed,
+                  pattern='gradient',
+                  pattern_fill="blue",pattern_fill2="red",
+                  pattern_orientation = 'horizontal') +
+  geom_sf(data=Great_Lakes_region,
+          fill="white",color="white") +
+  geom_sf_pattern(data=intersection_Great_Lakes_watershed,
+                  pattern='gradient',
+                  pattern_fill="lightblue",pattern_fill2="salmon",
+                  pattern_orientation = 'horizontal') +
+  geom_point(data=PFOS, 
+             aes(x=Longitude,y=Latitude),
+             shape=21,size=1.5,fill = "black")+
+  coord_sf(xlim = c(min_lon,max_lon),ylim = c(min_lat-0.5,max_lat+0.5)) +
   annotation_north_arrow(location = "tl",which_north = "true", 
                          pad_x = unit(0.2, "cm"), pad_y = unit(0.2, "cm"),
                          style = north_arrow_nautical,width = unit(1.5, "cm"), 
@@ -238,24 +251,21 @@ ggplot() +
   xlab("") +
   ylab("") +
   guides(fill= "none") +
-  theme_classic(base_size = 14) +
+  theme_classic() +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
         axis.text = element_blank())
+  
+Conceptual_Figure
+ggsave("Tables and Figures/Conceptual_Figure.png", plot = Conceptual_Figure,
+       width = 12, height = 7, 
+       units = "in", dpi = 300)
+
 # -----------------------------------------------------------------------------
 ######## Figure 1 #############################################################
-Great_Lakes_shp <- ne_states(country=c("canada","united states of america"),
-                             returnclass = "sf")
-Great_Lakes_watershed <- read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
-                                 "GL_Watershed_shapefile")
-
-PFOS$predict<-predict.gam(full_PFOS_gam,newdata=PFOS)
-WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
-                  "Lake Erie","Lake Ontario")
-
 # https://bookdown.org/nicohahn/making_maps_with_r5/docs/ggplot2.html
 Figure_1 <- ggplot() +
-  geom_sf(data=Great_Lakes_shp) +
+  geom_sf(data=Great_Lakes_region) +
   geom_sf(data=Great_Lakes_watershed,fill="cadetblue1",alpha=0.4) +
   coord_sf(xlim = c(-93.0,-70.0),ylim = c(40.5,51)) +
   annotation_north_arrow(location = "tl",which_north = "true", 
@@ -281,10 +291,7 @@ ggsave("Figures/Figure_1.png", plot = Figure_1, width = 15, height = 10,
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure 2 #############################################################
-WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
-                  "Lake Erie","Lake Ontario")
 Sampling_Years<-sort(unique(PFOS$Sampling.Year))
-
 
 LE_PFOS<-subset(PFOS,Waterbody=="Lake Erie")
 LE_Sampling_Years<-subset(Sampling_Years,Sampling_Years>=min(LE_PFOS$Sampling.Year))
@@ -378,7 +385,6 @@ Figure_2 <- ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
   geom_line(data = LS_spline, aes(x = x, y = y),color="#4575B4",linewidth=1) +
   geom_line(data = LE_spline, aes(x = x, y = y),color="#FC8D59",linewidth=1) +
   geom_line(data = LO_spline, aes(x = x, y = y),color="#D73027",linewidth=1) +
-  geom_line(aes(colour = Waterbody)) +
   geom_pointrange(aes(ymin = 0, ymax = 0,
                       group = factor(Waterbody,levels = WB_level_order),
                       fill=factor(Waterbody,levels = WB_level_order)),
@@ -477,9 +483,56 @@ PFAS_WB_means$contaminant <- factor(PFAS_WB_means$contaminant,
                                     levels=c('PFOS', 'PFNA', 'PFDA', 
                                              'PFUnA','PFDoA','PFTrDA'))
 
-Figure_3 <- ggarrange(
+# Figure_3 <- ggarrange(
+#   ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
+#                                     x = response)) +
+#     geom_col(aes(fill = contaminant)) +
+#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
+#                                  "#FEE090","#FC8D59",
+#                                  "#D73027")) +
+#     theme_bw(base_size = 14) +
+#     ylab(NULL) +
+#     xlab("Concentration (ng/g w.w.)") +
+#     geom_label(aes(x = sum,y = factor(Waterbody, level = WB_level_order),
+#                    label = paste0(round(sum,2)," ng/g w.w."),
+#                    group = factor(contaminant)),
+#                hjust = -0.25,fontface='bold',size=4) +
+#     coord_cartesian(xlim = c(0,225)) +
+#     guides(fill = guide_legend(title = "PFAS Compound")) +
+#     theme(legend.title=element_text(size=14,face = "bold"),
+#           axis.title.x = element_text(size=14, face="bold", colour = "black")),
+#   
+#   ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
+#                             x = percent*100, fill = contaminant)) +
+#     geom_col() +
+#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
+#                                  "#FEE090","#FC8D59",
+#                                  "#D73027")) +
+#     geom_label_repel(aes(label=paste0(sprintf("%1.1f", percent*100),"%")),
+#                      position=position_stack(vjust=0.5),
+#                      force=0.01,force_pull = 190,
+#                      max.overlaps = 8,direction = "both",show.legend = FALSE,
+#                      fontface='bold',size=4) +
+#     ylab(NULL) +
+#     xlab("Contaminant Composition (%)") +
+#     theme_bw(base_size = 14) +
+#     guides(fill = guide_legend(title = "PFAS Compound")) +
+#     theme(legend.title=element_text(size=14,face = "bold"),
+#           axis.title.x = element_text(size=14, face="bold", colour = "black")),
+#   
+#   ncol = 1,
+#   nrow = 2,
+#   legend="right",
+#   common.legend = T
+#   )
+
+levels(PFAS_WB_means$Waterbody)
+levels(PFAS_WB_means$Waterbody) <- c("Superior", "Michigan","Huron","Erie",
+                                     "Ontario")
+
+Figure_3 <- 
   ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
-                                    x = response)) +
+                            x = response)) +
     geom_col(aes(fill = contaminant)) +
     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
                                  "#FEE090","#FC8D59",
@@ -494,44 +547,284 @@ Figure_3 <- ggarrange(
     coord_cartesian(xlim = c(0,225)) +
     guides(fill = guide_legend(title = "PFAS Compound")) +
     theme(legend.title=element_text(size=14,face = "bold"),
-          axis.title.x = element_text(size=14, face="bold", colour = "black")),
-  
-  ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
-                            x = percent*100, fill = contaminant)) +
-    geom_col() +
-    scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
-                                 "#FEE090","#FC8D59",
-                                 "#D73027")) +
-    geom_label_repel(aes(label=paste0(sprintf("%1.1f", percent*100),"%")),
-                     position=position_stack(vjust=0.5),
-                     force=0.01,force_pull = 190,
-                     max.overlaps = 8,direction = "both",show.legend = FALSE,
-                     fontface='bold',size=4) +
-    ylab(NULL) +
-    xlab("Contaminant Composition (%)") +
-    theme_bw(base_size = 14) +
-    guides(fill = guide_legend(title = "PFAS Compound")) +
-    theme(legend.title=element_text(size=14,face = "bold"),
-          axis.title.x = element_text(size=14, face="bold", colour = "black")),
-  
-  ncol = 1,
-  nrow = 2,
-  legend="right",
-  common.legend = T
-  )
+          axis.title.x = element_text(size=14, face="bold", colour = "black"))
+
+# Figure_3 <-
+#   ggplot(PFAS_WB_means, aes(y = Waterbody, 
+#                             x = response)) +
+#     geom_col(aes(fill = contaminant)) +
+#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
+#                                  "#FEE090","#FC8D59",
+#                                  "#D73027")) +
+#     theme_bw(base_size = 14) +
+#     ylab(NULL) +
+#     xlab("Concentration (ng/g w.w.)") +
+#     coord_cartesian(xlim = c(0,210)) +
+#     guides(fill = guide_legend(title = "PFAS Compound")) +
+#     theme(legend.title=element_text(size=14,face = "bold"),
+#           axis.title.x = element_text(size=14, face="bold", colour = "black")) +
+#   theme(legend.position = c(.95, .1),
+#         legend.justification = c("right", "bottom"),
+#         legend.box.just = "right",
+#         legend.margin = margin(6, 6, 6, 6)
+#           ) +
+#   theme(axis.text.x= element_text(size = 14),
+#         axis.text.y= element_text(size = 14),
+#         legend.text = element_text(size = 14))
+
 
 Figure_3
-ggsave("Figures/Figure_3.png", plot = Figure_3, width = 18, height = 12, 
+ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 15, 
+       height = 7,  units = "in", dpi = 300)
+
+# -----------------------------------------------------------------------------
+######## Figure 4 #############################################################
+
+PFOS_TL_means <- 
+  emmeans(full_PFOS_gam,
+        specs = ~ Trophic_Level,
+        type='response',tran = "log10") |>
+  as_tibble()
+
+Figure_4 <- 
+  ggplot(PFOS_TL_means, aes(x = Trophic_Level,y=response))+
+  geom_jitter(data = PFOS,
+              aes(x = Trophic_Level,
+                  y = PFOS),
+              width = .2,
+              alpha = .2)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,color="red"),
+                  alpha=1,show.legend = FALSE)+
+  theme_classic(base_size = 14)+
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.0005,48000)) +
+  annotate(geom = "table",
+           x=0,
+           y=0.0005,
+           label = list(PFOS_TL_means[,c(1:2,5:6)])) +
+  scale_x_discrete(labels= c("PP","PC","SC","TC","QC","PIB","AP")) +
+  ylab("PFOS concentration (ng/g w.w.)") +
+  xlab("")
+
+Figure_4
+ggsave("Tables and Figures/Figure_4.png", plot = Figure_4, 
+       width = 10, height = 8, 
        units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S9 ############################################################
+Figure_S9 <- 
+  ggplot(PFAS_WB_means, aes(x = factor(Waterbody,level = WB_level_order), 
+                                       y = (response), 
+                                       fill = contaminant)) +
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),
+                  pch=21,alpha=1,position = position_dodge(width = 0.5),
+                  color="black") +
+  scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8","#FEE090",
+                                "#FC8D59","#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE)) +
+  xlab(NULL) +
+  ylab("Concentration (ng/g w.w.)") +
+  guides(fill = guide_legend(title = "PFAS Compound")) +
+  theme_classic(base_size = 14) +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    legend.title = element_text(size=14, face="bold", colour = "black")
+  )
+
+Figure_S9
+ggsave("Tables and Figures/Figure_S9.png", plot = Figure_S9, width = 10, 
+       height = 7,  units = "in", dpi = 300)
+
+# -----------------------------------------------------------------------------
+######## Figure S7 ############################################################
+# Lake Superior Plot
+Superior <- subset(PFOS_SY_means,Waterbody=="Lake Superior")
+Superior_data <- subset(PFOS,Waterbody=="Lake Superior")
+
+LS_SY_plot<-ggplot(Superior,aes(x = Sampling.Year, y=response))+
+  annotate("rect", xmin=2000, xmax=2002, ymin=0,
+           ymax=Inf,
+           alpha=0.5,fill="orange") +
+  geom_jitter(data = Superior_data,
+              aes(x = Sampling.Year,y = PFOS),
+              width = .2,
+              alpha = .2,color="black")+
+  geom_line(data = LS_spline, aes(x = x, y = y),color="#4575B4",linewidth=1)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,
+                      group = factor(Waterbody,levels = WB_level_order),
+                      fill=factor(Waterbody,levels = WB_level_order)),
+                  shape = 21,color="black",size=0.5,
+                  show.legend = T)+
+  theme_classic(base_size = 14)+
+  ylab("PFOS concentration (ng/g w.w.)") +
+  xlab("Sampling Year (1991-2021)") +
+  ggtitle("Lake Superior") +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    plot.title = element_text(size=14, face="bold", colour = "black",
+                              hjust = 0.5)) +
+  scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
+                                "#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.01,73000)) +
+  guides(fill = guide_legend(title = "Waterbody"))
+
+# Lake Michigan Plot
+Michigan <- subset(PFOS_SY_means,Waterbody=="Lake Michigan")
+Michigan_data <- subset(PFOS,Waterbody=="Lake Michigan") 
+
+LM_SY_plot<-ggplot(Michigan, aes(x = Sampling.Year,y=response))+
+  annotate("rect", xmin=2000, xmax=2002, ymin=0,
+           ymax=Inf,
+           alpha=0.5,fill="orange") +
+  geom_jitter(data = subset(PFOS,Waterbody=="Lake Michigan"),
+              aes(x = Sampling.Year,
+                  y = PFOS),
+              width = .2,
+              alpha = .2,color="black")+
+  geom_line(data = LM_spline, aes(x = x, y = y),color="#91BFDB",linewidth=1)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,
+                      group = factor(Waterbody,levels = WB_level_order),
+                      fill=factor(Waterbody,levels = WB_level_order)),
+                  shape = 21,color="black",size=0.5,
+                  show.legend = T)+
+  theme_classic(base_size = 14)+
+  ylab("") +
+  xlab("Sampling Year (1990-2021)")+
+  ggtitle("Lake Michigan") +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    plot.title = element_text(size=14, face="bold", colour = "black",
+                              hjust = 0.5)) +
+  scale_fill_manual(values = c("#91BFDB","#4575B4","#FEE090","#FC8D59",
+                                "#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.01,73000)) +
+  guides(fill = guide_legend(title = "Waterbody"))
+
+# Lake Huron Plot
+Huron <- subset(PFOS_SY_means,Waterbody=="Lake Huron")
+Huron_data <- subset(PFOS,Waterbody=="Lake Huron")
+
+LH_SY_plot<-ggplot(Huron,aes(x = Sampling.Year, y=response))+
+  annotate("rect", xmin=2000, xmax=2002, ymin=0,
+           ymax=Inf,
+           alpha=0.5,fill="orange") +
+  geom_jitter(data = Huron_data,
+              aes(x = Sampling.Year,
+                  y = PFOS),
+              width = .2,
+              alpha = .2,color="black")+
+  geom_line(data = LH_spline, aes(x = x, y = y),color="#FEE090",linewidth=1)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,
+                      group = factor(Waterbody,levels = WB_level_order),
+                      fill=factor(Waterbody,levels = WB_level_order)),
+                  shape = 21,color="black",size=0.5,
+                  show.legend = T)+
+  theme_classic(base_size = 14)+
+  ylab("") +
+  xlab("Sampling Year (1991-2021)")+
+  ggtitle("Lake Huron") +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    plot.title = element_text(size=14, face="bold", colour = "black",
+                              hjust = 0.5)) +
+  scale_fill_manual(values = c("#FEE090","#91BFDB","#4575B4","#FC8D59",
+                                "#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.01,73000)) +
+  guides(fill = guide_legend(title = "Waterbody"))
+
+# Lake Erie Plot
+Erie <- subset(PFOS_SY_means,Waterbody=="Lake Erie")
+Erie_data <- subset(PFOS,Waterbody=="Lake Erie")
+
+LE_SY_plot<-ggplot(Erie, aes(x = Sampling.Year, y=response)) +
+  annotate("rect", xmin=2000, xmax=2002, ymin=0,
+           ymax=Inf,
+           alpha=0.5,fill="orange") +
+  geom_jitter(data = Erie_data,
+              aes(x = Sampling.Year,
+                  y = PFOS),
+              width = .2,
+              alpha = .2,color="black") +
+  geom_line(data = LE_spline, aes(x = x, y = y),color="#FC8D59",linewidth=1)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,
+                      group = factor(Waterbody,levels = WB_level_order),
+                      fill=factor(Waterbody,levels = WB_level_order)),
+                  shape = 21,color="black",size=0.5,
+                  show.legend = T)+
+  theme_classic(base_size = 14)+
+  ylab("PFOS concentration (ng/g w.w.)") +
+  xlab("Sampling Year (1992-2021)")+
+  ggtitle("Lake Erie") +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    plot.title = element_text(size=14, face="bold", colour = "black",
+                              hjust = 0.5)) +
+  scale_fill_manual(values = c("#FC8D59","#FEE090","#91BFDB","#4575B4",
+                                "#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.01,73000)) +
+  guides(fill = guide_legend(title = "Waterbody"))
+
+# Lake Ontario Plot
+Ontario <- subset(PFOS_SY_means,Waterbody=="Lake Ontario")
+Ontario_data <- subset(PFOS,Waterbody=="Lake Ontario")
+
+LO_SY_plot<-ggplot(Ontario, aes(x = Sampling.Year,y=response))+
+  annotate("rect", xmin=2000, xmax=2002, ymin=0,
+           ymax=Inf,
+           alpha=0.5,fill="orange") +
+  geom_jitter(data = Ontario_data,
+              aes(x = Sampling.Year,
+                  y = PFOS),
+              width = .2,
+              alpha = .2,color="black")+
+  geom_line(data = LO_spline, aes(x = x, y = y),color="#D73027",linewidth=1)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,
+                      group = factor(Waterbody,levels = WB_level_order),
+                      fill=factor(Waterbody,levels = WB_level_order)),
+                  shape = 21,color="black",size=0.5,
+                  show.legend = TRUE)+
+  theme_classic(base_size = 14)+
+  ggtitle("Lake Ontario") +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    plot.title = element_text(size=14, face="bold", colour = "black",
+                              hjust = 0.5)) +
+  ylab("") +
+  xlab("Sampling Year (1979-2021)")+
+  scale_fill_manual(values = c("#D73027","#FC8D59","#FEE090","#91BFDB",
+                                "#4575B4")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.01,73000)) +
+  guides(fill = guide_legend(title = "Waterbody"))
+
+Figure_S7 <- ggarrange(LS_SY_plot, LM_SY_plot,LH_SY_plot,LE_SY_plot,LO_SY_plot,
+          ncol = 3,nrow = 2,legend = "none")
+
+Figure_S7
+ggsave("Tables and Figures/Figure_S7.png", plot = Figure_S7, width = 14, 
+       height = 10,  units = "in", dpi = 300)
 
 # -----------------------------------------------------------------------------
 
 
 
-emmeans(full_PFOS_gam,
-        specs = ~ Waterbody,
-        type='response',tran = "log10") |>
-  as_tibble()
 
 # Summary statistics for the different variables
 final_imputed_data %>% group_by(Waterbody) %>% summarise(sample_count=length(Sample.ID))
