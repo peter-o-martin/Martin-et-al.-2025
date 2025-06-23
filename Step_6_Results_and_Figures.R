@@ -66,12 +66,18 @@ Great_Lakes_watershed <-
                                  "GL_Watershed_shapefile")
 
 ######## Table 2 ##############################################################
+# Code for generating model-estimated mean concentrations and pairwise 
+# contrasts
 Table_2_me <- emmeans(full_PFOS_gam, 
            specs = pairwise ~ Revised_Tissue,
            type = "response",tran = "log10",adjust="tukey")
 Table_2_me
 
+# Code for calculating the relative distributions (%) of each PFAS across
+# four different tissue groups (Eggs, Blood, Liver, and Combined Tissue and
+# Blood [i.e., all levels of the variable Revised_Tissue except Eggs])
 
+# Create the matrix that will be filled with the calculated percentage values
 Table_2_percent <- matrix(nrow = 4, ncol = 6,
                   dimnames = list(
                     c("Eggs","Blood","Liver","Combined Tissue and Blood"),
@@ -79,24 +85,35 @@ Table_2_percent <- matrix(nrow = 4, ncol = 6,
                      "PFDoA (C12)","PFTrDA (C13)")
                     ))
 
-##### Table 2a
+# for loop to make calculations for each of the six models in the model_list 
+# variable
 for(i in 1:length(model_list)){
+  # Generate output from emmeans
   tissue_estimates <- emmeans(model_list[[i]],
                               specs = ~ Revised_Tissue,
                               type='response',tran = "log10") |>
     as_tibble()
+  
+  # Calculate percentages and store them in a new column labeled as t_abundance
   tissue_estimates <- tissue_estimates %>% select(Revised_Tissue,response) %>% 
     mutate(t_abundance = 100*round(response/sum(response),digits=5))
   
+  # Fill in the correct column of the matrix with the calculated percentages
   Table_2_percent[1:3,i] <- tissue_estimates$t_abundance[6:4]
   Table_2_percent[4,i] <- sum(tissue_estimates$t_abundance[1:5])
 }
 
+# Convert to tibble format
 Table_2_percent <- as_tibble(Table_2_percent)
+
+# Label rows with the correct tissue type and create a new column called group
+# that can be used by the function gt() to label our final table
 Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
 Table_2_percent$group <- "Percent Composition"
 
-Table_2_final<-gt(rbind(Table_2_emmeans,Table_2_contrasts,Table_2_percent),
+# Produce the finalized section of Table 2 using the function gt() and save
+# this output as a .rtf file with the function gtsave()
+Table_2_final<-gt(Table_2_percent,
    rowname_col = "rowname",
    groupname_col = "group",
    row_group_as_column = F) |> 
