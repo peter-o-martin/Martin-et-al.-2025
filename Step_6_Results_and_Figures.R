@@ -29,6 +29,8 @@ library(ggspatial)
 library(RColorBrewer)
 library(ggpattern)
 library(patchwork)
+library(scales)
+library(ggpmisc)
 
 ## Functions
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
@@ -64,6 +66,7 @@ Great_Lakes_region <- ne_states(country=c("canada","united states of america"),
 Great_Lakes_watershed <-
   read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
                                  "GL_Watershed_shapefile")
+
 
 ######## Table 2 ##############################################################
 # Code for generating model-estimated mean concentrations and pairwise 
@@ -222,12 +225,15 @@ Figure_1 <- ggplot() +
   theme(
     axis.title.x = element_text(size=14, face="bold", colour = "black"),    
     axis.title.y = element_text(size=14, face="bold", colour = "black"),
-    legend.title = element_text(size=14, face="bold", colour = "black")
+    legend.title = element_text(size=14, face="bold", colour = "black"),
+    legend.text = element_text(size=12, colour = "black"),
+    legend.position = c(.93,.888)
   )
 
 Figure_1
-ggsave("Figures/Figure_1.png", plot = Figure_1, width = 15, height = 10, 
-       units = "in", dpi = 300)
+ggsave("Tables and Figures/Figure_1.png", plot = Figure_1, 
+       width = 13, height = 9, units = "in",
+      dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure 2 #############################################################
 Sampling_Years<-sort(unique(PFOS$Sampling.Year))
@@ -248,7 +254,7 @@ LE_spline <- as.data.frame(spline(PFOS_LE_SY_means$Sampling.Year,
 
 
 LO_PFOS<-subset(PFOS,Waterbody=="Lake Ontario")
-LO_Sampling_Years<-subset(Sampling_Years,Sampling_Years>=min(LO_PFOS$Sampling.Year))
+LO_Sampling_Years<-subset(Sampling_Years,Sampling_Years>=1990)
 PFOS_LO_SY_means <- emmeans(full_PFOS_gam,
                             specs = ~ Sampling.Year,
                             type='response',
@@ -315,10 +321,10 @@ Figure_2 <- ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
                   y = (PFOS)),
               width = .2,
               alpha = .2,color="black") +
-  theme_bw(base_size = 14) +
+  theme_classic(base_size = 14) +
   ylab("PFOS concentration (ng/g w.w.)") +
   xlab("Sampling Year (1979-2021)") +
-  coord_cartesian(ylim = c(0,300)) +
+  coord_cartesian(ylim = c(0,310)) +
   geom_line(data = LM_spline, aes(x = x, y = y),color="#91BFDB",linewidth=1) +
   geom_line(data = LH_spline, aes(x = x, y = y),color="#FEE090",linewidth=1) +
   geom_line(data = LS_spline, aes(x = x, y = y),color="#4575B4",linewidth=1) +
@@ -334,11 +340,14 @@ Figure_2 <- ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
   theme(
     axis.title.x = element_text(size=14, face="bold", colour = "black"),    
     axis.title.y = element_text(size=14, face="bold", colour = "black"),
-    legend.title = element_text(size=14, face="bold", colour = "black")
+    legend.title = element_text(size=14, face="bold", colour = "black"),
+    legend.text = element_text(size=12, colour = "black"),
+    legend.position = c(.13,.8)
     )
 
 Figure_2
-ggsave("Figures/Figure_2.png", plot = Figure_2, width = 13, height = 8, 
+ggsave("Tables and Figures/Figure_2.png", plot = Figure_2, 
+       width = 13, height = 8, 
        units = "in", dpi = 300)
 
 # sms<-smooths(full_PFOS_gam)
@@ -466,27 +475,29 @@ PFAS_WB_means$contaminant <- factor(PFAS_WB_means$contaminant,
 #   )
 
 levels(PFAS_WB_means$Waterbody)
-levels(PFAS_WB_means$Waterbody) <- c("Superior", "Michigan","Huron","Erie",
-                                     "Ontario")
 
 Figure_3 <- 
-  ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
+  ggplot(PFAS_WB_means, aes(y = Waterbody, 
                             x = response)) +
     geom_col(aes(fill = contaminant)) +
     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
                                  "#FEE090","#FC8D59",
                                  "#D73027")) +
-    theme_bw(base_size = 14) +
+    theme_classic(base_size = 14) +
     ylab(NULL) +
     xlab("Concentration (ng/g w.w.)") +
-    geom_label(aes(x = sum,y = factor(Waterbody, level = WB_level_order),
+    geom_label(aes(x = sum,y = Waterbody,
                    label = paste0(round(sum,2)," ng/g w.w."),
                    group = factor(contaminant)),
                hjust = -0.25,fontface='bold',size=4) +
     coord_cartesian(xlim = c(0,225)) +
     guides(fill = guide_legend(title = "PFAS Compound")) +
     theme(legend.title=element_text(size=14,face = "bold"),
-          axis.title.x = element_text(size=14, face="bold", colour = "black"))
+          axis.title.x = element_text(size=14, face="bold", colour = "black"),
+          axis.text.y = element_text(size=12, colour = "black"),
+          legend.text = element_text(size=12, colour = "black"),
+          legend.position = c(.87,.3),
+    )
 
 # Figure_3 <-
 #   ggplot(PFAS_WB_means, aes(y = Waterbody, 
@@ -513,7 +524,7 @@ Figure_3 <-
 
 
 Figure_3
-ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 15, 
+ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 13, 
        height = 7,  units = "in", dpi = 300)
 
 # -----------------------------------------------------------------------------
@@ -525,30 +536,152 @@ PFOS_TL_means <-
         type='response',tran = "log10") |>
   as_tibble()
 
+PFOS_TL_means$Trophic_Level<-factor(PFOS_TL_means$Trophic_Level,levels = c("Primary Producer","Primary Consumer","Secondary Consumer","Piscivorous/Insectivorous Bird","Tertiary Consumer","Quaternary Consumer","Apex Predator"))
+
 Figure_4 <- 
   ggplot(PFOS_TL_means, aes(x = Trophic_Level,y=response))+
   geom_jitter(data = PFOS,
               aes(x = Trophic_Level,
                   y = PFOS),
               width = .2,
-              alpha = .2)+
-  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL,color="red"),
-                  alpha=1,show.legend = FALSE)+
+              alpha = .2,
+              size = 2)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),color="red",
+                  alpha=1,show.legend = FALSE,
+                  size = 0.8)+
   theme_classic(base_size = 14)+
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
-                     limits = c(0.0005,48000)) +
-  annotate(geom = "table",
-           x=0,
-           y=0.0005,
-           label = list(PFOS_TL_means[,c(1:2,5:6)])) +
-  scale_x_discrete(labels= c("PP","PC","SC","TC","QC","PIB","AP")) +
+                     limits = c(0.0005,5000)) +
+  scale_x_discrete(labels= c("PP","PC","SC","PIB","TC","QC","AP")) +
   ylab("PFOS concentration (ng/g w.w.)") +
-  xlab("")
+  xlab("") +
+  theme(axis.title.y = element_text(size=14, face="bold", colour = "black")
+  )
 
 Figure_4
 ggsave("Tables and Figures/Figure_4.png", plot = Figure_4, 
-       width = 10, height = 8, 
+       width = 10, height = 7, 
+       units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S3 #############################################################
+for (i in 1:nrow(final_imputed_data)){
+  if(final_imputed_data$Class[i]=="Bivalvia"
+     || final_imputed_data$Class[i]=="Annelida"
+     || final_imputed_data$Class[i]=="Amphipoda"
+     || final_imputed_data$Class[i]=="Gastropoda"
+     || final_imputed_data$Class[i]=="Shrimp, water fleas, and allies"
+     || final_imputed_data$Class[i]=="Astacoidea"
+     || final_imputed_data$Class[i]=="Zooplankton"
+     || final_imputed_data$Class[i]=="Insecta"){
+    final_imputed_data$Class[i]<-"Invertebrates"
+  }
+}
+
+waterbody_class_sampling_df <- final_imputed_data %>% 
+  group_by(Sampling.Year,Class,Waterbody) %>% 
+  summarise(sample_count = sum(n_samples))
+
+Class_order<-c("Algae","Plantae (Magnoliopsida)","Invertebrates","Amphibia",
+               "Pisces","Reptilia","Mammalia","Aves")
+
+## Sample Count
+Figure_S3<-
+  ggplot(waterbody_class_sampling_df)+ 
+  geom_bar(aes(x = Sampling.Year, y = sample_count, 
+               fill = factor(Class,
+                             levels = Class_order)), 
+           stat = "identity") +
+  scale_fill_brewer(palette = "RdBu") +
+  geom_bar(aes(x = Sampling.Year, y = sample_count),
+           colour = "black", linewidth = 0.3,
+           stat = "summary", fun = sum,fill="transparent") +
+  ylab("Sample Count") +
+  xlab("Sampling Year (1979-2021)") +
+  guides(fill= guide_legend(title = "Taxonomic Class")) +
+  theme_bw(base_size = 14) +
+  theme(legend.position = c(0.85, 0.25),
+        panel.grid.major = element_blank(),  # Remove major gridlines
+        panel.grid.minor = element_blank(),   # Remove minor gridlines
+        legend.title=element_text(size=14,face = "bold"),
+        axis.title.x = element_text(size=14, face="bold", colour = "black"),
+        axis.title.y = element_text(size=14, face="bold", colour = "black"),
+        legend.text = element_text(size=12, colour = "black"),
+  ) +
+  facet_wrap(~factor(Waterbody,levels = WB_level_order))
+
+Figure_S3
+ggsave("Tables and Figures/Figure_S3.png", plot = Figure_S3, 
+       width = 10, height = 7, 
+       units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S4 ############################################################
+waterbody_sampling_df <- final_imputed_data %>% group_by(Sampling.Year,
+                                                         Trophic_Level,
+                                                         Waterbody) %>% 
+  summarise(sample_count = sum(n_samples))
+
+Trophic_Level_order<-c("Primary Producer","Primary Consumer",
+                       "Secondary Consumer","Tertiary Consumer",
+                       "Quaternary Consumer","Piscivorous/Insectivorous Bird",
+                       "Apex Predator")
+WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
+                  "Lake Erie","Lake Ontario")
+## Sample Count
+Figure_S4<-
+  ggplot(waterbody_sampling_df)+ 
+  geom_bar(aes(x = Sampling.Year, y = sample_count, 
+               fill = factor(Trophic_Level,
+                             levels = Trophic_Level_order)), 
+           stat = "identity") +
+  scale_fill_brewer(palette = "RdBu") +
+  geom_bar(aes(x = Sampling.Year, y = sample_count),
+           colour = "black", linewidth = 0.3,
+           stat = "summary", fun = sum,fill="transparent") +
+  ylab("Sample Count") +
+  xlab("Sampling Year (1979-2021)") +
+  guides(fill= guide_legend(title = "Trophic Level")) +
+  theme_bw(base_size = 14) +
+  theme(legend.position = c(0.85, 0.25),
+        panel.grid.major = element_blank(),  # Remove major gridlines
+        panel.grid.minor = element_blank(),   # Remove minor gridlines
+        legend.title=element_text(size=14,face = "bold"),
+        axis.title.x = element_text(size=14, face="bold", colour = "black"),
+        axis.title.y = element_text(size=14, face="bold", colour = "black"),
+        legend.text = element_text(size=12, colour = "black"),
+        ) +
+  facet_wrap(~factor(Waterbody,levels = WB_level_order))
+
+Figure_S4
+ggsave("Tables and Figures/Figure_S4.png", plot = Figure_S4, 
+       width = 10, height = 7, 
+       units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S5 ############################################################
+Figure_S5 <-
+ggplot(PFOS_WB_means, aes(x = factor(Waterbody, level = WB_level_order), 
+                          y=response))+
+  geom_jitter(data = PFOS,
+              aes(x = factor(Waterbody, level = WB_level_order),
+                  y = PFOS),
+              width = .2,
+              alpha = .2,
+              size = 2)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),color="red",
+                  alpha=1,show.legend = FALSE,
+                  size = 0.8)+
+  theme_classic(base_size = 14)+
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.0005,5000)) +
+  ylab("PFOS concentration (ng/g w.w.)") +
+  xlab("") +
+  theme(axis.title.y = element_text(size=14, face="bold", colour = "black")
+  )
+
+Figure_S5
+ggsave("Tables and Figures/Figure_S5.png", plot = Figure_S5, 
+       width = 10, height = 7, 
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S9 ############################################################
