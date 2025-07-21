@@ -81,9 +81,10 @@ Table_2_me
 # Blood [i.e., all levels of the variable Revised_Tissue except Eggs])
 
 # Create the matrix that will be filled with the calculated percentage values
-Table_2_percent <- matrix(nrow = 4, ncol = 6,
+Table_2_percent <- matrix(nrow = 6, ncol = 6,
                   dimnames = list(
-                    c("Eggs","Blood","Liver","Combined Tissue and Blood"),
+                    c("Eggs","Blood","Liver","Combined Tissue and Blood
+                      ","Muscle","Whole Organism Homogenate"),
                     c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
                      "PFDoA (C12)","PFTrDA (C13)")
                     ))
@@ -104,6 +105,8 @@ for(i in 1:length(model_list)){
   # Fill in the correct column of the matrix with the calculated percentages
   Table_2_percent[1:3,i] <- tissue_estimates$t_abundance[6:4]
   Table_2_percent[4,i] <- sum(tissue_estimates$t_abundance[1:5])
+  Table_2_percent[5,i] <- tissue_estimates$t_abundance[1]
+  Table_2_percent[6,i] <- tissue_estimates$t_abundance[2]
 }
 
 # Convert to tibble format
@@ -111,7 +114,7 @@ Table_2_percent <- as_tibble(Table_2_percent)
 
 # Label rows with the correct tissue type and create a new column called group
 # that can be used by the function gt() to label our final table
-Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood")
+Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood","Muscle","Whole Organism Homogenate")
 Table_2_percent$group <- "Percent Composition"
 
 # Produce the finalized section of Table 2 using the function gt() and save
