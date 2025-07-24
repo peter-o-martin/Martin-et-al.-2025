@@ -67,14 +67,24 @@ Great_Lakes_watershed <-
   read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
                                  "GL_Watershed_shapefile")
 
+######## Tables ###############################################################
+######## Table 1 ##############################################################
+# Code to generate the estimated marginal means and pairwise contrasts reported
+# in Table 1, where full_PFOS_gam, full_PFNA_gam, full_PFDA_gam, full_PFUnA_gam,
+# full_PFDoA_gam, and full_PFTrDA_gam are plugged into the emmeans() function
+emmeans(full_PFOS_gam, 
+        specs = pairwise ~ Waterbody,
+        type = "response",tran = "log10",adjust="tukey")
 
+# -----------------------------------------------------------------------------
 ######## Table 2 ##############################################################
 # Code for generating model-estimated mean concentrations and pairwise 
-# contrasts
-Table_2_me <- emmeans(full_PFOS_gam, 
-           specs = pairwise ~ Revised_Tissue,
-           type = "response",tran = "log10",adjust="tukey")
-Table_2_me
+# contrasts reported in Table 2, where full_PFOS_gam, full_PFNA_gam, 
+# full_PFDA_gam, full_PFUnA_gam, full_PFDoA_gam, and full_PFTrDA_gam are plugged
+# into the emmeans() function
+emmeans(full_PFOS_gam, 
+        specs = pairwise ~ Revised_Tissue,
+        type = "response",tran = "log10",adjust="tukey")
 
 # Code for calculating the relative distributions (%) of each PFAS across
 # four different tissue groups (Eggs, Blood, Liver, and Combined Tissue and
@@ -83,8 +93,8 @@ Table_2_me
 # Create the matrix that will be filled with the calculated percentage values
 Table_2_percent <- matrix(nrow = 6, ncol = 6,
                   dimnames = list(
-                    c("Eggs","Blood","Liver","Combined Tissue and Blood
-                      ","Muscle","Whole Organism Homogenate"),
+                    c("Eggs","Blood","Liver","Combined Tissue and Blood",
+                      "Muscle","Whole Organism Homogenate"),
                     c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
                      "PFDoA (C12)","PFTrDA (C13)")
                     ))
@@ -114,7 +124,8 @@ Table_2_percent <- as_tibble(Table_2_percent)
 
 # Label rows with the correct tissue type and create a new column called group
 # that can be used by the function gt() to label our final table
-Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood","Muscle","Whole Organism Homogenate")
+Table_2_percent$rowname <- c("Eggs","Blood","Liver","Combined Tissue and Blood",
+                             "Muscle","Whole Organism Homogenate")
 Table_2_percent$group <- "Percent Composition"
 
 # Produce the finalized section of Table 2 using the function gt() and save
@@ -144,6 +155,172 @@ Table_2_final<-gt(Table_2_percent,
 
 Table_2_final
 gtsave(Table_2_final,"Tables and Figures/Table_2.rtf")
+
+# -----------------------------------------------------------------------------
+######## Table S4 #############################################################
+# Code to generate the model summary statistics and Wald test of significance
+# reported in Table S4, where full_PFOS_gam, full_PFNA_gam, full_PFDA_gam,
+# full_PFUnA_gam, full_PFDoA_gam, and full_PFTrDA_gam are plugged into the 
+# summary() and anova() functions
+summary(full_PFOS_gam)
+anova(full_PFOS_gam)
+
+# -----------------------------------------------------------------------------
+######## Table S5 #############################################################
+# Code for generating model-estimated mean concentrations and pairwise 
+# contrasts reported in Table S5, where full_PFOS_gam, full_PFNA_gam, 
+# full_PFDA_gam, full_PFUnA_gam, full_PFDoA_gam, and full_PFTrDA_gam are plugged
+# into the emmeans() function
+emmeans(full_PFOS_gam, 
+        specs = pairwise ~ Waterbody_Type,
+        type = "response",tran = "log10",adjust="tukey")
+
+# Code for calculating the relative distributions (%) of each PFAS across
+# three different waterbody type groups (Inland waters, Lake, and Connecting 
+# channel)
+
+# Create the matrix that will be filled with the calculated percentage values
+Table_S5_percent <- matrix(nrow = 3, ncol = 6,
+                          dimnames = list(
+                            c("Inland waters","Lake","Connecting channel"),
+                            c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
+                              "PFDoA (C12)","PFTrDA (C13)")
+                          ))
+
+# for loop to make calculations for each of the six models in the model_list 
+# variable
+for(i in 1:length(model_list)){
+  # Generate output from emmeans
+  wt_estimates <- emmeans(model_list[[i]],
+                          specs = ~ Waterbody_Type,
+                          type='response',tran = "log10") |>
+    as_tibble()
+  
+  # Calculate percentages and store them in a new column labeled as wt_abundance
+  wt_estimates <- wt_estimates %>% select(Waterbody_Type,response) %>% 
+    mutate(wt_abundance = 100*round(response/sum(response),digits=5))
+  
+  # Fill in the correct column of the matrix with the calculated percentages
+  Table_S5_percent[1:3,i] <- wt_estimates$wt_abundance[c(1,3,2)]
+}
+
+# Convert to tibble format
+Table_S5_percent <- as_tibble(Table_S5_percent)
+
+# Label rows with the correct tissue type and create a new column called group
+# that can be used by the function gt() to label our final table
+Table_S5_percent$rowname <- c("Inland waters","Lake","Connecting channel")
+Table_S5_percent$group <- "Percent Composition"
+
+# Produce the finalized section of Table 2 using the function gt() and save
+# this output as a .rtf file with the function gtsave()
+Table_S5_final<-gt(Table_S5_percent,
+                  rowname_col = "rowname",
+                  groupname_col = "group",
+                  row_group_as_column = F) |> 
+  tab_stubhead(label = "Waterbody Type") |>
+  cols_align(
+    align = "center",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) |>
+  opt_table_font(
+    font = "Arial",
+    weight = 350,
+    size = 13) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+  ) %>%
+  fmt_markdown(columns = everything())
+
+Table_S5_final
+gtsave(Table_S5_final,"Tables and Figures/Table_S5.rtf")
+
+# -----------------------------------------------------------------------------
+######## Table S6 #############################################################
+# Code to generate the estimated marginal means and pairwise contrasts reported
+# in Table S6, where full_PFOS_gam, full_PFNA_gam, full_PFDA_gam, full_PFUnA_gam,
+# full_PFDoA_gam, and full_PFTrDA_gam are plugged into the emmeans() function
+emmeans(full_PFOS_gam, 
+        specs = pairwise ~ Trophic_Level,
+        type = "response",tran = "log10",adjust="tukey")
+
+# Code for calculating the relative distributions (%) of each PFAS across
+# three different waterbody type groups (Inland waters, Lake, and Connecting 
+# channel)
+
+# Create the matrix that will be filled with the calculated percentage values
+Table_S6_percent <- matrix(nrow = 7, ncol = 6,
+                           dimnames = list(
+                             c("Primary Producer","Primary Consumer",
+                               "Secondary Consumer",
+                               "Tertiary Consumer","Quaternary Consumer",
+                               "Piscivorous/Insectivorous Bird",
+                               "Apex Predator"),
+                             c("PFOS (C8)","PFNA (C9)","PFDA (C10)","PFUnA (C11)",
+                               "PFDoA (C12)","PFTrDA (C13)")
+                           ))
+
+# for loop to make calculations for each of the six models in the model_list 
+# variable
+for(i in 1:length(model_list)){
+  # Generate output from emmeans
+  tl_estimates <- emmeans(model_list[[i]],
+                          specs = ~ Trophic_Level,
+                          type='response',tran = "log10") |>
+    as_tibble()
+  
+  # Calculate percentages and store them in a new column labeled as wt_abundance
+  tl_estimates <- tl_estimates %>% select(Trophic_Level,response) %>% 
+    mutate(tl_abundance = 100*round(response/sum(response),digits=5))
+  
+  # Fill in the correct column of the matrix with the calculated percentages
+  Table_S6_percent[1:7,i] <- tl_estimates$tl_abundance[1:7]
+}
+
+# Convert to tibble format
+Table_S6_percent <- as_tibble(Table_S6_percent)
+
+# Label rows with the correct tissue type and create a new column called group
+# that can be used by the function gt() to label our final table
+Table_S6_percent$rowname <- c("Primary Producer","Primary Consumer",
+                              "Secondary Consumer",
+                              "Tertiary Consumer","Quaternary Consumer",
+                              "Piscivorous/Insectivorous Bird",
+                              "Apex Predator")
+Table_S6_percent$group <- "Percent Composition"
+
+# Produce the finalized section of Table 2 using the function gt() and save
+# this output as a .rtf file with the function gtsave()
+Table_S6_final<-gt(Table_S6_percent,
+                   rowname_col = "rowname",
+                   groupname_col = "group",
+                   row_group_as_column = F) |> 
+  tab_stubhead(label = "Trophic Level") |>
+  cols_align(
+    align = "center",
+    columns = everything()
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) |>
+  opt_table_font(
+    font = "Arial",
+    weight = 350,
+    size = 13) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+  ) %>%
+  fmt_markdown(columns = everything())
+
+Table_S6_final
+gtsave(Table_S6_final,"Tables and Figures/Table_S6.rtf")
 
 # -----------------------------------------------------------------------------
 
