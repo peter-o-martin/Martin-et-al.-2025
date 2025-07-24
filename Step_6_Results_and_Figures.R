@@ -326,6 +326,7 @@ gtsave(Table_S6_final,"Tables and Figures/Table_S6.rtf")
 
 ######## Figures ##############################################################
 ######## Conceptual Figure ####################################################
+# Generate spatial boundaries of figure
 max_lat <- max(final_imputed_data$Latitude)
 min_lat <- min(final_imputed_data$Latitude)
 max_lon <- max(final_imputed_data$Longitude)-5
@@ -333,24 +334,18 @@ min_lon <- min(final_imputed_data$Longitude)
 # Store boundaries in a single extent object
 geographic_extent <- ext(x = c(min_lon, max_lon, min_lat, max_lat))
 
+# Crop the Great_Lakes_watershed object to this spatial extent
 cropped_Great_Lakes_watershed <- st_crop(
   st_union(Great_Lakes_watershed,by_feature=F),
   geographic_extent)
 
+# Remove internal borders from the sf object to create one seamless graph
 intersection_Great_Lakes_watershed <- st_union(st_crop(
   st_intersection(Great_Lakes_region, 
                   st_union(Great_Lakes_watershed,by_feature=F)),
   geographic_extent*2),by_feature=F)
 
-PFOS$Trophic_Level <- factor(PFOS$Trophic_Level,
-                             levels = c("Primary Producer","Primary Consumer",
-                                        "Secondary Consumer","Tertiary Consumer",
-                                        "Quaternary Consumer",
-                                        "Piscivorous/Insectivorous Bird",
-                                        "Apex Predator")) 
-levels(PFOS$Trophic_Level)
-levels(PFOS$Trophic_Level) <- 0:6
-
+# Plot results
 Conceptual_Figure <- ggplot() +
   geom_sf_pattern(data=cropped_Great_Lakes_watershed,
                   pattern='gradient',
@@ -385,7 +380,6 @@ ggsave("Tables and Figures/Conceptual_Figure.png", plot = Conceptual_Figure,
 
 # -----------------------------------------------------------------------------
 ######## Figure 1 #############################################################
-# https://bookdown.org/nicohahn/making_maps_with_r5/docs/ggplot2.html
 Figure_1 <- ggplot() +
   geom_sf(data=Great_Lakes_region) +
   geom_sf(data=Great_Lakes_watershed,fill="cadetblue1",alpha=0.4) +
@@ -411,7 +405,7 @@ Figure_1 <- ggplot() +
   )
 
 Figure_1
-ggsave("Tables and Figures/Figure_1.png", plot = Figure_1, 
+ggsave("Tables and Figures/Figure_1S.png", plot = Figure_1, 
        width = 13, height = 9, units = "in",
       dpi = 300)
 # -----------------------------------------------------------------------------
