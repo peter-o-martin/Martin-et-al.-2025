@@ -408,6 +408,7 @@ Figure_1
 ggsave("Tables and Figures/Figure_1S.png", plot = Figure_1, 
        width = 13, height = 9, units = "in",
       dpi = 300)
+
 # -----------------------------------------------------------------------------
 ######## Figure 2 #############################################################
 # Create a vector of all years with data in the PFOS data frame over the entire
@@ -549,104 +550,68 @@ ggsave("Tables and Figures/Figure_2.png", plot = Figure_2,
 
 # -----------------------------------------------------------------------------
 ######## Figure 3 #############################################################
-# Loading emmeans for Watershed differences #
-# PFOS concentrations in different Waterbodies
+# Code calculating estimated marginal means in each Great Lakes watershed for 
+# each of the six PFAS included in this meta-analysis. We 1) use the emmeans()
+# function to obtain model-estimated concentrations, converting the output to a
+# tibble object, and 2) create a new column in the tibble that labels these
+# concentration estimates with the given contaminant
+## PFOS
 PFOS_WB_means <- emmeans(full_PFOS_gam,
                          specs = ~ Waterbody,
                          type='response',tran = "log10")  |>
   as_tibble()
 PFOS_WB_means$contaminant<-"PFOS"
-# PFNA concentrations in different Waterbodies
+
+## PFNA
 PFNA_WB_means <- emmeans(full_PFNA_gam,
                          specs = ~ Waterbody,
                          type='response',tran = "log10")  |>
   as_tibble()
 PFNA_WB_means$contaminant<-"PFNA"
-# PFDA concentrations in different Waterbodies
+
+## PFDA
 PFDA_WB_means <- emmeans(full_PFDA_gam,
                          specs = ~ Waterbody,
                          type='response',tran = "log10")  |>
   as_tibble()
 PFDA_WB_means$contaminant<-"PFDA"
-# PFUnA concentrations in different Waterbodies
+
+## PFUnA
 PFUnA_WB_means <- emmeans(full_PFUnA_gam,
                           specs = ~ Waterbody,
                           type='response',tran = "log10")  |>
   as_tibble()
 PFUnA_WB_means$contaminant<-"PFUnA"
-# PFDoA concentrations in different Waterbodies
+
+## PFDoA
 PFDoA_WB_means <- emmeans(full_PFDoA_gam,
                           specs = ~ Waterbody,
                           type='response',tran = "log10")  |>
   as_tibble()
 PFDoA_WB_means$contaminant<-"PFDoA"
-# PFTrDA concentrations in different Waterbodies
+
+## PFTrDA
 PFTrDA_WB_means <- emmeans(full_PFTrDA_gam,
                            specs = ~ Waterbody,
                            type='response',tran = "log10")  |>
   as_tibble()
 PFTrDA_WB_means$contaminant<-"PFTrDA"
 
-
+# Bind concentration estimates from each model into one object, and calculate
+# the concentration sum of all six PFAS for each watershed
 PFAS_WB_means<-rbind(PFOS_WB_means,PFNA_WB_means,PFDA_WB_means,PFUnA_WB_means,
                      PFDoA_WB_means,PFTrDA_WB_means)
 PFAS_WB_means$sum<-ave(PFAS_WB_means$response, PFAS_WB_means$Waterbody, FUN=sum)
 
-PFAS_WB_means$percent<-(PFAS_WB_means$response/PFAS_WB_means$sum)
-
-PFOS_WB_means <- PFOS_WB_means %>%
-  arrange(factor(Waterbody, levels = rev(WB_level_order)))
+# Order the levels of the Waterbody and Contaminant ID variables in this unified
+# tibble
 PFAS_WB_means <- PFAS_WB_means %>%
   arrange(factor(Waterbody, levels = rev(WB_level_order)))
 PFAS_WB_means$contaminant <- factor(PFAS_WB_means$contaminant, 
                                     levels=c('PFOS', 'PFNA', 'PFDA', 
                                              'PFUnA','PFDoA','PFTrDA'))
 
-# Figure_3 <- ggarrange(
-#   ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
-#                                     x = response)) +
-#     geom_col(aes(fill = contaminant)) +
-#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
-#                                  "#FEE090","#FC8D59",
-#                                  "#D73027")) +
-#     theme_bw(base_size = 14) +
-#     ylab(NULL) +
-#     xlab("Concentration (ng/g w.w.)") +
-#     geom_label(aes(x = sum,y = factor(Waterbody, level = WB_level_order),
-#                    label = paste0(round(sum,2)," ng/g w.w."),
-#                    group = factor(contaminant)),
-#                hjust = -0.25,fontface='bold',size=4) +
-#     coord_cartesian(xlim = c(0,225)) +
-#     guides(fill = guide_legend(title = "PFAS Compound")) +
-#     theme(legend.title=element_text(size=14,face = "bold"),
-#           axis.title.x = element_text(size=14, face="bold", colour = "black")),
-#   
-#   ggplot(PFAS_WB_means, aes(y = factor(Waterbody, level = WB_level_order), 
-#                             x = percent*100, fill = contaminant)) +
-#     geom_col() +
-#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
-#                                  "#FEE090","#FC8D59",
-#                                  "#D73027")) +
-#     geom_label_repel(aes(label=paste0(sprintf("%1.1f", percent*100),"%")),
-#                      position=position_stack(vjust=0.5),
-#                      force=0.01,force_pull = 190,
-#                      max.overlaps = 8,direction = "both",show.legend = FALSE,
-#                      fontface='bold',size=4) +
-#     ylab(NULL) +
-#     xlab("Contaminant Composition (%)") +
-#     theme_bw(base_size = 14) +
-#     guides(fill = guide_legend(title = "PFAS Compound")) +
-#     theme(legend.title=element_text(size=14,face = "bold"),
-#           axis.title.x = element_text(size=14, face="bold", colour = "black")),
-#   
-#   ncol = 1,
-#   nrow = 2,
-#   legend="right",
-#   common.legend = T
-#   )
-
-levels(PFAS_WB_means$Waterbody)
-
+# Plot results as a bar chart
 Figure_3 <- 
   ggplot(PFAS_WB_means, aes(y = Waterbody, 
                             x = response)) +
@@ -669,30 +634,6 @@ Figure_3 <-
           legend.text = element_text(size=12, colour = "black"),
           legend.position = c(.87,.3),
     )
-
-# Figure_3 <-
-#   ggplot(PFAS_WB_means, aes(y = Waterbody, 
-#                             x = response)) +
-#     geom_col(aes(fill = contaminant)) +
-#     scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8",
-#                                  "#FEE090","#FC8D59",
-#                                  "#D73027")) +
-#     theme_bw(base_size = 14) +
-#     ylab(NULL) +
-#     xlab("Concentration (ng/g w.w.)") +
-#     coord_cartesian(xlim = c(0,210)) +
-#     guides(fill = guide_legend(title = "PFAS Compound")) +
-#     theme(legend.title=element_text(size=14,face = "bold"),
-#           axis.title.x = element_text(size=14, face="bold", colour = "black")) +
-#   theme(legend.position = c(.95, .1),
-#         legend.justification = c("right", "bottom"),
-#         legend.box.just = "right",
-#         legend.margin = margin(6, 6, 6, 6)
-#           ) +
-#   theme(axis.text.x= element_text(size = 14),
-#         axis.text.y= element_text(size = 14),
-#         legend.text = element_text(size = 14))
-
 
 Figure_3
 ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 13, 
