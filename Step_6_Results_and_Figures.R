@@ -155,7 +155,6 @@ Table_2_final<-gt(Table_2_percent,
 
 Table_2_final
 gtsave(Table_2_final,"Tables and Figures/Table_2.rtf")
-
 # -----------------------------------------------------------------------------
 ######## Table S4 #############################################################
 # Code to generate the model summary statistics and Wald test of significance
@@ -239,7 +238,6 @@ Table_S5_final<-gt(Table_S5_percent,
 
 Table_S5_final
 gtsave(Table_S5_final,"Tables and Figures/Table_S5.rtf")
-
 # -----------------------------------------------------------------------------
 ######## Table S6 #############################################################
 # Code to generate the estimated marginal means and pairwise contrasts reported
@@ -321,7 +319,6 @@ Table_S6_final<-gt(Table_S6_percent,
 
 Table_S6_final
 gtsave(Table_S6_final,"Tables and Figures/Table_S6.rtf")
-
 # -----------------------------------------------------------------------------
 
 ######## Figures ##############################################################
@@ -408,7 +405,6 @@ Figure_1
 ggsave("Tables and Figures/Figure_1S.png", plot = Figure_1, 
        width = 13, height = 9, units = "in",
       dpi = 300)
-
 # -----------------------------------------------------------------------------
 ######## Figure 2 #############################################################
 # Create a vector of all years with data in the PFOS data frame over the entire
@@ -547,7 +543,6 @@ Figure_2
 ggsave("Tables and Figures/Figure_2.png", plot = Figure_2, 
        width = 13, height = 8, 
        units = "in", dpi = 300)
-
 # -----------------------------------------------------------------------------
 ######## Figure 3 #############################################################
 # Code calculating estimated marginal means in each Great Lakes watershed for 
@@ -632,24 +627,33 @@ Figure_3 <-
           axis.title.x = element_text(size=14, face="bold", colour = "black"),
           axis.text.y = element_text(size=12, colour = "black"),
           legend.text = element_text(size=12, colour = "black"),
-          legend.position = c(.87,.3),
-    )
+          legend.position = c(.87,.3))
 
 Figure_3
 ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 13, 
        height = 7,  units = "in", dpi = 300)
-
 # -----------------------------------------------------------------------------
 ######## Figure 4 #############################################################
-
+# Code calculating model-estimated concentrations of PFOS across the seven trophic
+# levels of the Great Lakes food web
 PFOS_TL_means <- 
   emmeans(full_PFOS_gam,
         specs = ~ Trophic_Level,
         type='response',tran = "log10") |>
   as_tibble()
 
-PFOS_TL_means$Trophic_Level<-factor(PFOS_TL_means$Trophic_Level,levels = c("Primary Producer","Primary Consumer","Secondary Consumer","Piscivorous/Insectivorous Bird","Tertiary Consumer","Quaternary Consumer","Apex Predator"))
+# Reorder the factor levels of the Trophic Level variable from the output of
+# the emmeans() function
+PFOS_TL_means$Trophic_Level<-factor(PFOS_TL_means$Trophic_Level,
+                                    levels = c("Primary Producer",
+                                               "Primary Consumer",
+                                               "Secondary Consumer",
+                                               "Piscivorous/Insectivorous Bird",
+                                               "Tertiary Consumer",
+                                               "Quaternary Consumer",
+                                               "Apex Predator"))
 
+# Plot results as a scatter plot with model estimates and 95% CI
 Figure_4 <- 
   ggplot(PFOS_TL_means, aes(x = Trophic_Level,y=response))+
   geom_jitter(data = PFOS,
