@@ -681,6 +681,10 @@ ggsave("Tables and Figures/Figure_4.png", plot = Figure_4,
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S3 #############################################################
+# Code to show sampling efforts for the various taxonomic "classes" through time
+# within the five watersheds of the Great Lakes
+# For simplicity, a number of taxonomic classes are merged into one group called
+# the "Invertebrates"
 for (i in 1:nrow(final_imputed_data)){
   if(final_imputed_data$Class[i]=="Bivalvia"
      || final_imputed_data$Class[i]=="Annelida"
@@ -694,14 +698,18 @@ for (i in 1:nrow(final_imputed_data)){
   }
 }
 
+# Create a new summary data frame with a variable called sample_count, that counts
+# the number of samples taken for each taxonomic class in each watershed for each
+# given year
 waterbody_class_sampling_df <- final_imputed_data %>% 
   group_by(Sampling.Year,Class,Waterbody) %>% 
   summarise(sample_count = sum(n_samples))
 
+# Define order of taxonomic classes
 Class_order<-c("Algae","Plantae (Magnoliopsida)","Invertebrates","Amphibia",
                "Pisces","Reptilia","Mammalia","Aves")
 
-## Sample Count
+# Plot results in column chart format
 Figure_S3<-
   ggplot(waterbody_class_sampling_df)+ 
   geom_bar(aes(x = Sampling.Year, y = sample_count, 
@@ -732,20 +740,24 @@ ggsave("Tables and Figures/Figure_S3.png", plot = Figure_S3,
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S4 ############################################################
-waterbody_sampling_df <- final_imputed_data %>% group_by(Sampling.Year,
-                                                         Trophic_Level,
-                                                         Waterbody) %>% 
+# Code to show sampling efforts for the various trophic levels through time
+# within the five watersheds of the Great Lakes
+# Create a new summary data frame with a variable called sample_count, that counts
+# the number of samples taken for each trophic level in each watershed for each
+# given year
+waterbody_tl_sampling_df <- final_imputed_data %>% 
+  group_by(Sampling.Year,Trophic_Level,Waterbody) %>% 
   summarise(sample_count = sum(n_samples))
 
+# Define order of trophic levels
 Trophic_Level_order<-c("Primary Producer","Primary Consumer",
                        "Secondary Consumer","Tertiary Consumer",
                        "Quaternary Consumer","Piscivorous/Insectivorous Bird",
                        "Apex Predator")
-WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
-                  "Lake Erie","Lake Ontario")
-## Sample Count
+
+# Plot results in column chart format
 Figure_S4<-
-  ggplot(waterbody_sampling_df)+ 
+  ggplot(waterbody_tl_sampling_df)+ 
   geom_bar(aes(x = Sampling.Year, y = sample_count, 
                fill = factor(Trophic_Level,
                              levels = Trophic_Level_order)), 
