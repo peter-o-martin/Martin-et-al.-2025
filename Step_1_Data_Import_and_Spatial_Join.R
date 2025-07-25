@@ -1,10 +1,6 @@
 # Step_1_Data_Import_and_Spatial_Join.R
 # Contains all data importing, spatial joining, and formatting code for the full data frame
 
-# Written by Peter Martin
-# Created November 26, 2024
-# Finalized December 13, 2024
-
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
@@ -23,93 +19,139 @@ library(mapview)
 library(leafsync)
 library(ggplot2)
 library(rnaturalearth)
+library(ggspatial)
 
 ## Functions
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 
 ###### Loading in the data frames #############################################
-# Compile all .csv files into one data frame
+# Compile all .csv files (i.e., all raw data files) into one data frame: the output,
+# original_data, contains 3,418 data points collected across 53 studies
+# and surveys a total of 79 PFAS
 # List of file names used in concatenation
 filenames <- list.files(path="~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets", pattern="*csv") 
 
-original_data<-collect.frames(file_names = filenames,path = "~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets/") # Compiles all data
+# Compile all data using the custom function from PFAS_Review_supportingFunctions.R
+original_data<-collect.frames(file_names = filenames,path = "~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets/")
 
 original_data<-subset(original_data,!is.na(Latitude)) # Removes any NA rows
 
 ###### Spatial Join ###########################################################
-# Perform a spatial join, using a custom shapefile of the entirety of the Great Lakes watersheds to make "Waterbody" designations for each point in the data frame
+# Perform a spatial join, using a custom shapefile of the five Great Lakes
+# watersheds, to assign "Waterbody" designations to each point in the data frame
 Great_Lakes_watershed <- st_read(
   "~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes/GL_Watershed_shapefile.shp")
 
+# Checking that the sf object was read in correctly
 st_geometry_type(Great_Lakes_watershed)
 st_is_valid(Great_Lakes_watershed)
 
-CRS<-st_crs(Great_Lakes_watershed) # Save the coordinate reference system (CRS) from the shapefile so that the data frame can inherit the same CRS
+# Save the coordinate reference system (CRS) from the shapefile so that the data
+# frame can inherit the same CRS
+CRS<-st_crs(Great_Lakes_watershed)
 
-# Convert data frame to a sf object (using CRS inherited from the Great_Lakes_watershed shapefile)
-waterbody_data <- st_as_sf(original_data, coords=c("Longitude","Latitude"), crs=CRS, remove=FALSE)
-setdiff(waterbody_data$Longitude,original_data$Longitude) # Check that exact coordinate values were not lost in converting the original data frame to a sf object
+# Convert the compiled raw data frame to a sf object (using the CRS inherited 
+# from the Great_Lakes_watershed shapefile)
+waterbody_data <- st_as_sf(original_data, coords=c("Longitude","Latitude"), 
+                           crs=CRS, remove=FALSE)
+# Check that the lat/long coordinate values were not lost in converting the raw
+# data frame to a sf object
+setdiff(waterbody_data$Longitude,original_data$Longitude)
 
 ###### Full Data Frame Visualization ##########################################
-# Create background for the visualization of the watershed boundaries and where data points fall within/outside these boundaries
+# Load in background layer of North American states and provinces
 North_America <- ne_states(country=c("canada","united states of america"),
                              returnclass = "sf")
+
+# Visualize the watershed boundaries of the Great Lakes and where raw data points
+# fall within/outside these boundaries (saved in the Tables and Figures folder
+# as Step_1_Visual.png)
+Step_1_Visual <-
 ggplot() +
   geom_sf(data = North_America) +
-  geom_sf(data = Great_Lakes_watershed, aes(fill=factor(merge,levels = c("Lake Superior","Lake Michigan","Lake Huron","Lake Erie","Lake Ontario")))) +
-  geom_sf(data = waterbody_data) +
+  geom_sf(data = Great_Lakes_watershed, 
+          aes(fill=factor(merge,levels = c("Lake Superior","Lake Michigan",
+                                           "Lake Huron","Lake Erie",
+                                           "Lake Ontario")),alpha=0.5)) +
+  geom_sf(data = waterbody_data,shape=21,size=1.5) +
+  annotation_north_arrow(location = "tl",which_north = "true", 
+                         pad_x = unit(0.2, "cm"), pad_y = unit(0.2, "cm"),
+                         style = north_arrow_nautical,width = unit(1.5, "cm"), 
+                         height = unit(1.5, "cm")) +
+  annotation_scale() +
   coord_sf(xlim = c(-96,-67),ylim = c(37,51)) +
+  xlab("Latitude") +
+  ylab("Longitude") +
   scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
                                "#D73027")) +
-  theme_classic() +
-  guides(fill = guide_legend(title = "Watershed"))
+  guides(fill = guide_legend(title = "Watershed"),
+         alpha = 'none') +
+  theme_classic(base_size = 14) +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    legend.title = element_text(size=14, face="bold", colour = "black"),
+    legend.text = element_text(size=12, colour = "black"),
+    legend.position = c(.9,.15)
+  )
+
+Step_1_Visual
+ggsave("Tables and Figures/Step_1_Visual.png", plot = Step_1_Visual, 
+       width = 13, height = 9, units = "in",
+       dpi = 300)
 
 ###### Spatial Join (continued ...) and Data Wrangling ########################
-sf_use_s2(TRUE) # Turns on the s2 package to construct spherical geometries from the polygons
+# Turn on the s2 package to construct spherical geometries from the polygons
+sf_use_s2(TRUE)
 
 # Perform the spatial join
 waterbody_data<-st_join(waterbody_data, left = T, Great_Lakes_watershed["merge"])
 
-# Remove duplicates generated by the spatial join procedure
+# Remove duplicate rows generated by the spatial join procedure
 waterbody_data<-subset(waterbody_data,duplicated(Sample.ID)==FALSE)
 length(unique(waterbody_data$Sample.ID))
 
-# Remove points that fell outside the shapefile (i.e., those points for which the value of the shapefile attribute merged with the point layer, "merge", is NA)
+# Remove points that fell outside the shapefile (i.e., those points for which 
+# the Waterbody designation produced from the spatial join, contained in the column 
+# "merge", is NA)
+# This important step leaves us with 2,489 samples collected across 50 studies
 waterbody_data<-subset(waterbody_data,is.na(merge)==FALSE)
 sum(is.na(waterbody_data$merge))
 
-
-labeled_data<-st_drop_geometry(waterbody_data) # Removes the sf designation (geometry) from the data frame
+# Remove the sf designation/geometry from the data frame
+labeled_data<-st_drop_geometry(waterbody_data)
 str(labeled_data)
-setdiff(labeled_data$Longitude,original_data$Longitude)
 
-labeled_data$Waterbody<-labeled_data$merge # Move values from spatial merge to the Waterbody column
+# Move final Waterbody designation from the "merge" column to the "Waterbody" column
+labeled_data$Waterbody<-labeled_data$merge
 
-
-# Checking that the functions performed correctly and that all labels 
-# were properly transferred over
+# Checking that the functions performed correctly and that all labels were properly
+# transferred over
 sum(original_data$Waterbody=="Lake Huron")
 sum(waterbody_data$merge== "Lake Huron")
 sum(labeled_data$Waterbody=="Lake Huron")
 
 
-# Relabel two rows in the data frame for clarity (with N, the number of samples, and n, the number of individual organisms, included in a concentration value)
+# Rename two columns in the data frame for clarity ("N", the number of experimental
+# units included in a concentration value, is now labeled as "n_samples", and "n",
+# the number of individual organisms, is now labeled as "n_indiv")
 colnames(labeled_data)[20:21]<-c("n_samples","n_indiv")
 rownames(labeled_data)<-NULL
 
-# Found an annoying "hyphen instead of a dash" negative sign problem in four of the samples, so this for loop just corrects that mistake
-# Rows 1142, 1143, 1144, and 1147
+# Found a "hyphen instead of a dash" negative sign problem in four of the samples,
+# so this for loop just corrects that mistake (Rows 1142, 1143, 1144, and 1147)
 for (j in 8:9){
   labeled_data[j]<-lapply(labeled_data[j], gsub, pattern = "–", 
                           replacement = "-")
 }
 labeled_data[,7:8]<-lapply(labeled_data[,7:8],as.numeric)
 
-
-labeled_data<-labeled_data[,1:(ncol(labeled_data)-1)] # Remove spatial join column from data frame
+# Remove spatial join column (i.e., the "merge" column) from data frame
+labeled_data<-labeled_data[,1:(ncol(labeled_data)-1)]
 str(labeled_data)
 
-# Visualize the final labeled data frame that is ready for imputation, using the functionality of the mapview and leafsync packages
+# Visualize the final labeled data frame that is ready for imputation, using the
+# functionality of the mapview and leafsync packages
 mapview(labeled_data, xcol = "Longitude", ycol = "Latitude", zcol = "Waterbody",
         crs = 4326, grid = FALSE)
 
@@ -118,5 +160,5 @@ mapview(labeled_data, xcol = "Longitude", ycol = "Latitude", zcol = "Waterbody",
 write.table(labeled_data,file = "Step_1_labeled_data.csv",sep = ",",row.names = FALSE)
 
 rm(CRS, Great_Lakes_watershed,North_America,original_data,waterbody_data,
-   filenames,j)
+   filenames,j,Step_1_Visual)
 
