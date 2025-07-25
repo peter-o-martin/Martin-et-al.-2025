@@ -407,6 +407,7 @@ ggsave("Tables and Figures/Figure_1S.png", plot = Figure_1,
       dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure 2 #############################################################
+# Code to generate a unified temporal trends plot
 # Create a vector of all years with data in the PFOS data frame over the entire
 # 42 year sampling period
 Sampling_Years<-sort(unique(PFOS$Sampling.Year))
@@ -786,69 +787,19 @@ ggsave("Tables and Figures/Figure_S4.png", plot = Figure_S4,
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S5 ############################################################
-Figure_S5 <-
-ggplot(PFOS_WB_means, aes(x = factor(Waterbody, level = WB_level_order), 
-                          y=response))+
-  geom_jitter(data = PFOS,
-              aes(x = factor(Waterbody, level = WB_level_order),
-                  y = PFOS),
-              width = .2,
-              alpha = .2,
-              size = 2)+
-  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),color="red",
-                  alpha=1,show.legend = FALSE,
-                  size = 0.8)+
-  theme_classic(base_size = 14)+
-  scale_y_continuous(transform = "log10",
-                     labels = format_format(scientific=FALSE),
-                     limits = c(0.0005,5000)) +
-  ylab("PFOS concentration (ng/g w.w.)") +
-  xlab("") +
-  theme(axis.title.y = element_text(size=14, face="bold", colour = "black")
-  )
-
-Figure_S5
-ggsave("Tables and Figures/Figure_S5.png", plot = Figure_S5, 
-       width = 10, height = 7, 
-       units = "in", dpi = 300)
-# -----------------------------------------------------------------------------
-######## Figure S9 ############################################################
-Figure_S9 <- 
-  ggplot(PFAS_WB_means, aes(x = factor(Waterbody,level = WB_level_order), 
-                                       y = (response), 
-                                       fill = contaminant)) +
-  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),
-                  pch=21,alpha=1,position = position_dodge(width = 0.5),
-                  color="black") +
-  scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8","#FEE090",
-                                "#FC8D59","#D73027")) +
-  scale_y_continuous(transform = "log10",
-                     labels = format_format(scientific=FALSE)) +
-  xlab(NULL) +
-  ylab("Concentration (ng/g w.w.)") +
-  guides(fill = guide_legend(title = "PFAS Compound")) +
-  theme_classic(base_size = 14) +
-  theme(
-    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
-    axis.title.y = element_text(size=14, face="bold", colour = "black"),
-    legend.title = element_text(size=14, face="bold", colour = "black")
-  )
-
-Figure_S9
-ggsave("Tables and Figures/Figure_S9.png", plot = Figure_S9, width = 10, 
-       height = 7,  units = "in", dpi = 300)
-
-# -----------------------------------------------------------------------------
-######## Figure S7 ############################################################
-# Lake Superior Plot
-Superior <- subset(PFOS_SY_means,Waterbody=="Lake Superior")
-Superior_data <- subset(PFOS,Waterbody=="Lake Superior")
-
-LS_SY_plot<-ggplot(Superior,aes(x = Sampling.Year, y=response))+
+# Code to generate a multi-panel plot showing temporal trends and distributions of
+# PFOS concentration values for the five watersheds of the Great Lakes. Instead of
+# generating separate spline and concentration estimates for each watershed and
+# then merging them all together to be plotted with one ggplot() command, we 
+# instead create five separate plots (one for each watershed of the sampling 
+# distribution, spline and model-estimated yearly concentrations) and link those
+# five plots together using the ggarrange() function
+## Lake Superior Plot
+LS_SY_plot<-ggplot(PFOS_LS_SY_means,aes(x = Sampling.Year, y=response))+
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
            ymax=Inf,
            alpha=0.5,fill="orange") +
-  geom_jitter(data = Superior_data,
+  geom_jitter(data = LS_PFOS,
               aes(x = Sampling.Year,y = PFOS),
               width = .2,
               alpha = .2,color="black")+
@@ -868,21 +819,18 @@ LS_SY_plot<-ggplot(Superior,aes(x = Sampling.Year, y=response))+
     plot.title = element_text(size=14, face="bold", colour = "black",
                               hjust = 0.5)) +
   scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
-                                "#D73027")) +
+                               "#D73027")) +
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
                      limits = c(0.01,73000)) +
   guides(fill = guide_legend(title = "Waterbody"))
 
-# Lake Michigan Plot
-Michigan <- subset(PFOS_SY_means,Waterbody=="Lake Michigan")
-Michigan_data <- subset(PFOS,Waterbody=="Lake Michigan") 
-
-LM_SY_plot<-ggplot(Michigan, aes(x = Sampling.Year,y=response))+
+## Lake Michigan Plot
+LM_SY_plot<-ggplot(PFOS_LM_SY_means, aes(x = Sampling.Year,y=response))+
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
            ymax=Inf,
            alpha=0.5,fill="orange") +
-  geom_jitter(data = subset(PFOS,Waterbody=="Lake Michigan"),
+  geom_jitter(data = LM_PFOS,
               aes(x = Sampling.Year,
                   y = PFOS),
               width = .2,
@@ -903,21 +851,18 @@ LM_SY_plot<-ggplot(Michigan, aes(x = Sampling.Year,y=response))+
     plot.title = element_text(size=14, face="bold", colour = "black",
                               hjust = 0.5)) +
   scale_fill_manual(values = c("#91BFDB","#4575B4","#FEE090","#FC8D59",
-                                "#D73027")) +
+                               "#D73027")) +
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
                      limits = c(0.01,73000)) +
   guides(fill = guide_legend(title = "Waterbody"))
 
 # Lake Huron Plot
-Huron <- subset(PFOS_SY_means,Waterbody=="Lake Huron")
-Huron_data <- subset(PFOS,Waterbody=="Lake Huron")
-
-LH_SY_plot<-ggplot(Huron,aes(x = Sampling.Year, y=response))+
+LH_SY_plot<-ggplot(PFOS_LH_SY_means,aes(x = Sampling.Year, y=response))+
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
            ymax=Inf,
            alpha=0.5,fill="orange") +
-  geom_jitter(data = Huron_data,
+  geom_jitter(data = LH_PFOS,
               aes(x = Sampling.Year,
                   y = PFOS),
               width = .2,
@@ -938,21 +883,18 @@ LH_SY_plot<-ggplot(Huron,aes(x = Sampling.Year, y=response))+
     plot.title = element_text(size=14, face="bold", colour = "black",
                               hjust = 0.5)) +
   scale_fill_manual(values = c("#FEE090","#91BFDB","#4575B4","#FC8D59",
-                                "#D73027")) +
+                               "#D73027")) +
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
                      limits = c(0.01,73000)) +
   guides(fill = guide_legend(title = "Waterbody"))
 
 # Lake Erie Plot
-Erie <- subset(PFOS_SY_means,Waterbody=="Lake Erie")
-Erie_data <- subset(PFOS,Waterbody=="Lake Erie")
-
-LE_SY_plot<-ggplot(Erie, aes(x = Sampling.Year, y=response)) +
+LE_SY_plot<-ggplot(PFOS_LE_SY_means, aes(x = Sampling.Year, y=response)) +
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
            ymax=Inf,
            alpha=0.5,fill="orange") +
-  geom_jitter(data = Erie_data,
+  geom_jitter(data = LE_PFOS,
               aes(x = Sampling.Year,
                   y = PFOS),
               width = .2,
@@ -973,21 +915,18 @@ LE_SY_plot<-ggplot(Erie, aes(x = Sampling.Year, y=response)) +
     plot.title = element_text(size=14, face="bold", colour = "black",
                               hjust = 0.5)) +
   scale_fill_manual(values = c("#FC8D59","#FEE090","#91BFDB","#4575B4",
-                                "#D73027")) +
+                               "#D73027")) +
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
                      limits = c(0.01,73000)) +
   guides(fill = guide_legend(title = "Waterbody"))
 
 # Lake Ontario Plot
-Ontario <- subset(PFOS_SY_means,Waterbody=="Lake Ontario")
-Ontario_data <- subset(PFOS,Waterbody=="Lake Ontario")
-
-LO_SY_plot<-ggplot(Ontario, aes(x = Sampling.Year,y=response))+
+LO_SY_plot<-ggplot(PFOS_LO_SY_means, aes(x = Sampling.Year,y=response))+
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
            ymax=Inf,
            alpha=0.5,fill="orange") +
-  geom_jitter(data = Ontario_data,
+  geom_jitter(data = LO_PFOS,
               aes(x = Sampling.Year,
                   y = PFOS),
               width = .2,
@@ -1008,39 +947,68 @@ LO_SY_plot<-ggplot(Ontario, aes(x = Sampling.Year,y=response))+
   ylab("") +
   xlab("Sampling Year (1979-2021)")+
   scale_fill_manual(values = c("#D73027","#FC8D59","#FEE090","#91BFDB",
-                                "#4575B4")) +
+                               "#4575B4")) +
   scale_y_continuous(transform = "log10",
                      labels = format_format(scientific=FALSE),
                      limits = c(0.01,73000)) +
   guides(fill = guide_legend(title = "Waterbody"))
 
-Figure_S7 <- ggarrange(LS_SY_plot, LM_SY_plot,LH_SY_plot,LE_SY_plot,LO_SY_plot,
-          ncol = 3,nrow = 2,legend = "none")
+Figure_S5 <- ggarrange(LS_SY_plot, LM_SY_plot,LH_SY_plot,LE_SY_plot,LO_SY_plot,
+                       ncol = 3,nrow = 2,legend = "none")
+
+Figure_S5
+ggsave("Tables and Figures/Figure_S5.png", plot = Figure_S5, width = 14, 
+       height = 10,  units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S6 ############################################################
+Figure_S6 <-
+  ggplot(PFOS_WB_means, aes(x = factor(Waterbody, level = WB_level_order),
+                          y=response))+
+  geom_jitter(data = PFOS,
+              aes(x = factor(Waterbody, level = WB_level_order),
+                  y = PFOS),
+              width = .2,
+              alpha = .2,
+              size = 2)+
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),color="red",
+                  alpha=1,show.legend = FALSE,
+                  size = 0.8)+
+  theme_classic(base_size = 14)+
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE),
+                     limits = c(0.0005,5000)) +
+  ylab("PFOS concentration (ng/g w.w.)") +
+  xlab("") +
+  theme(axis.title.y = element_text(size=14, face="bold", colour = "black"))
+
+Figure_S6
+ggsave("Tables and Figures/Figure_S6.png", plot = Figure_S6, 
+       width = 10, height = 7, 
+       units = "in", dpi = 300)
+# -----------------------------------------------------------------------------
+######## Figure S7 ############################################################
+Figure_S7 <- 
+  ggplot(PFAS_WB_means, aes(x = factor(Waterbody,level = WB_level_order), 
+                                       y = (response), 
+                                       fill = contaminant)) +
+  geom_pointrange(aes(ymin = lower.CL, ymax = upper.CL),
+                  pch=21,alpha=1,position = position_dodge(width = 0.5),
+                  color="black") +
+  scale_fill_manual(values = c("#4575B4","#91BFDB","#E0F3F8","#FEE090",
+                                "#FC8D59","#D73027")) +
+  scale_y_continuous(transform = "log10",
+                     labels = format_format(scientific=FALSE)) +
+  xlab(NULL) +
+  ylab("Concentration (ng/g w.w.)") +
+  guides(fill = guide_legend(title = "PFAS Compound")) +
+  theme_classic(base_size = 14) +
+  theme(
+    axis.title.x = element_text(size=14, face="bold", colour = "black"),    
+    axis.title.y = element_text(size=14, face="bold", colour = "black"),
+    legend.title = element_text(size=14, face="bold", colour = "black")
+  )
 
 Figure_S7
-ggsave("Tables and Figures/Figure_S7.png", plot = Figure_S7, width = 14, 
-       height = 10,  units = "in", dpi = 300)
-
+ggsave("Tables and Figures/Figure_S7.png", plot = Figure_S7, width = 10, 
+       height = 7,  units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
-
-
-
-
-# Summary statistics for the different variables
-final_imputed_data %>% group_by(Waterbody) %>% summarise(sample_count=length(Sample.ID))
-
-final_imputed_data %>% group_by(Trophic_Level) %>% summarise(sample_count=length(Sample.ID))
-
-final_imputed_data %>% group_by(Class) %>% summarise(samp=length(Sample.ID),species = length(unique(Revised_Species)))
-
-final_imputed_data %>% group_by(Waterbody_Type) %>% summarise(sample_count=length(Sample.ID))
-
-emmeans(full_PFOS_gam, 
-        specs = ~ Waterbody,
-        type = "response",tran = "log10") |>
-  as_tibble()
-
-a<-emmeans(full_PFOS_gam, 
-        specs = pairwise ~ Revised_Tissue,
-        type = "response",tran = "log10",adjust="tukey") 
-as_tibble(a$contrasts)
