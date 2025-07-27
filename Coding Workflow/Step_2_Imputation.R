@@ -336,7 +336,8 @@ estimates_table
 # and save this data frame for all downstream analysis
 final_imputed_data<-cbind(final_data[,1:23],data_lrDA)
 
-setdiff(final_imputed_data$PFOS,final_data$PFOS) # Check that the imputed data was properly assigned to the final_imputed_data variable
+setdiff(final_imputed_data$PFOS,final_data$PFOS) # Check that the imputed data 
+# was properly assigned to the final_imputed_data variable
 rownames(final_imputed_data)<-NULL
 
 write.table(final_imputed_data,file = "Step_2_final_imputed_data.csv",
