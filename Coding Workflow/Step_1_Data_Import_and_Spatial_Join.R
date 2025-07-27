@@ -1,5 +1,6 @@
 # Step_1_Data_Import_and_Spatial_Join.R
-# Contains all data importing, spatial joining, and formatting code for the full data frame
+# Contains all data importing, spatial joining, and formatting code for the full
+# data frame
 
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
