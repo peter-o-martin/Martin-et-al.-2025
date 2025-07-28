@@ -6,9 +6,6 @@
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
 ## Packages
-# Loading the correct version
-library(remotes)
-
 # Data formatting and combining
 library(stringr)
 
