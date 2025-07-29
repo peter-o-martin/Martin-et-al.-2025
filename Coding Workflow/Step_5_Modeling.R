@@ -933,5 +933,15 @@ save(full_PFUnA_gam,file = "Models/full_PFUnA_gam.Rdata")
 save(full_PFDoA_gam,file = "Models/full_PFDoA_gam.Rdata")
 save(full_PFTrDA_gam,file = "Models/full_PFTrDA_gam.Rdata")
 
+# Delete excess variables
+rm(coords,x_unique,y_unique,res,
+   refit_PFOS,refit_PFNA,refit_PFDA,refit_PFUnA,refit_PFDoA,refit_PFTrDA,
+   PFOS_test_set,PFNA_test_set,PFDA_test_set,PFUnA_test_set,PFDoA_test_set,PFTrDA_test_set,
+   PFOS_train_set,PFNA_train_set,PFDA_train_set,PFUnA_train_set,
+   PFDoA_train_set,PFTrDA_train_set,
+   PFOS_results,PFNA_results,PFDA_results,PFUnA_results,PFDoA_results,PFTrDA_results,
+   PFOS_line,PFNA_line,PFDA_line,PFUnA_line,PFDoA_line,PFTrDA_line,
+   PFOS_in_train,PFNA_in_train,PFDA_in_train,PFUnA_in_train,PFDoA_in_train,PFTrDA_in_train,
+   fit.emt,one_to_one,ctrl)
 
 
