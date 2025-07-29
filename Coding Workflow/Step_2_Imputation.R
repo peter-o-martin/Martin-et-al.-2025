@@ -356,7 +356,8 @@ rm(data_multRepl,
    PFOS_dl_analyte,
    geo_mean,
    dl_analyte,
-   final_data)
+   final_data,
+   data_lrDA)
 
 # Delete other now extraneous variables
 rm(i,j,

@@ -936,6 +936,8 @@ save(full_PFTrDA_gam,file = "Models/full_PFTrDA_gam.Rdata")
 # Delete excess variables
 rm(coords,x_unique,y_unique,res,
    refit_PFOS,refit_PFNA,refit_PFDA,refit_PFUnA,refit_PFDoA,refit_PFTrDA,
+   PFOS_resid_fit,PFNA_resid_fit,PFDA_resid_fit,PFUnA_resid_fit,
+   PFDoA_resid_fit,PFTrDA_resid_fit,
    PFOS_test_set,PFNA_test_set,PFDA_test_set,PFUnA_test_set,PFDoA_test_set,PFTrDA_test_set,
    PFOS_train_set,PFNA_train_set,PFDA_train_set,PFUnA_train_set,
    PFDoA_train_set,PFTrDA_train_set,
