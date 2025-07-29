@@ -1,5 +1,5 @@
 # Step_6_Results_and_Figures.R
-# Contains all code used to extract results from models and construct figures
+# Contains all code used to extract results from models and construct tables and figures
 
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
@@ -34,21 +34,17 @@ library(ggpmisc)
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 
 ## Loading in finalized data frame from Step 5
-final_imputed_data <- read.csv("Step_5_final_imputed_data.csv",header = TRUE)
+final_imputed_data <- read.csv("Finalized_Imputed_Data_Frame.csv",header = TRUE)
 
 PFOS<-final_imputed_data[is.na(final_imputed_data$PFOS)==FALSE,]
-set.seed(166)
-PFOS_in_train<-createDataPartition(PFOS$PFOS, p = 4/5, list = FALSE)
-PFOS_train_set<-PFOS[PFOS_in_train,]
-PFOS_test_set<-PFOS[-PFOS_in_train,]
 
 ## Loading in the models from Step 5
-load("full_PFOS_gam.Rdata") 
-load("full_PFNA_gam.Rdata")
-load("full_PFDA_gam.Rdata")
-load("full_PFUnA_gam.Rdata")
-load("full_PFDoA_gam.Rdata")
-load("full_PFTrDA_gam.Rdata")
+load("Models/full_PFOS_gam.Rdata") 
+load("Models/full_PFNA_gam.Rdata")
+load("Models/full_PFDA_gam.Rdata")
+load("Models/full_PFUnA_gam.Rdata")
+load("Models/full_PFDoA_gam.Rdata")
+load("Models/full_PFTrDA_gam.Rdata")
 
 
 model_list <- list(full_PFOS_gam,full_PFNA_gam,full_PFDA_gam,full_PFUnA_gam,
@@ -56,6 +52,7 @@ model_list <- list(full_PFOS_gam,full_PFNA_gam,full_PFDA_gam,full_PFUnA_gam,
 
 WB_level_order<-c("Lake Superior","Lake Michigan","Lake Huron",
                   "Lake Erie","Lake Ontario")
+
 # color palette used
 display.brewer.pal(n=8,"RdYlBu")
 
@@ -97,8 +94,7 @@ Table_2_percent <- matrix(nrow = 6, ncol = 6,
                      "PFDoA (C12)","PFTrDA (C13)")
                     ))
 
-# for loop to make calculations for each of the six models in the model_list 
-# variable
+# for loop to make calculations for each of the six models in the model_list object
 for(i in 1:length(model_list)){
   # Generate output from emmeans
   tissue_estimates <- emmeans(model_list[[i]],
@@ -184,8 +180,7 @@ Table_S5_percent <- matrix(nrow = 3, ncol = 6,
                               "PFDoA (C12)","PFTrDA (C13)")
                           ))
 
-# for loop to make calculations for each of the six models in the model_list 
-# variable
+# for loop to make calculations for each of the six models in the model_list object
 for(i in 1:length(model_list)){
   # Generate output from emmeans
   wt_estimates <- emmeans(model_list[[i]],
@@ -209,7 +204,7 @@ Table_S5_percent <- as_tibble(Table_S5_percent)
 Table_S5_percent$rowname <- c("Inland waters","Lake","Connecting channel")
 Table_S5_percent$group <- "Percent Composition"
 
-# Produce the finalized section of Table 2 using the function gt() and save
+# Produce the finalized section of Table S5 using the function gt() and save
 # this output as a .rtf file with the function gtsave()
 Table_S5_final<-gt(Table_S5_percent,
                   rowname_col = "rowname",
@@ -261,8 +256,7 @@ Table_S6_percent <- matrix(nrow = 7, ncol = 6,
                                "PFDoA (C12)","PFTrDA (C13)")
                            ))
 
-# for loop to make calculations for each of the six models in the model_list 
-# variable
+# for loop to make calculations for each of the six models in the model_list object
 for(i in 1:length(model_list)){
   # Generate output from emmeans
   tl_estimates <- emmeans(model_list[[i]],
@@ -290,7 +284,7 @@ Table_S6_percent$rowname <- c("Primary Producer","Primary Consumer",
                               "Apex Predator")
 Table_S6_percent$group <- "Percent Composition"
 
-# Produce the finalized section of Table 2 using the function gt() and save
+# Produce the finalized section of Table S6 using the function gt() and save
 # this output as a .rtf file with the function gtsave()
 Table_S6_final<-gt(Table_S6_percent,
                    rowname_col = "rowname",
@@ -321,7 +315,7 @@ gtsave(Table_S6_final,"Tables and Figures/Table_S6.rtf")
 
 ######## Figures ##############################################################
 ######## Conceptual Figure ####################################################
-# Generate spatial boundaries of figure
+# Generate spatial boundaries of the figure
 max_lat <- max(final_imputed_data$Latitude)
 min_lat <- min(final_imputed_data$Latitude)
 max_lon <- max(final_imputed_data$Longitude)-5
@@ -375,7 +369,10 @@ ggsave("Tables and Figures/Conceptual_Figure.png", plot = Conceptual_Figure,
 
 # -----------------------------------------------------------------------------
 ######## Figure 1 #############################################################
-Figure_1 <- ggplot() +
+# Code to generate a sample distribution plot across the entire extent of the Great
+# Lakes watersheds for the samples included in this meta-analysis (n = 2,489)
+Figure_1 <- 
+  ggplot() +
   geom_sf(data=Great_Lakes_region) +
   geom_sf(data=Great_Lakes_watershed,fill="cadetblue1",alpha=0.4) +
   coord_sf(xlim = c(-93.0,-70.0),ylim = c(40.5,51)) +
@@ -414,9 +411,9 @@ Sampling_Years<-sort(unique(PFOS$Sampling.Year))
 # for that lake, 2) isolate the vector of sampling years (starting point set as 
 # the first year of sampling in that lake for which there is sufficient data) that
 # we'll 3) feed in as an input to emmeans() to calculate model estimated
-# concentrations for each year, 4) create a new column in the data frame of 
-# concentration estimates generated by emmeans() that labels all those estimates
-# as estimates for "Lake Erie", and 5) fit a spline to those concentration 
+# concentrations for each of those years, 4) create a new column in the data frame of 
+# emmeans() concentration estimates that contains labels for those estimates of the
+# Lake watershed to which they belong, and 5) fit a spline to those concentration 
 # estimates to help visualize the trend through time (this spline is saved as a 
 # data frame object in R)
 ## Lake Erie
@@ -432,6 +429,7 @@ PFOS_LE_SY_means <- emmeans(full_PFOS_gam,
   as_tibble()
 PFOS_LE_SY_means$Waterbody<-"Lake Erie"
 
+# Convert to a data frame for easy plotting in ggplot()
 LE_spline <- as.data.frame(spline(PFOS_LE_SY_means$Sampling.Year, 
                                   PFOS_LE_SY_means$response))
 
@@ -597,8 +595,7 @@ PFAS_WB_means<-rbind(PFOS_WB_means,PFNA_WB_means,PFDA_WB_means,PFUnA_WB_means,
                      PFDoA_WB_means,PFTrDA_WB_means)
 PFAS_WB_means$sum<-ave(PFAS_WB_means$response, PFAS_WB_means$Waterbody, FUN=sum)
 
-# Order the levels of the Waterbody and Contaminant ID variables in this unified
-# tibble
+# Order the levels of the Waterbody and contaminant variables in this unified tibble
 PFAS_WB_means <- PFAS_WB_means %>%
   arrange(factor(Waterbody, levels = rev(WB_level_order)))
 PFAS_WB_means$contaminant <- factor(PFAS_WB_means$contaminant, 
@@ -626,7 +623,8 @@ Figure_3 <-
           axis.title.x = element_text(size=14, face="bold", colour = "black"),
           axis.text.y = element_text(size=12, colour = "black"),
           legend.text = element_text(size=12, colour = "black"),
-          legend.position = c(.87,.3))
+          legend.position = c(.87,.3)
+          )
 
 Figure_3
 ggsave("Tables and Figures/Figure_3.png", plot = Figure_3, width = 13, 
@@ -641,7 +639,7 @@ PFOS_TL_means <-
         type='response',tran = "log10") |>
   as_tibble()
 
-# Reorder the factor levels of the Trophic Level variable from the output of
+# Reorder the factor levels of the Trophic_Level variable from the output of
 # the emmeans() function
 PFOS_TL_means$Trophic_Level<-factor(PFOS_TL_means$Trophic_Level,
                                     levels = c("Primary Producer",
@@ -671,8 +669,7 @@ Figure_4 <-
   scale_x_discrete(labels= c("PP","PC","SC","PIB","TC","QC","AP")) +
   ylab("PFOS concentration (ng/g w.w.)") +
   xlab("") +
-  theme(axis.title.y = element_text(size=14, face="bold", colour = "black")
-  )
+  theme(axis.title.y = element_text(size=14, face="bold", colour = "black"))
 
 Figure_4
 ggsave("Tables and Figures/Figure_4.png", plot = Figure_4, 
@@ -698,8 +695,7 @@ for (i in 1:nrow(final_imputed_data)){
 }
 
 # Create a new summary data frame with a variable called sample_count, that counts
-# the number of samples taken for each taxonomic class in each watershed for each
-# given year
+# the number of samples taken for each taxonomic class in each watershed each year
 waterbody_class_sampling_df <- final_imputed_data %>% 
   group_by(Sampling.Year,Class,Waterbody) %>% 
   summarise(sample_count = sum(n_samples))
@@ -729,8 +725,7 @@ Figure_S3<-
         legend.title=element_text(size=14,face = "bold"),
         axis.title.x = element_text(size=14, face="bold", colour = "black"),
         axis.title.y = element_text(size=14, face="bold", colour = "black"),
-        legend.text = element_text(size=12, colour = "black"),
-  ) +
+        legend.text = element_text(size=12, colour = "black")) +
   facet_wrap(~factor(Waterbody,levels = WB_level_order))
 
 Figure_S3
@@ -742,8 +737,7 @@ ggsave("Tables and Figures/Figure_S3.png", plot = Figure_S3,
 # Code to show sampling efforts for the various trophic levels through time
 # within the five watersheds of the Great Lakes
 # Create a new summary data frame with a variable called sample_count, that counts
-# the number of samples taken for each trophic level in each watershed for each
-# given year
+# the number of samples taken for each trophic level in each watershed each year
 waterbody_tl_sampling_df <- final_imputed_data %>% 
   group_by(Sampling.Year,Trophic_Level,Waterbody) %>% 
   summarise(sample_count = sum(n_samples))
@@ -959,6 +953,8 @@ ggsave("Tables and Figures/Figure_S5.png", plot = Figure_S5, width = 14,
        height = 10,  units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S6 ############################################################
+# Code to plot model-estimated concentrations (95% CI) of PFOS across the five 
+# watersheds of the Great Lakes, along with a scatter plot of samples in each watershed
 Figure_S6 <-
   ggplot(PFOS_WB_means, aes(x = factor(Waterbody, level = WB_level_order),
                           y=response))+
@@ -985,6 +981,9 @@ ggsave("Tables and Figures/Figure_S6.png", plot = Figure_S6,
        units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
 ######## Figure S7 ############################################################
+# Code to plot model-estimated concentrations (95% CI) of the six PFAS across the five 
+# watersheds of the Great Lakes, as a way to visualize the contrasting spatial patterns
+# of these contaminants
 Figure_S7 <- 
   ggplot(PFAS_WB_means, aes(x = factor(Waterbody,level = WB_level_order), 
                                        y = (response), 
@@ -1010,3 +1009,22 @@ Figure_S7
 ggsave("Tables and Figures/Figure_S7.png", plot = Figure_S7, width = 10, 
        height = 7,  units = "in", dpi = 300)
 # -----------------------------------------------------------------------------
+# Delete excess variables
+rm(WB_level_order,Trophic_Level_order,Sampling_Years,Class_order,
+   min_lon,min_lat,max_lat,max_lon,geographic_extent,
+   LS_Sampling_Years,LO_Sampling_Years,LM_Sampling_Years,LH_Sampling_Years,
+   LE_Sampling_Years,
+   i,wt_estimates,tl_estimates,tissue_estimates,Table_2_percent,Table_S5_percent,
+   Table_S6_percent,waterbody_tl_sampling_df,waterbody_class_sampling_df,
+   PFOS_WB_means,PFNA_WB_means,PFDA_WB_means,PFUnA_WB_means,
+   PFDoA_WB_means,PFTrDA_WB_means,PFAS_WB_means,
+   PFOS_TL_means,PFOS_LE_SY_means,PFOS_LH_SY_means,PFOS_LM_SY_means,PFOS_LO_SY_means,
+   PFOS_LS_SY_means,PFOS_SY_means,model_list,
+   LS_SY_plot,LE_SY_plot,LO_SY_plot,LM_SY_plot,LH_SY_plot,
+   LS_spline,LE_spline,LO_spline,LM_spline,LH_spline,
+   LS_PFOS,LE_PFOS,LO_PFOS,LM_PFOS,LH_PFOS,
+   intersection_Great_Lakes_watershed,cropped_Great_Lakes_watershed,
+   Great_Lakes_watershed, Great_Lakes_region)
+
+
+
