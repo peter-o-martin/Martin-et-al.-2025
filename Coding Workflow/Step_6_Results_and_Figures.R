@@ -1,9 +1,7 @@
 # Step_6_Results_and_Figures.R
 # Contains all code used to extract results from models and construct figures
 
-# Written by Peter Martin
-# Created December 13, 2024
-# Finalized
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")

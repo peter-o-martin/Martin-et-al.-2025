@@ -1,6 +1,8 @@
 # Step_3_Additional_Variables.R
 # Contains all code used to add the additional variables
 
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
+
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
@@ -586,51 +588,6 @@ final_imputed_data %>% group_by(Waterbody) %>%
   summarise(mean(Water_Level_sc),sd(Water_Level_sc)) 
 
 #---------------- Final Data Frame Editing ------------------------------------
-################# Variable Formatting #########################################
-# Converting columns to proper format (i.e., ordered factors)
-# Waterbody variable (5 levels)
-final_imputed_data$Waterbody<-factor(final_imputed_data$Waterbody,
-                                     levels = c("Lake Superior",
-                                                "Lake Michigan",
-                                                "Lake Huron",
-                                                "Lake Erie",
-                                                "Lake Ontario"))
-
-# Waterbody_Type variable (3 levels)
-final_imputed_data$Waterbody_Type<-factor(final_imputed_data$Waterbody_Type,
-                                          levels = c("Inland waters",
-                                                     "Connecting channel",
-                                                     "Lake"))
-
-# Composite variable (2 levels)
-final_imputed_data$Composite<-factor(final_imputed_data$Composite)
-
-# Trophic_Level variable (7 levels)
-final_imputed_data$Trophic_Level<-factor(final_imputed_data$Trophic_Level,
-                                         levels = c("Primary Producer",
-                                                    "Primary Consumer",
-                                                    "Secondary Consumer",
-                                                    "Tertiary Consumer",
-                                                    "Quaternary Consumer",
-                                                    "Piscivorous/Insectivorous Bird",
-                                                    "Apex Predator"))
-
-# Class variable (14 levels)
-final_imputed_data$Class<-factor(final_imputed_data$Class,
-                                 levels = c("Algae","Plantae (Magnoliopsida)",
-                                            "Annelida","Bivalvia","Gastropoda",
-                                            "Zooplankton",
-                                            "Shrimp, water fleas, and allies",
-                                            "Insecta","Astacoidea","Amphibia",
-                                            "Pisces","Reptilia","Aves","Mammalia"))
-
-# Revised_Tissue variable (6 levels)
-final_imputed_data$Revised_Tissue<-factor(final_imputed_data$Revised_Tissue,
-                                          levels = c("Muscle",
-                                                     "Whole organism homogenate",
-                                                     "Misc. Tissue",
-                                                     "Liver","Blood","Eggs"))
-
 ################# Data Frame Reordering #######################################
 # Reorder columns so that contaminants come after all other variables
 final_imputed_data<-

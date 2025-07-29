@@ -1,9 +1,8 @@
 # Step_5_Modeling.R
-# Contains all code used to construct models for the six selected analytes (PFOS, PFNA, PFDA, PFUnA, PFDoA, PFTrDA)
+# Contains all code used to construct models for the six selected analytes (PFOS, PFNA,
+# PFDA, PFUnA, PFDoA, PFTrDA)
 
-# Written by Peter Martin
-# Created December 13, 2024
-# Finalized December 17, 2024
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
@@ -17,6 +16,7 @@ library(caret)
 # Modeling
 library(nlme)
 library(mgcv)
+library(mgcViz)
 library(DHARMa)
 
 # Visualizing model output and calculating results
@@ -31,32 +31,40 @@ library(dotwhisker)
 source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 
 ## Loading in data frame created from Step 1
-final_imputed_data <- read.csv("Step_3_final_imputed_data.csv",header = TRUE)
-validation_supp <- read.csv("Step_4_validation_supp.csv",header = TRUE)
-
-# Load the imputation results (07/12/24) whose values were used to construct the models reported in Leyerle Martin et al., 2025
-# Done this way since lrDA() will produce slightly different imputed estimates each time the segment of code (i.e., the Step_2 R script) is run
-modeling_concentration_values <- read.csv("concentration_values_models.csv")
-modeling_concentration_values <- modeling_concentration_values[,32:41]
-
-final_imputed_data[,32:41] <- modeling_concentration_values
+final_imputed_data <- read.csv("Finalized_Imputed_Data_Frame.csv",header = TRUE)
+validation_supp <- read.csv("Finalized_Supp_Validation_Data_Frame.csv",header = TRUE)
 
 ###### Pre-Modeling Formatting ################################################
-# Converting columns to proper format (i.e., ordered factors)
+# Converting columns in each data frame to proper format (i.e., ordered factors)
+# Waterbody variable (5 levels)
 final_imputed_data$Waterbody<-factor(final_imputed_data$Waterbody,
                                      levels = c("Lake Superior",
                                                 "Lake Michigan",
                                                 "Lake Huron",
                                                 "Lake Erie",
                                                 "Lake Ontario"))
+validation_supp$Waterbody<-factor(validation_supp$Waterbody,
+                                  levels = c("Lake Superior",
+                                             "Lake Michigan",
+                                             "Lake Huron",
+                                             "Lake Erie",
+                                             "Lake Ontario"))
 
+# Waterbody_Type variable (3 levels)
 final_imputed_data$Waterbody_Type<-factor(final_imputed_data$Waterbody_Type,
                                           levels = c("Inland waters",
                                                      "Connecting channel",
                                                      "Lake"))
+validation_supp$Waterbody_Type<-factor(validation_supp$Waterbody_Type,
+                                       levels = c("Inland waters",
+                                                  "Connecting channel",
+                                                  "Lake"))
 
+# Composite variable (2 levels)
 final_imputed_data$Composite<-factor(final_imputed_data$Composite)
+validation_supp$Composite<-factor(validation_supp$Composite)
 
+# Trophic_Level variable (7 levels)
 final_imputed_data$Trophic_Level<-factor(final_imputed_data$Trophic_Level,
                                          levels = c("Primary Producer",
                                                     "Primary Consumer",
@@ -65,7 +73,16 @@ final_imputed_data$Trophic_Level<-factor(final_imputed_data$Trophic_Level,
                                                     "Quaternary Consumer",
                                                     "Piscivorous/Insectivorous Bird",
                                                     "Apex Predator"))
+validation_supp$Trophic_Level<-factor(validation_supp$Trophic_Level,
+                                      levels = c("Primary Producer",
+                                                 "Primary Consumer",
+                                                 "Secondary Consumer",
+                                                 "Tertiary Consumer",
+                                                 "Quaternary Consumer",
+                                                 "Piscivorous/Insectivorous Bird",
+                                                 "Apex Predator"))
 
+# Class variable (14 levels)
 final_imputed_data$Class<-factor(final_imputed_data$Class,
                                  levels = c("Algae","Plantae (Magnoliopsida)",
                                             "Annelida","Bivalvia","Gastropoda",
@@ -73,38 +90,47 @@ final_imputed_data$Class<-factor(final_imputed_data$Class,
                                             "Shrimp, water fleas, and allies",
                                             "Insecta","Astacoidea","Amphibia",
                                             "Pisces","Reptilia","Aves","Mammalia"))
+validation_supp$Class<-factor(validation_supp$Class,
+                              levels = c("Algae","Plantae (Magnoliopsida)",
+                                         "Annelida","Bivalvia","Gastropoda",
+                                         "Zooplankton",
+                                         "Shrimp, water fleas, and allies",
+                                         "Insecta","Astacoidea","Amphibia",
+                                         "Pisces","Reptilia","Aves","Mammalia"))
 
+# Revised_Tissue variable (6 levels)
 final_imputed_data$Revised_Tissue<-factor(final_imputed_data$Revised_Tissue,
                                           levels = c("Muscle",
                                                      "Whole organism homogenate",
                                                      "Misc. Tissue",
                                                      "Liver","Blood","Eggs"))
+validation_supp$Revised_Tissue<-factor(validation_supp$Revised_Tissue,
+                                       levels = c("Muscle",
+                                                  "Whole organism homogenate",
+                                                  "Misc. Tissue",
+                                                  "Liver","Blood","Eggs"))
 
-final_imputed_data <- final_imputed_data %>% group_by(Waterbody) %>% 
-  mutate(Water_Level_sc = scale(Water_Level))
-# Idea for this line of code from 
-# https://stackoverflow.com/questions/41761018/scale-all-values-depending-on-group
-
-final_imputed_data %>% group_by(Waterbody) %>% 
-  summarise(mean(Water_Level_sc),sd(Water_Level_sc)) # Check that the scaling was performed correctly (mean should be 0 and standard deviation should be 1)
-
+str(final_imputed_data)
+str(validation_supp)
 
 ###### Full Data Frame Modeling ###############################################
-# We decided to focus analysis on the following contaminants that all had >80% Detection Frequency:
-# PFOS, PFNA, PFDA, PFUnA, PFDoA, PFTrDA
+# We decided to focus analysis on the following contaminants that all had ≥ 80% 
+# detection frequency:
+# PFOS, PFNA, PFDA, PFUnA, PFDoA, and PFTrDA
 
 # Iterative modeling led us to choose the following variables for these six GAMs
 
-# Fixed Effects: Waterbody, Waterbody_Type, Trophic_Level, Revised_Tissue, Water_Level and Sampling_Year
+# Fixed Effects: Waterbody, Waterbody_Type, Trophic_Level, Revised_Tissue, 
+# Water_Level_sc, and Sampling_Year
 # Random Effects: Composite
 
 ###### HERE can access the saved models to explore diagnostics ################
-load("full_PFOS_gam.Rdata") 
-load("full_PFNA_gam.Rdata")
-load("full_PFDA_gam.Rdata")
-load("full_PFUnA_gam.Rdata")
-load("full_PFDoA_gam.Rdata")
-load("full_PFTrDA_gam.Rdata")
+load("Models/full_PFOS_gam.Rdata") 
+load("Models/full_PFNA_gam.Rdata")
+load("Models/full_PFDA_gam.Rdata")
+load("Models/full_PFUnA_gam.Rdata")
+load("Models/full_PFDoA_gam.Rdata")
+load("Models/full_PFTrDA_gam.Rdata")
 
 ###### Full PFOS model ########################################################
 # Extract the subset of samples that quantified PFOS concentrations (i.e., remove NAs)
@@ -852,16 +878,13 @@ ggplot(data=PFTrDA_results, aes(x=(fit), y=log(PFTrDA,base = 10),color=Waterbody
   geom_abline(slope=1, intercept=0) +
   theme_bw()
 
-###### Save the model and data frame for result/figure generation #############
-save(full_PFOS_gam,file = "full_PFOS_gam.Rdata")
-save(full_PFNA_gam,file = "full_PFNA_gam.Rdata")
-save(full_PFDA_gam,file = "full_PFDA_gam.Rdata")
-save(full_PFUnA_gam,file = "full_PFUnA_gam.Rdata")
-save(full_PFDoA_gam,file = "full_PFDoA_gam.Rdata")
-save(full_PFTrDA_gam,file = "full_PFTrDA_gam.Rdata")
-
-write.table(final_imputed_data,file = "Step_5_final_imputed_data.csv",sep = ",",
-            row.names = FALSE)
+###### Save the model for table and figure generation #########################
+save(full_PFOS_gam,file = "Models/full_PFOS_gam.Rdata")
+save(full_PFNA_gam,file = "Models/full_PFNA_gam.Rdata")
+save(full_PFDA_gam,file = "Models/full_PFDA_gam.Rdata")
+save(full_PFUnA_gam,file = "Models/full_PFUnA_gam.Rdata")
+save(full_PFDoA_gam,file = "Models/full_PFDoA_gam.Rdata")
+save(full_PFTrDA_gam,file = "Models/full_PFTrDA_gam.Rdata")
 
 
 

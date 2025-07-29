@@ -3,6 +3,8 @@
 # it can be used in the modeling script (Step 5) to help test the predictive accuracy
 # of our models
 
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
+
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
@@ -93,45 +95,6 @@ validation_supp %>% group_by(Waterbody) %>%
 names(validation_supp)[36]
 
 #---------------- Final Data Frame Editing ------------------------------------
-################# Variable Formatting #########################################
-# Converting columns to proper format (i.e., ordered factors)
-validation_supp$Waterbody<-factor(validation_supp$Waterbody,
-                                     levels = c("Lake Superior",
-                                                "Lake Michigan",
-                                                "Lake Huron",
-                                                "Lake Erie",
-                                                "Lake Ontario"))
-
-validation_supp$Waterbody_Type<-factor(validation_supp$Waterbody_Type,
-                                          levels = c("Inland waters",
-                                                     "Connecting channel",
-                                                     "Lake"))
-
-validation_supp$Composite<-factor(validation_supp$Composite)
-
-validation_supp$Trophic_Level<-factor(validation_supp$Trophic_Level,
-                                         levels = c("Primary Producer",
-                                                    "Primary Consumer",
-                                                    "Secondary Consumer",
-                                                    "Tertiary Consumer",
-                                                    "Quaternary Consumer",
-                                                    "Piscivorous/Insectivorous Bird",
-                                                    "Apex Predator"))
-
-validation_supp$Class<-factor(validation_supp$Class,
-                                 levels = c("Algae","Plantae (Magnoliopsida)",
-                                            "Annelida","Bivalvia","Gastropoda",
-                                            "Zooplankton",
-                                            "Shrimp, water fleas, and allies",
-                                            "Insecta","Astacoidea","Amphibia",
-                                            "Pisces","Reptilia","Aves","Mammalia"))
-
-validation_supp$Revised_Tissue<-factor(validation_supp$Revised_Tissue,
-                                          levels = c("Muscle",
-                                                     "Whole organism homogenate",
-                                                     "Misc. Tissue",
-                                                     "Liver","Blood","Eggs"))
-
 ################# Data Frame Editing and Reordering ###########################
 str(validation_supp)
 # Remove extraneous Region variable

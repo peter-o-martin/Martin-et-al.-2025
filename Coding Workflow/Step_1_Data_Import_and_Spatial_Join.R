@@ -2,6 +2,8 @@
 # Contains all data importing, spatial joining, and formatting code for the full
 # data frame
 
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
+
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 

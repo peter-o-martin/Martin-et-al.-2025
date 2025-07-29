@@ -2,6 +2,8 @@
 # Contains all imputation code for the PFAS analytes chosen at the beginning of 
 # this script
 
+# Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
+
 # Working directory
 setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
 
