@@ -529,7 +529,8 @@ unique(final_imputed_data$Revised_Maturity)
 # Great Lakes and Ohio River Division (available at https://www.lrd.usace.army.mil/Water-Information/Water-Management/Great-Lakes-and-Harbors/Water-Level-Data/),
 # and was saved in the "Great Lakes Water Level Data" folder within this repository 
 # as a .csv to be loaded in to R.
-water_level<-read.csv("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",header = TRUE)
+water_level<-read.csv("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",
+                      header = TRUE)
 final_imputed_data$Water_Level<-NA
 
 # A for loop to select out the water level value that corresponds to the sample's
@@ -652,8 +653,7 @@ final_imputed_data[,9:10]<-lapply(final_imputed_data[,9:10],as.numeric)
 # reported in Leyerle Martin et al., 2025
 # The code is executed this way since the function lrDA() will produce slightly
 # different imputed estimates each time the algorithm (i.e., the Step_2 R script) is run
-finalized_concentration_values <- read.csv(
-  "Finalized_Concentration_Values_07_12_2024.csv")
+finalized_concentration_values <- read.csv("Finalized_Concentration_Values_07_12_2024.csv")
 
 # Insert this saved, imputed concentration data into the finalized data frame
 final_imputed_data[,33:42] <- finalized_concentration_values
@@ -670,7 +670,7 @@ final_imputed_data <- subset(final_imputed_data,
 str(final_imputed_data)
 
 
-###### Save data frame and delete excess variables ############################
+################# Save data frame and delete excess variables #################
 write.table(final_imputed_data,file = "Finalized_Imputed_Data_Frame.csv",
             sep = ",",
             row.names = FALSE)
