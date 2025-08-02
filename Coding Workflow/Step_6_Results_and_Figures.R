@@ -800,6 +800,7 @@ PFOS_LO_SY_means$Waterbody<-"Lake Ontario"
 PFOS_SY_means <- rbind(PFOS_LS_SY_means,PFOS_LM_SY_means,PFOS_LH_SY_means,
                        PFOS_LE_SY_means,PFOS_LO_SY_means)
 
+# Plot results
 Figure_S5 <-
 ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
   annotate("rect", xmin=2000, xmax=2002, ymin=0,
@@ -837,7 +838,7 @@ ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
   facet_wrap(~factor(Waterbody,levels = WB_level_order),scales="free_x")
 
 Figure_S5
-ggsave("Tables and Figures/Figure_S5S.png", plot = Figure_S5, 
+ggsave("Tables and Figures/Figure_S5.png", plot = Figure_S5, 
        width = 11, height = 8, 
        units = "in", dpi = 1000)
 # -----------------------------------------------------------------------------
