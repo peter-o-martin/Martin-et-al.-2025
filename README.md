@@ -3,11 +3,11 @@
 <br>
 <div align="center">
 <h1>Spatial-Temporal Patterns of Per- and Polyfluoroalkyl Substances (PFAS) in the Biota of the Laurentian Great Lakes: A Meta-Analysis
-  (Leyerle Martin et al., 2025)</h1>
+  (Martin et al., 2025)</h1>
 </div>
 
 ## Directory
-This GitHub repository contains the R code (R version 4.4.1 – Race for Your Life[^1]), finalized dataset (i.e., the dataset produced after performing imputation of missing values and adding in additional variables), and the generalized additive models produced through the methodological workflow described in detail in Leyerle Martin et al. (2025). The different parts of the repository are as follows:
+This GitHub repository contains the R code (R version 4.4.1 – Race for Your Life[^1]), finalized dataset (i.e., the dataset produced after performing imputation of missing values and adding in additional variables), and the generalized additive models produced through the methodological workflow described in detail in Martin et al. (2025). The different parts of the repository are as follows:
 
 1. **Coding Workflow** folder: this folder contains the six R scripts that were used to process the raw data files, impute left-censored concentration values, finalize the data frame, create generalized additive models for the concentrations of six PFAS (PFOS, PFNA, PFDA, PFUnA, PFDoA, and PFTrDA), test the models (using 80:20 holdout validation along with a supplementary validation data set), and generate figures and tables. The files within this folder are:
     - **Step_1_Data_Import_and_Spatial_Join.R** - Imports the raw data files (initially 3,418 data points collected across 53 studies surveying a total of 79 PFAS), conducts a spatial join, with our custom shapefile of the Great Lakes watersheds, to assign watershed designations and remove points outside the study area (final count of 2,489 samples collected across 50 studies), and performs some initial formatting of the data frame
@@ -19,9 +19,9 @@ This GitHub repository contains the R code (R version 4.4.1 – Race for Your Li
 
 2. **Great Lakes Shapefiles** folder: this folder contains the finalized shapefile, **GL_Watershed_shapefile.shp**, that was used to assign data points to one of the five watersheds of the Great Lakes, as well as to remove any points that fell outside the Great Lakes watersheds. This finalized vector layer, created with QGIS software version 3.36.0 – Maidenhead[^9], cobmines information from shapefiles characterizing the Great Lakes subbasins[^10] and the Saint Lawrence River[^11].
 
-3. **Models** folder: this folder contains the six finalized generalized additive models produced from Step 5, saved as .Rdata files. The estimates produced by these models are reported in the main text and supplement of Leyerle Martin et al. (2025)
+3. **Models** folder: this folder contains the six finalized generalized additive models produced from Step 5, saved as .Rdata files. The estimates produced by these models are reported in the main text and supplement of Martin et al. (2025)
    
-4. **Tables and Figures** folder: this folder stores the majority of tables and figures that are presented in the main text and supplementary information of Leyerle Martin et al. (2025). Specifically, in addition to the first half of the graphical abstract (**Conceptual_Figure.png**), this folder contains Figure 1-4 and S3-S7, the relative concentration (%) sections of Table 2 and S5-S6, and a visual from Step 1 (**Step_1_Visual.png**) of the distribution of all 3,418 initial samples prior to any data frame formatting
+4. **Tables and Figures** folder: this folder stores the majority of tables and figures that are presented in the main text and supplementary information of Martin et al. (2025). Specifically, in addition to the first half of the graphical abstract (**Conceptual_Figure.png**), this folder contains Figure 1-4 and S3-S7, the relative concentration (%) sections of Table 2 and S5-S6, and a visual from Step 1 (**Step_1_Visual.png**) of the distribution of all 3,418 initial samples prior to any data frame formatting
 
 5. **Finalized_Concentration_Values_07_12_2024.csv** file: this file contains the finalized imputation results, generated and saved on July 12th, 2024 with Version 1.5.0-4 of the zCompositions package[^2], that were derived from the output of the lrEM() and lrDA() functions for 10 initial contaminants (PFOS, PFDS, PFEtCHxS, PFNA, PFDA, PFUnA, PFDoA, PFTrDA, PFTeDA, and PFPeDA) and that were used to generate the six models (for PFOS, PFNA, PFDA, PFUnA, PFDoA, and PFTrDA) reported in this project
 
@@ -33,6 +33,8 @@ This GitHub repository contains the R code (R version 4.4.1 – Race for Your Li
 
 ## Summary
 If you want to access the complete, finalized and imputed data frame used in modeling, the endpoint of the workflow for this meta-analysis, download **Finalized_Imputed_Data_Frame.csv**. You can also download **Finalized_Supp_Validation_Data_Frame.csv** and bind the two files together to assemble the full breadth of samples (n = 2,497) compiled by the authors. If you wish to acess the six generalized additive models reported in the publication, download the files found in the **Models** folder. And finally, if you wish to repeat/verify the entire workflow of this project, clone the entire repository and execute the scripts in the **Coding Workflow** folder: as long as the setwd() line at the top of each script correctly specifies the path to the repository on your local computer, and as long as the correct version of R[^1] is installed, along with all the packages listed in each script (specifically the versions of those packages that were available in early July of 2024, see Main Text and Supplementary Information for more specific version information), the code should run without any errors.
+
+**If you wish to use the finalized dataset for research purposes, please cite Martin et al., 2025 and the data repository location where the dataset can be downloaded on its own (archived on Zenodo at DOI LINK HERE)**
 
 [^1]: R Core Team. (2024). _R: A language and environment for statistical computing_. (Version 4.4.1 – Race for Your Life) [Computer software]. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
 [^2]: Palarea-Albaladejo, J., & Martín-Fernández, J. A. (2015). zCompositions—R package for multivariate imputation of left-censored data under a compositional approach. _Chemometrics and Intelligent Laboratory Systems_, 143, 85–96. https://doi.org/10.1016/j.chemolab.2015.02.019
