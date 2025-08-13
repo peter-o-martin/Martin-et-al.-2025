@@ -40,6 +40,18 @@ If you wish to use the finalized dataset for research purposes, please cite Mart
 
 The Zenodo archive also offers additional information about the studes included in this meta-analysis and the variables that were incorporated into the two data frames 
 
+## License
+Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by].
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
+
 [^1]: R Core Team. (2024). _R: A language and environment for statistical computing_. (Version 4.4.1 – Race for Your Life) [Computer software]. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
 [^2]: Palarea-Albaladejo, J., & Martín-Fernández, J. A. (2015). zCompositions—R package for multivariate imputation of left-censored data under a compositional approach. _Chemometrics and Intelligent Laboratory Systems_, 143, 85–96. https://doi.org/10.1016/j.chemolab.2015.02.019
 [^3]: Wood, S. (2023). _mgcv: Mixed GAM Computation Vehicle with Automatic Smoothness Estimation_ (Version 1.9-1) [R package]. https://CRAN.R-project.org/package=mgcv \
