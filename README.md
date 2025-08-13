@@ -34,7 +34,23 @@ This GitHub repository contains the R code (R version 4.4.1 – Race for Your Li
 ## Summary
 If you want to access the complete, finalized and imputed data frame used in modeling, the endpoint of the workflow for this meta-analysis, download **Finalized_Imputed_Data_Frame.csv**. You can also download **Finalized_Supp_Validation_Data_Frame.csv** and bind the two files together to assemble the full breadth of samples (n = 2,497) compiled by the authors. If you wish to acess the six generalized additive models reported in the publication, download the files found in the **Models** folder. And finally, if you wish to repeat/verify the entire workflow of this project, clone the entire repository and execute the scripts in the **Coding Workflow** folder: as long as the setwd() line at the top of each script correctly specifies the path to the repository on your local computer, and as long as the correct version of R[^1] is installed, along with all the packages listed in each script (specifically the versions of those packages that were available in early July of 2024, see Main Text and Supplementary Information for more specific version information), the code should run without any errors.
 
-**If you wish to use the finalized dataset for research purposes, please cite Martin et al., 2025 and the data repository location where the dataset can be downloaded on its own (archived on Zenodo at DOI LINK HERE)**
+## Citation Information
+***IMPORTANT***  
+If you wish to use the finalized dataset for research purposes, please cite Martin et al. (2025), as well as the data repository location on Zenodo where **Finalized_Imputed_Data_Frame.csv** and **Finalized_Supp_Validation_Data_Frame.csv** have been archived and can be downloaded (https://doi.org/10.5281/zenodo.16173644)  
+
+The Zenodo archive also offers additional information about the studes included in this meta-analysis and the variables that were incorporated into the two data frames 
+
+## License
+Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by].
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
 
 [^1]: R Core Team. (2024). _R: A language and environment for statistical computing_. (Version 4.4.1 – Race for Your Life) [Computer software]. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org
 [^2]: Palarea-Albaladejo, J., & Martín-Fernández, J. A. (2015). zCompositions—R package for multivariate imputation of left-censored data under a compositional approach. _Chemometrics and Intelligent Laboratory Systems_, 143, 85–96. https://doi.org/10.1016/j.chemolab.2015.02.019
