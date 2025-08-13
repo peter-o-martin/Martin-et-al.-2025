@@ -4,7 +4,7 @@
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
-setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
+setwd("~/Desktop/Publications/Martin et al., 2025")
 
 ## Packages
 # Data formatting and combining
@@ -59,7 +59,7 @@ display.brewer.pal(n=8,"RdYlBu")
 Great_Lakes_region <- ne_states(country=c("canada","united states of america"),
                                 returnclass = "sf")
 Great_Lakes_watershed <-
-  read_sf("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
+  read_sf("~/Desktop/Publications/Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes",
                                  "GL_Watershed_shapefile")
 
 ######## Tables ###############################################################
@@ -365,7 +365,7 @@ Conceptual_Figure <- ggplot() +
 Conceptual_Figure
 ggsave("Tables and Figures/Conceptual_Figure.png", plot = Conceptual_Figure,
        width = 12, height = 7, 
-       units = "in", dpi = 1000)
+       units = "in", dpi = 950)
 
 # -----------------------------------------------------------------------------
 ######## Figure 1 #############################################################
@@ -527,7 +527,7 @@ Figure_2 <- ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
                   shape=21,color="black",size=0.5) +
   scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
                                "#D73027")) +
-  guides(fill = guide_legend(title = "Waterbody")) +
+  guides(fill = guide_legend(title = "Watershed")) +
   theme(
     axis.title.x = element_text(size=14, face="bold", colour = "black"),    
     axis.title.y = element_text(size=14, face="bold", colour = "black"),
@@ -613,11 +613,7 @@ Figure_3 <-
     theme_classic(base_size = 14) +
     ylab(NULL) +
     xlab("Concentration (ng/g w.w.)") +
-    geom_label(aes(x = sum,y = Waterbody,
-                   label = paste0(round(sum,2)," ng/g w.w."),
-                   group = factor(contaminant)),
-               hjust = -0.25,fontface='bold',size=4) +
-    coord_cartesian(xlim = c(0,225)) +
+    coord_cartesian(xlim = c(0,210)) +
     guides(fill = guide_legend(title = "PFAS Compound")) +
     theme(legend.title=element_text(size=14,face = "bold"),
           axis.title.x = element_text(size=14, face="bold", colour = "black"),
