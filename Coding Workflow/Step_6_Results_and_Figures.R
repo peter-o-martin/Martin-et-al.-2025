@@ -24,6 +24,7 @@ library(rnaturalearth)
 library(sf)
 library(terra)
 library(ggspatial)
+library(ggtext)
 library(RColorBrewer)
 library(ggpattern)
 library(patchwork)
@@ -534,7 +535,9 @@ Figure_2 <- ggplot(PFOS_SY_means, aes(x = Sampling.Year, y=(response))) +
     legend.title = element_text(size=14, face="bold", colour = "black"),
     legend.text = element_text(size=12, colour = "black"),
     legend.position = c(.13,.8)
-    )
+    ) +
+  annotate("text", x=2001, y=235, label="PFOS \n Phase-out", color = "black",
+             fontface='bold',size = 12 / .pt,angle=90)
 
 Figure_2
 ggsave("Tables and Figures/Figure_2.png", plot = Figure_2, 
