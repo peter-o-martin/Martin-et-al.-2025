@@ -5,7 +5,7 @@
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
-setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
+setwd("~/Desktop/Publications/Martin et al., 2025")
 
 ## Packages
 # Data formatting and combining

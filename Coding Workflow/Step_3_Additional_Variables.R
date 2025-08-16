@@ -4,7 +4,7 @@
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
-setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
+setwd("~/Desktop/Publications/Martin et al., 2025")
 
 ## Packages
 # Data formatting and combining
@@ -531,7 +531,7 @@ unique(final_imputed_data$Revised_Maturity)
 # Great Lakes and Ohio River Division (available at https://www.lrd.usace.army.mil/Water-Information/Water-Management/Great-Lakes-and-Harbors/Water-Level-Data/),
 # and was saved in the "Great Lakes Water Level Data" folder within this repository 
 # as a .csv to be loaded in to R.
-water_level<-read.csv("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",
+water_level<-read.csv("~/Desktop/Publications/Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",
                       header = TRUE)
 final_imputed_data$Water_Level<-NA
 
@@ -607,7 +607,7 @@ final_imputed_data[,9:10]<-lapply(final_imputed_data[,9:10],as.numeric)
 
 ################# Data Editing ################################################
 # Load the imputation results (07/12/2024) whose values were used to construct the models
-# reported in Leyerle Martin et al., 2025
+# reported in Martin et al., 2025
 # The code is executed this way since the function lrDA() will produce slightly
 # different imputed estimates each time the algorithm (i.e., the Step_2 R script) is run
 finalized_concentration_values <- read.csv("Finalized_Concentration_Values_07_12_2024.csv")

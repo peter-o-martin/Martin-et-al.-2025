@@ -6,7 +6,7 @@
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
-setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
+setwd("~/Desktop/Publications/Martin et al., 2025")
 
 ## Packages
 # Data formatting and combining
@@ -34,7 +34,7 @@ validation_supp<-cbind(validation_supp[,1:21],
 # relevant sections in Step 3
 #---------------- Additional Variables ----------------------------------------
 ################# Water Level #################################################
-water_level<-read.csv("~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",
+water_level<-read.csv("~/Desktop/Publications/Martin et al., 2025/Great Lakes Water Level Data/GL Water Levels (NOAA).csv",
                       header = TRUE)
 
 validation_supp$Water_Level<-NA

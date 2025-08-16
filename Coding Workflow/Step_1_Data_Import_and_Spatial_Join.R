@@ -5,7 +5,7 @@
 # Written by Peter O. Martin (https://orcid.org/0009-0009-9070-9200)
 
 # Working directory
-setwd("~/Desktop/Publications/Leyerle Martin et al., 2025")
+setwd("~/Desktop/Publications/Martin et al., 2025")
 
 ## Packages
 # Data formatting and combining
@@ -32,10 +32,10 @@ source("PFAS_Review_supportingFunctions.R") # Load supporting functions
 # original_data, contains 3,418 data points collected across 53 studies
 # and surveys a total of 79 PFAS
 # List of file names used in concatenation
-filenames <- list.files(path="~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets", pattern="*csv") 
+filenames <- list.files(path="~/Desktop/Publications/Martin et al., 2025/Data Sets", pattern="*csv") 
 
 # Compile all data using the custom function from PFAS_Review_supportingFunctions.R
-original_data<-collect.frames(file_names = filenames,path = "~/Desktop/Publications/Leyerle Martin et al., 2025/Data Sets/")
+original_data<-collect.frames(file_names = filenames,path = "~/Desktop/Publications/Martin et al., 2025/Data Sets/")
 
 original_data<-subset(original_data,!is.na(Latitude)) # Removes any NA rows
 
@@ -43,7 +43,7 @@ original_data<-subset(original_data,!is.na(Latitude)) # Removes any NA rows
 # Perform a spatial join, using a custom shapefile of the five Great Lakes
 # watersheds, to assign "Waterbody" designations to each point in the data frame
 Great_Lakes_watershed <- st_read(
-  "~/Desktop/Publications/Leyerle Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes/GL_Watershed_shapefile.shp")
+  "~/Desktop/Publications/Martin et al., 2025/Great Lakes Shapefiles/Custom Shapefiles/Full Watershed Great Lakes/GL_Watershed_shapefile.shp")
 
 # Checking that the sf object was read in correctly
 st_geometry_type(Great_Lakes_watershed)
