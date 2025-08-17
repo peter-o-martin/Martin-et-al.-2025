@@ -386,7 +386,7 @@ Figure_1 <-
              shape = 21,size=2)+
   scale_fill_manual(values = c("#4575B4","#91BFDB","#FEE090","#FC8D59",
                                "#D73027")) +
-  guides(fill= guide_legend(title = "Waterbody")) +
+  guides(fill= guide_legend(title = "Watershed")) +
   theme_classic(base_size = 14) +
   theme(
     axis.title.x = element_text(size=14, face="bold", colour = "black"),    
